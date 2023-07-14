@@ -17,6 +17,8 @@ declare module 'vue' {
     CommonTabs: typeof import('./src/components/CommonTabs.vue')['default']
     CommonTitle: typeof import('./src/components/CommonTitle.vue')['default']
     Dialog: typeof import('./src/components/Dialog.vue')['default']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElPopover: typeof import('element-plus/es')['ElPopover']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     MapChart: typeof import('./src/components/charts/MapChart.vue')['default']
     Nav: typeof import('./src/components/Nav.vue')['default']

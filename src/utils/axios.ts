@@ -1,7 +1,7 @@
 // index.ts
 import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse } from 'axios';
 import axios from 'axios';
-import { ElMessage } from 'element-plus';
+import ElMessage from "element-plus";
 import StorageInstance from './storage';
 import { getQueryString } from './utils';
 const defaultConfig = { baseURL: '/api', timeout: 60000 };

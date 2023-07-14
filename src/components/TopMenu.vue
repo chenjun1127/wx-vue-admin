@@ -11,7 +11,7 @@
           </template>
         </el-icon>
       </div> -->
-      <p v-if="noIframe">数据汇聚平台</p>
+      <p>数据汇聚平台</p>
     </div>
     <div class="right">
       <!-- <el-popover placement="left" :width="300" trigger="click" popper-class="el-popover-search">
@@ -28,10 +28,10 @@
       </el-popover> -->
       <el-popover placement="bottom" :width="502" trigger="click">
         <template #reference>
-          <img src="../assets/svg/menu.svg" class="menu-svg icon-bar" />
+      11111
         </template>
         <div class="area-select-container">
-          <AreaCascade></AreaCascade>
+          11111
         </div>
       </el-popover>
       <el-popover placement="bottom" :width="80" trigger="click">
@@ -60,113 +60,10 @@
     </div>
   </header>
 </template>
-<script lang="ts" setup>
-import { menuList, menuType } from '@/constant';
-import { busEventEnum, emitter } from '@/utils/bus';
-import { Grid, Search, Setting, SwitchButton } from '@element-plus/icons-vue';
-import { computed, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import AreaCascade from './AreaCascade.vue';
-const input3 = ref('');
-const router = useRouter();
-const subTitle = ref('');
-const menuShow = ref<boolean>(false);
-const noIframe = computed(() => window.parent == window);
-watch(
-  () => router.currentRoute.value.path,
-  (toPath) => {
-    //要执行的方法
-    if (toPath !== '/index' && !toPath.startsWith('/system')) {
-      const menu: Array<menuType> = menuList.filter((e) => e.path === toPath);
-      if (!menu.length) {
-        subTitle.value = '';
-        if (toPath.startsWith('/community')) {
-          subTitle.value = '小区数据';
-        } else if (toPath.startsWith('/car')) {
-          subTitle.value = '车辆数据';
-        } else if (toPath.startsWith('/special')) {
-          subTitle.value = '特殊群体';
-        } else if (toPath.startsWith('/warn')) {
-          subTitle.value = '告警中心';
-        } else {
-          subTitle.value = '';
-        }
-      } else {
-        subTitle.value = menu[0].name;
-      }
-    } else {
-      subTitle.value = '';
-    }
-  },
-  { immediate: true, deep: true }
-);
-const toggleMenu = () => {
-  menuShow.value = !menuShow.value;
-  emitter.emit(busEventEnum.menuShow, menuShow.value);
-};
-</script>
 <style lang="scss" scoped>
 .top-menu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 56px;
-  position: relative;
-  padding-right: 20px;
-
-  &:after {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(135deg, rgba(104, 224, 253, 0.1) 0%, #4fcffb 51%, rgba(55, 190, 249, 0.1) 100%);
-    opacity: 0.69;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    content: '';
-  }
-
-  .left {
-    font-size: 20px;
-    display: flex;
-    color: var(--mainColor);
-    align-items: center;
-    margin-left: 20px;
-
-    .icon-toggle {
-      padding-top: 8px;
-      width: 50px;
-      text-align: center;
-      cursor: pointer;
-      transition: width 0.2s;
-    }
-
-    p {
-      margin: 0 0;
-    }
-
-    .in {
-      width: 150px;
-    }
-  }
-
-  .right {
-    display: flex;
-    align-items: center;
-
-    .icon-bar {
-      margin: 0 40px;
-      display: block;
-    }
-
-    >.el-icon {
-      cursor: pointer;
-    }
-
-    .menu-svg {
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-    }
-  }
+  background: #fff;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+  height: 50px;
 }
 </style>
