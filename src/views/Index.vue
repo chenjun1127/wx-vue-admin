@@ -1,16 +1,31 @@
 <template>
   <main class="main">
-    <aside>
-      <TopMenu></TopMenu>
+    <aside :class="obj.show ? 'in' : ''">
+      <LeftMenu></LeftMenu>
     </aside>
     <section>
+      <TopBar></TopBar>
       <RouterView></RouterView>
     </section>
   </main>
 </template>
- 
+
 <script lang="ts" setup>
-import TopMenu from '../components/TopMenu.vue';
+import LeftMenu from '../components/LeftMenu.vue';
+import TopBar from '../components/TopBar.vue';
+import { busEventEnum, emitter } from '@/utils/bus';
+import { onBeforeMount, onMounted, reactive } from 'vue';
+const obj = reactive<any>({
+  show: false,
+});
+onMounted(() => {
+  emitter.on(busEventEnum.menuShow, (res: any) => {
+    obj.show = res;
+  });
+});
+onBeforeMount(() => {
+  emitter.off(busEventEnum.menuShow);
+});
 </script>
 <style lang="scss" scoped>
 .main {
@@ -21,9 +36,12 @@ import TopMenu from '../components/TopMenu.vue';
 
   aside {
     width: 230px;
-    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    @extend .width-transform;
     height: 100vh;
     background-color: #222d32;
+    &.in{
+      width: 50px;
+    }
   }
 
   section {

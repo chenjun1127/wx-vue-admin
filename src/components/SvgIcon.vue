@@ -51,5 +51,8 @@ const emit = defineEmits(['on-click']);
 .svg-icon {
   position: relative;
   color: currentColor;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
 }
 </style>

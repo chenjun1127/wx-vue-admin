@@ -3,9 +3,10 @@ import { defineStore } from 'pinia';
 export const userInfoStore = defineStore('userInfo', {
   state: () => {
     return {
-      name: '',
+      name: '华莱士-观澜松元厦店',
       password: '',
       phone: '',
+      online: 1,
     };
   },
   getters: {
