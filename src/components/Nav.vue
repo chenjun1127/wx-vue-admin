@@ -2,8 +2,7 @@
   <div :class="['main-nav', obj.show ? 'in' : ' ']">
     <div class="menu">
       <ul>
-        <li v-for="(item, index) in obj.menu" key="index"
-          :class="[currentIndex == index ? 'active' : item.active ? 'has-menu' : '']" @click="toNavigator(item)">
+        <li v-for="(item, index) in obj.menu" key="index" :class="[currentIndex == index ? 'active' : item.active ? 'has-menu' : '']" @click="toNavigator(item)">
           <div class="list">
             <span class="icon">
               <svg-icon :iconName="item.iconName" color="#fff" size="18"></svg-icon>
@@ -36,6 +35,8 @@ import { ArrowUp } from '@element-plus/icons-vue';
 import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { menuList, menuType, navType } from '../constant/index';
+import { useMenuStore } from '@/stores/menuStore';
+const useMenu = useMenuStore();
 const router = useRouter();
 const obj = reactive<navType>({
   menu: menuList,
@@ -69,11 +70,19 @@ watch(
   () => router.currentRoute.value.path,
   (toPath) => {
     //要执行的方法
-    if (toPath !== '/index' && !toPath.startsWith('/system')) {
+    if (toPath !== '/index') {
       const menu: Array<menuType> = menuList.filter((e) => e.path === toPath);
-      if (!menu.length) {
+      //如果有多个子菜单，这里要改
+      if (!menu.length && toPath == '/manage') {
+        currentIndex.value = -1;
+        var normalMenu = menuList.find((item) => item.children?.length);
+        if (normalMenu) {
+          normalMenu.active = true;
+          useMenu.updateUseMenuList(normalMenu.children[0]);
+        }
       } else {
         currentIndex.value = menuList.indexOf(menu[0]);
+        useMenu.updateUseMenuList(menu[0]);
       }
     } else {
       currentIndex.value = 0;
@@ -110,7 +119,7 @@ watch(
       padding-left: 0;
       list-style: none;
 
-      >li {
+      > li {
         &:hover {
           background-color: #1f2529;
         }
@@ -180,10 +189,7 @@ watch(
           transition: max-height 0.3s ease;
           max-height: 0;
 
-
           li {
-
-
             a {
               background: #181f23;
               display: flex;
@@ -222,7 +228,7 @@ watch(
     width: 50px;
     overflow: hidden;
 
-    >li {
+    > li {
       .text {
         font-size: 0;
         opacity: 0;

@@ -1,5 +1,5 @@
 import { CommunityLevelEnum } from '@/constant';
-import { useAreaSelectStore } from '@/stores/areaSelect';
+import { useAreaSelectStore } from '@/stores/menuStore';
 
 export const areaSelectStore = useAreaSelectStore();
 export const areaSelectSubscribe = (callback: Function) => {

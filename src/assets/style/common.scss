@@ -9,6 +9,9 @@ body {
   color: #333;
   min-height: 100vh;
 }
-
-
- 
+.custom-button {
+  color: #fff;
+  &:hover {
+    color: #fff;
+  }
+}

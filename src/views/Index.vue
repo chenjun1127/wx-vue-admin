@@ -5,7 +5,9 @@
     </aside>
     <section>
       <TopBar></TopBar>
-      <RouterView></RouterView>
+      <div class="section-view">
+        <RouterView></RouterView>
+      </div>
     </section>
   </main>
 </template>
@@ -39,13 +41,17 @@ onBeforeMount(() => {
     @extend .width-transform;
     height: 100vh;
     background-color: #222d32;
-    &.in{
+    &.in {
       width: 50px;
     }
   }
 
   section {
     flex: auto;
+    .section-view {
+      margin: 10px;
+      background-color: #fff;
+    }
   }
 }
 </style>
