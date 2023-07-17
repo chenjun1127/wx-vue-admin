@@ -155,7 +155,7 @@ watch(
             display: flex;
             line-height: 42px;
             height: 42px;
-
+            transition: all 0.2s;
           }
 
           .arrow {
@@ -204,8 +204,6 @@ watch(
                 display: flex;
                 line-height: 42px;
                 height: 42px;
-                opacity: 1;
-                transition: all 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
               }
 
               &.router-link-active {
@@ -223,6 +221,14 @@ watch(
   &.in {
     width: 50px;
     overflow: hidden;
+
+    >li {
+      .text {
+        font-size: 0;
+        opacity: 0;
+        transition: all 0.2s;
+      }
+    }
   }
 }
 </style>
