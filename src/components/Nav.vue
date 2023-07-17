@@ -2,40 +2,40 @@
   <div :class="['main-nav', obj.show ? 'in' : ' ']">
     <div class="menu">
       <ul>
-        <li v-for="(item, index) in obj.menu" key="index" :class="[currentIndex == index ? 'active' : '']" @click="toNavigator(item)">
+        <li v-for="(item, index) in obj.menu" key="index"
+          :class="[currentIndex == index ? 'active' : item.active ? 'has-menu' : '']" @click="toNavigator(item)">
           <div class="list">
             <span class="icon">
               <svg-icon :iconName="item.iconName" color="#fff" size="18"></svg-icon>
             </span>
             <div class="text" v-show="!obj.show">{{ item.name }}</div>
             <span :class="['arrow', item.active ? 'arrow-rotate' : ' ']" v-if="item.children?.length && !obj.show">
-              <el-icon><ArrowUp /></el-icon>
+              <el-icon>
+                <ArrowUp />
+              </el-icon>
             </span>
           </div>
-
-          <template v-if="item.children?.length && item.active">
-            <ol>
-              <li v-for="(ele, i) in item.children" :key="i">
-                <router-link :to="ele.path" @click.stop.native @click="handleClickSub()">
-                  <span class="icon">
-                    <svg-icon :iconName="ele.iconName" color="#fff" size="18"></svg-icon>
-                  </span>
-                  <div class="text" v-show="!obj.show">{{ ele.name }}</div>
-                </router-link>
-              </li>
-            </ol>
-          </template>
+          <ol>
+            <li v-for="(ele, i) in item.children" :key="i">
+              <router-link :to="ele.path" @click.stop.native @click="handleClickSub()">
+                <span class="icon">
+                  <svg-icon :iconName="ele.iconName" color="#fff" size="18"></svg-icon>
+                </span>
+                <div class="text" v-show="!obj.show">{{ ele.name }}</div>
+              </router-link>
+            </li>
+          </ol>
         </li>
       </ul>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { ArrowUp } from '@element-plus/icons-vue';
-import { menuList, menuType, navType } from '../constant/index';
 import { busEventEnum, emitter } from '@/utils/bus';
+import { ArrowUp } from '@element-plus/icons-vue';
 import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { menuList, menuType, navType } from '../constant/index';
 const router = useRouter();
 const obj = reactive<navType>({
   menu: menuList,
@@ -110,14 +110,22 @@ watch(
       padding-left: 0;
       list-style: none;
 
-      > li {
+      >li {
         &:hover {
           background-color: #1f2529;
         }
+
+        &.has-menu {
+          ol {
+            max-height: 42px;
+          }
+        }
+
         &.active {
           color: #fff;
           font-weight: bold;
           background-color: #18bc9c;
+
           svg {
             color: #fff;
           }
@@ -133,6 +141,7 @@ watch(
           display: flex;
           align-items: center;
           position: relative;
+
           .icon {
             display: inline-block;
             width: 50px;
@@ -141,12 +150,14 @@ watch(
             justify-content: center;
             align-items: center;
           }
+
           .text {
             display: flex;
             line-height: 42px;
             height: 42px;
-            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+
           }
+
           .arrow {
             position: absolute;
             right: 15px;
@@ -155,16 +166,23 @@ watch(
             display: flex;
             justify-content: center;
             align-items: center;
+
             &.arrow-rotate {
               transform: rotate(180deg);
             }
           }
         }
+
         ol {
           list-style: none;
           padding: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease;
+          max-height: 0;
+
+
           li {
-            transition: all 0.2s;
+
 
             a {
               background: #181f23;
@@ -172,6 +190,7 @@ watch(
               text-decoration: none;
               color: #6c8c9b;
               align-items: center;
+
               .icon {
                 display: inline-block;
                 width: 50px;
@@ -180,6 +199,7 @@ watch(
                 justify-content: center;
                 align-items: center;
               }
+
               .text {
                 display: flex;
                 line-height: 42px;
@@ -187,6 +207,7 @@ watch(
                 opacity: 1;
                 transition: all 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
               }
+
               &.router-link-active {
                 color: #fff;
                 font-weight: bold;
@@ -198,20 +219,10 @@ watch(
       }
     }
   }
+
   &.in {
     width: 50px;
     overflow: hidden;
   }
-}
-
-.fadeHeight-enter-active,
-.fadeHeight-leave-active {
-  transition: all 0.2s;
-  height: 42px;
-}
-.fadeHeight-enter,
-.fadeHeight-leave-to {
-  opacity: 0;
-  height: 0px;
 }
 </style>

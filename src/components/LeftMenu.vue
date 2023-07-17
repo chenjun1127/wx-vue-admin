@@ -6,7 +6,7 @@
         <div class="avatar-img">
           <img src="../assets/images/avatar.png" alt="" />
         </div>
-        <div class="avatar-text" v-show="!obj.show">
+        <div class="avatar-text">
           <h1>{{ userInfo.name }}</h1>
           <p>
             <span :class="`status-${userInfo.online == 1 ? '1' : '2'}`"></span><em>{{ userInfo.online == 1 ? '在线' : '离线' }}</em>
@@ -18,11 +18,11 @@
   </header>
 </template>
 <script lang="ts" setup>
+import { busEventEnum, emitter } from '@/utils/bus';
+import { onBeforeMount, onMounted, reactive } from 'vue';
 import Nav from '../components/Nav.vue';
 import { userInfoStore } from '../stores/userInfo';
 const userInfo = userInfoStore();
-import { busEventEnum, emitter } from '@/utils/bus';
-import { onBeforeMount, onMounted, reactive } from 'vue';
 const obj = reactive<any>({
   show: false,
 });
@@ -51,6 +51,8 @@ onBeforeMount(() => {
     }
     .avatar {
       height: 45px;
+      justify-content: center;
+      margin: 0;
       &-img {
         width: 30px;
         height: 30px;
@@ -63,10 +65,10 @@ onBeforeMount(() => {
           display: block;
         }
       }
-      &-text {
-        font-size: 0;
-        opacity: 0;
+      &-text {    
+        overflow: hidden;
         width: 0;
+        margin: 0;
       }
     }
   }
@@ -85,7 +87,7 @@ onBeforeMount(() => {
     display: flex;
     align-items: center;
     margin-left: 10px;
-    height: 45px;
+    height: 45px; 
     &-img {
       width: 45px;
       height: 45px;
@@ -101,14 +103,19 @@ onBeforeMount(() => {
     &-text {
       font-size: 14px;
       color: #fff;
-      margin-left: 15px;
+      margin-left: 15px; 
+    
       h1 {
         font-size: 14px;
+        height: 22px;
+        overflow: hidden;
       }
       p {
         position: relative;
         display: flex;
         align-items: center;
+        height: 23px;
+        overflow: hidden;
         span {
           margin-right: 5px;
           width: 10px;
