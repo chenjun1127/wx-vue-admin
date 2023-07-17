@@ -40,6 +40,7 @@ declare module 'vue' {
     TopBar: typeof import('./src/components/TopBar.vue')['default']
     TopMenu: typeof import('./src/components/TopMenu.vue')['default']
     TravelRecordsItem: typeof import('./src/components/TravelRecordsItem.vue')['default']
+    ValidateCode: typeof import('./src/components/ValidateCode.vue')['default']
     WarnItem: typeof import('./src/components/WarnItem.vue')['default']
   }
 }
