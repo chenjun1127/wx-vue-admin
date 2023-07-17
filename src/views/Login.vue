@@ -14,11 +14,11 @@
         <!-- <div v-if="verifyShow" class="verify-show">
           <slide-verify :w="370"></slide-verify>
         </div> -->
-        <div style="display: flex">
+        <div style="display: flex;">
           <el-form-item prop="validateCode">
             <el-input v-model="ruleForm.validateCode" />
           </el-form-item>
-          <SlideVerify ref="refresh" @getCode="getCode" width="150px" />
+          <SlideVerify ref="refresh" @getCode="getCode" width="150px" :height="40" />
         </div>
         <el-form-item>
           <el-button type="primary" style="width: 100%; margin-top: 10px" @click="submitForm(ruleFormRef)"> 登录

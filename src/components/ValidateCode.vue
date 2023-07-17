@@ -1,14 +1,21 @@
 <template>
-  <div class="captcha" style="display: flex;">
-    <canvas ref="canvas" width="100" height="40"></canvas>
-
-  </div>
-  <div class="validate-code-btn">
-    <el-button type="text" @click="refresh">看不清，换一张</el-button>
+  <div class="validate-code" :style="{ height: height + 'px' }">
+    <div class="validate-code-captcha" style="display: flex;">
+      <canvas ref="canvas" width="100" :height="height"></canvas>
+    </div>
+    <div class="validate-code-btn">
+      <el-button type="text" @click="refresh">看不清，换一张</el-button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+defineProps({
+  height: {
+    default: 40,
+    type: Number,
+  },
+});
 import { onMounted, ref } from 'vue';
 const emits = defineEmits(['getCode'])
 const canvasRef = ref<HTMLCanvasElement | null>(null)
@@ -63,17 +70,22 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-.captcha {
+<style scoped lang="scss">
+.validate-code {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
+  align-items: center; 
 
-.validate-code-btn {
-  height: 50px;
-  line-height: 50px;
+  &-captcha {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &-btn {
+    display: flex;
+    align-items: center;
+  }
 }
 </style>
 
