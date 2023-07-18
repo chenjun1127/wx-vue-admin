@@ -47,7 +47,7 @@ onBeforeMount(() => {
   }
 
   section {
-    flex: auto;
+    flex: 1; 
     .section-view {
       margin: 10px;
       background-color: #fff;
