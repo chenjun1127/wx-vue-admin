@@ -13,10 +13,10 @@
 </template>
 
 <script lang="ts" setup>
-import LeftMenu from '../components/LeftMenu.vue';
-import TopBar from '../components/TopBar.vue';
 import { busEventEnum, emitter } from '@/utils/bus';
 import { onBeforeMount, onMounted, reactive } from 'vue';
+import LeftMenu from '../components/LeftMenu.vue';
+import TopBar from '../components/TopBar.vue';
 const obj = reactive<any>({
   show: false,
 });
@@ -51,6 +51,7 @@ onBeforeMount(() => {
     .section-view {
       margin: 10px;
       background-color: #fff;
+      border-radius: 3px;
     }
   }
 }

@@ -32,7 +32,7 @@ const router = createRouter({
         {
           path: '/order',
           name: 'order',
-          component: () => import('../views/manage/index.vue')
+          component: () => import('../views/order/index.vue')
         },
         {
           path: '/check',

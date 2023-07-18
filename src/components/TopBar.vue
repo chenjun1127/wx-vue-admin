@@ -5,7 +5,7 @@
         <svg-icon iconName="icon-menu" color="#333"></svg-icon>
       </div>
       <ol class="top-menu-list">
-        <li v-for="item in currentMenu.list" :key="item.path" @click="handleClickMenu(item)">
+        <li v-for="item in currentMenu.list" :key="item.path">
           <router-link :to="item.path">
             <span>{{ item?.name }}</span>
           </router-link>
@@ -39,18 +39,18 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { dayjs } from 'element-plus';
-import { userInfoStore } from '../stores/userInfo';
-import { SwitchButton, Avatar } from '@element-plus/icons-vue';
-import { useRouter } from 'vue-router';
-import { busEventEnum, emitter } from '@/utils/bus';
+import { menuType } from '@/constant';
 import { useMenuStore } from '@/stores/menuStore';
+import { busEventEnum, emitter } from '@/utils/bus';
+import { Avatar, SwitchButton } from '@element-plus/icons-vue';
+import { dayjs } from 'element-plus';
+import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { userInfoStore } from '../stores/userInfo';
 const useMenu = useMenuStore();
 const userInfo = userInfoStore();
 const router = useRouter();
-import { ref } from 'vue';
-import { storeToRefs } from 'pinia';
-import { menuType } from '@/constant';
 const { currentMenu } = storeToRefs(useMenu);
 const show = ref<boolean>(false);
 const toInfo = () => {
@@ -113,6 +113,7 @@ const handleClickDel = (menu: menuType) => {
       display: flex;
       cursor: pointer;
       align-items: center;
+      font-style: normal;
     }
   }
 }
