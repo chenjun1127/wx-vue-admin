@@ -2,26 +2,31 @@
   <div class="check-container">
     <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
       <el-form-item label-width="85" prop="merchantName" label="商户名称">
-        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="merchantLocation" label="商户位置">
-        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="nickName" label="微信昵称">
-        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="phone" label="手机号码">
         <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="status" label="状态">
-        <el-select v-model="ruleForm.status" @change="selectStatus($event)" placeholder="请选择" no-data-text="暂无数据" style="width: 200px">
+        <el-select v-model="ruleForm.status" @change="selectStatus($event)" placeholder="请选择" no-data-text="暂无数据"
+          style="width: 200px">
           <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.statusList" :key="index"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label-width="85" prop="startMoney" label="审核金额">
-        <el-input v-model="ruleForm.startMoney" type="number" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
+        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px">
+        </el-input>
         <span class="space-tips">-</span>
-        <el-input v-model="ruleForm.endMoney" type="number" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
+        <el-input v-model="ruleForm.endMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
       </el-form-item>
       <el-form-item label-width="85" label="提交时间">
         <el-date-picker v-model="ruleForm.submitTime" type="date" label="提交时间" placeholder="请选择" style="width: 200px" />
@@ -30,17 +35,24 @@
         <el-date-picker v-model="ruleForm.handleTime" type="date" label="处理时间" placeholder="请选择" style="width: 200px" />
       </el-form-item>
       <el-form-item label-width="85" prop="receiveStatus" label="领取状态">
-        <el-select v-model="ruleForm.receiveStatus" @change="selectReceiveStatus($event)" placeholder="请选择" no-data-text="暂无数据" style="width: 200px">
-          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList" :key="index"></el-option>
+        <el-select v-model="ruleForm.receiveStatus" @change="selectReceiveStatus($event)" placeholder="请选择"
+          no-data-text="暂无数据" style="width: 200px">
+          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList"
+            :key="index"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label-width="85">
-        <el-button color="#18bc9c" class="custom-button" @click="submitForm(formInlineRef)">提交</el-button>
+        <el-button  class="custom-button-0" @click="submitForm(formInlineRef)">提交</el-button>
         <el-button @click="resetForm(formInlineRef)">重置</el-button>
       </el-form-item>
     </el-form>
     <div class="form-buttons-bar">
-      <el-button @click="submitForm(formInlineRef)">提交</el-button>
+      <el-button class="custom-button-1" color="red" @click="submitForm(formInlineRef)">批量审核</el-button>
+      <el-button class="custom-button-2" @click="submitForm(formInlineRef)">导出</el-button>
+      <el-button class="custom-button-3" @click="submitForm(formInlineRef)">$余额8.5元</el-button>
+      <el-button @click="submitForm(formInlineRef)">$冲值金额</el-button>
+      <div class="tips">有效期183天</div>
+      <el-button class="custom-button-4" @click="submitForm(formInlineRef)">7天内重复订单</el-button>
     </div>
   </div>
 </template>
@@ -64,7 +76,7 @@ const ruleForm = reactive<any>({
   handleTime: '',
 });
 const rules = reactive<FormRules>({});
-onMounted(() => {});
+onMounted(() => { });
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
@@ -106,4 +118,5 @@ const selectReceiveStatus = (e: any) => {
   color: #333;
   text-align: center;
 }
+
 </style>

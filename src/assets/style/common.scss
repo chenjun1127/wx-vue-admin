@@ -9,9 +9,66 @@ body {
   color: #333;
   min-height: 100vh;
 }
-.custom-button {
-  color: #fff;
-  &:hover {
-    color: #fff;
+
+.form-buttons-bar {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  .tips {
+    padding: 0 10px;
   }
+}
+@mixin button-colors($color, $normal, $hover) {
+  color: $color;
+  background-color: $normal;
+  border-color: $normal;
+  &:hover,
+  &:focus {
+    color: $color;
+    background-color: $hover;
+    border-color: $hover;
+  }
+}
+// 由于sass的自定义属性和css的不一样，因此下面混入这种写法不能使用，可采用custom-button-default写法；
+// @mixin button-colors($color, $normal, $hover) {
+//   --el-button-bg-color: $normal;
+//   --el-button-text-color: $color;
+//   --el-button-hover-text-color: $color;
+//   --el-button-hover-bg-color: $hover;
+//   --el-button-border-color: $normal;
+//   --el-button-hover-border-color: $hover;
+// }
+.custom-button-0 {
+  --el-button-bg-color: rgb(24, 188, 156);
+  --el-button-text-color: #fff;
+  --el-button-hover-text-color: #fff;
+  --el-button-hover-bg-color: rgba(24, 188, 156, 0.8);
+  --el-button-border-color: rgb(24, 188, 156);
+  --el-button-hover-border-color: rgba(24, 188, 156, 0.8);
+}
+.custom-button-1 {
+  @include button-colors(#fff, rgb(24, 188, 156), rgba(24, 188, 156, 0.8));
+}
+
+.custom-button-2 {
+  @include button-colors(#fff, #f90, rgba($color: #f90, $alpha: 0.8));
+}
+
+.custom-button-3 {
+  @include button-colors(#333, #f4f4f4, rgba($color: #f4f4f4, $alpha: 0.8));
+}
+
+.custom-button-4 {
+  @include button-colors(#fff, #2c3e50, rgba($color: #2c3e50, $alpha: 0.8));
+}
+
+.custom-button-5 {
+  @include button-colors(#fff, #18bc9c, rgba($color: #18bc9c, $alpha: 0.8));
+}
+
+.custom-button-6 {
+  @include button-colors(#fff, #18bc9c, rgba($color: #18bc9c, $alpha: 0.8));
+}
+.custom-radio {
+  --el-color-primary: #18bc9c;
 }
