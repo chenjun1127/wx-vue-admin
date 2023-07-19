@@ -1,5 +1,5 @@
 import { communityCodeMap } from '@/constant';
-import md5 from 'md5';
+const md5 = require('md5');
 // arr是传入的数组
 export function groupByDesc(arr: Array<string>) {
   const [...zhCN] = '阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫杂';

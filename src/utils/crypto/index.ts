@@ -1,4 +1,4 @@
-import CryptoJS from 'crypto-js';
+const CryptoJS = require("crypto-js");
 
 const CryptoSecret = '__CRYPTO_SECRET__';
 export const enCrypto = (data: any) => {
