@@ -75,3 +75,50 @@ body {
 .inner {
   padding: 15px;
 }
+
+$colors: (
+  0: #18bc9c,
+  1: #ff9900,
+  2: #f4f4f4,
+  3: #2c3e50,
+  4: #ed219b,
+  5: #054605,
+  6: #000000
+);
+
+@mixin color($type) {
+  @if $type == 0 {
+    color: #18bc9c;
+  } @else if $type == 1 {
+    color: #ff9900;
+  } @else if $type == 2 {
+    color: #f4f4f4;
+  } @else if $type == 3 {
+    color: #2c3e50;
+  } @else if $type == 4 {
+    color: #ed219b;
+  } @else if $type == 5 {
+    color: #054605;
+  } @else {
+    color: #000000;
+  }
+}
+@mixin buttons-default($color, $bgColor) {
+  color: $color;
+  background-color: $bgColor;
+  border-color: $bgColor;
+  &:hover,
+  &:focus {
+    color: $color;
+    background-color: rgba($color: $bgColor, $alpha: 0.8);
+    border-color: rgba($color: $bgColor, $alpha: 0.8);
+  }
+}
+
+@for $i from 0 through 5 {
+  .my-custom-button-#{$i} {
+    @include buttons-default(#fff, map-get($colors, $i));
+  }
+}
+
+
