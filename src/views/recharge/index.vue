@@ -1,5 +1,5 @@
 <template>
-  <main class="main-section repair">
+  <main class="inner">
  
     <CommonTable :tableData="obj.list" :tableCol="obj.tableCol" isOrdered>
       <template v-slot:img="slotProps">
@@ -131,10 +131,7 @@ onMounted(async () => {
 // };
 </script>
 <style scoped lang="scss">
-.repair {
-  padding: 1.2vh 1.2vw;
-  box-sizing: border-box;
-}
+ 
 
 .repair-status-0 {
   color: #ff9900;

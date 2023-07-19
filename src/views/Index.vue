@@ -49,7 +49,7 @@ onBeforeMount(() => {
   section {
     flex: 1; 
     .section-view {
-      margin: 10px;
+      margin: 15px;
       background-color: #fff;
       border-radius: 3px;
     }

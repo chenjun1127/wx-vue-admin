@@ -1,5 +1,5 @@
 <template>
-  <div class="order-content">
+  <div class="inner">
     <TabGroup defaultKey="1">
       <TabPanel actKey="1" label="审核管理">
         <CheckManage></CheckManage>
@@ -16,8 +16,4 @@ import TabPanel from '@/components/tabs/tab-panel.vue';
 import CheckManage from './CheckManage.vue';
 import OrderSetting from './OrderSetting.vue';
 </script>
-<style lang="scss" scoped>
-.order-content {
-  padding: 10px 20px;
-}
-</style>
+ 
