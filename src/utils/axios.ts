@@ -1,7 +1,7 @@
 // index.ts
 import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse } from 'axios';
 import axios from 'axios';
-import ElMessage from "element-plus";
+import { ElMessage } from "element-plus";
 import StorageInstance from './storage';
 import { getQueryString } from './utils';
 const defaultConfig = { baseURL: '/api', timeout: 60000 };
@@ -37,7 +37,7 @@ class Axios {
 
     this.instance.interceptors.response.use(
       (response: AxiosResponse) => {
-        const { errcode, errmsg, data } = response.data;
+        const { errcode, errmsg } = response.data;
         // 根据自定义错误码判断请求是否成功
         if (errcode === 0) {
           // 将组件用的数据返回
@@ -75,7 +75,6 @@ class Axios {
           default:
             message = '网络连接故障';
         }
-
         ElMessage({
           showClose: false,
           message: `${message}，请检查网络或联系管理员！`,

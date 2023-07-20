@@ -85,12 +85,12 @@ const resetForm = (formEl: FormInstance | undefined) => {
   // }
   emits('handleReset', ruleForm);
 };
-const selectStatus = (e: any) => {
-  console.log(e);
-};
-const selectReceiveStatus = (e: any) => {
-  console.log(e);
-};
+// const selectStatus = (e: any) => {
+//   console.log(e);
+// };
+// const selectReceiveStatus = (e: any) => {
+//   console.log(e);
+// };
 </script>
 
 <style lang="scss">

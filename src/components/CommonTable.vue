@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-const tableRowClassName = (({ rowIndex }) => {
+const tableRowClassName = (({ rowIndex }:any) => {
   return `tr-${rowIndex}`;
 })
 defineProps({

@@ -62,7 +62,7 @@ const sizeChange = (val: number) => {
   emit('pageFunc', pageData);
 };
 //选择某一页
-const current = (val: number) => {
+const current = (_val: number) => {
   pageData.pageNum = currentPage.value;
   emit('pageFunc', pageData);
 };

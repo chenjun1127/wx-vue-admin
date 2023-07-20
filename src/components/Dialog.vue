@@ -39,7 +39,7 @@ defineProps({
   },
 });
 
-const handleClose = (done: () => void) => {
+const handleClose = (_done: () => void) => {
   emits('handleClose');
 };
 const cancel = () => {
