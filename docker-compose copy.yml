@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./
+    container_name: 'web-vue'
+    ports:
+      - "80:80"           # 将主机的端口80映射到容器的端口80
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+
