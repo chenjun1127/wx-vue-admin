@@ -18,5 +18,5 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
 
 ## Docker部署说明
-1、(云服务器部署 Docker+Nginx+Vue 应用)[https://github.com/chenjun1127/wx-vue-admin/blob/main/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2docker%2Bnginx%2Bvue%E5%BA%94%E7%94%A8.md]
-2、(CentOS 安装最新 Docker)[https://github.com/chenjun1127/wx-vue-admin/blob/main/CentOS%20%E5%AE%89%E8%A3%85%E6%9C%80%E6%96%B0docker.md]
+1、[CentOS 安装最新 Docker](https://github.com/chenjun1127/wx-vue-admin/blob/main/CentOS%20%E5%AE%89%E8%A3%85%E6%9C%80%E6%96%B0%20Docker.md)
+2、[云服务器部署 Docker+Nginx+Vue 应用](https://github.com/chenjun1127/wx-vue-admin/blob/main/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%20Docker%2BNginx%2BVue%20%E5%BA%94%E7%94%A8.md) 
