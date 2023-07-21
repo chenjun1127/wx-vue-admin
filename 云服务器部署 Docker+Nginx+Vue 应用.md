@@ -40,6 +40,7 @@ server {
 }
 ```
 注：确保将nginx.conf和构建的Vue.js应用程序（通常在dist文件夹中）与Dockerfile放在同一个目录中。
+
 5、构建Docker镜像：
 
 打开终端，导航到包含Dockerfile和nginx.conf的Vue应用目录，并执行以下命令构建Docker镜像：
