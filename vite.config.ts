@@ -10,20 +10,20 @@ import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
 // https://vitejs.dev/config/
 export default defineConfig({
-  // server: {
-  //   host: '0.0.0.0',
-  //   port: 9020,
-  //   proxy: {
-  //     // 选项写法
-  //     '/api': {
-  //       target:'http://183.253.179.151:8081/api/gather',
-  //       // target: 'http://www.penyon.cn:8080/api/gather/',
-  //       secure: false,
-  //       changeOrigin: true,
-  //       rewrite: path => path.replace(/^\/api/, '')
-  //     }
-  //   }
-  // },
+  server: {
+    host: '0.0.0.0',
+   
+    proxy: {
+      // 选项写法
+      '/api': {
+        target:'http://106.75.172.90:8088',
+        // target: 'http://www.penyon.cn:8080/api/gather/',
+        secure: false,
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '')
+      }
+    }
+  },
   plugins: [
     vue(),
     vueJsx(),
@@ -61,6 +61,20 @@ export default defineConfig({
     }
   },
   build: {
+   
+    rollupOptions:{
+      output: {
+        chunkFileNames: 'js/[name]-[hash].js',
+        entryFileNames: 'js/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name.endsWith('.css')) {
+            return `css/[name].[hash][ext]`;
+          }
+          return `images/[name].[hash][ext]`;
+        },
+      }, 
+    },
+   
     minify: 'terser', // 必须开启：使用terserOptions才有效果
     terserOptions: {
       // compress: {

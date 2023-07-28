@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import storage from '@/utils/storage/instance';
+import { RouteLocationNormalized, createRouter, createWebHistory } from 'vue-router';
 import Index from '../views/Index.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +24,11 @@ const router = createRouter({
           path: '/manage',
           name: 'manage',
           component: () => import('../views/manage/index.vue')
+        },
+        {
+          path: '/user-manage',
+          name: 'userManage',
+          component: () => import('../views/manage/user.vue')
         },
         {
           path: '/normal',
@@ -53,5 +59,19 @@ const router = createRouter({
     }
   ]
 });
+router.beforeEach(async (to: RouteLocationNormalized, _from: RouteLocationNormalized, next: any) => {
+  const token: string = storage.get('token');
+  console.log(token);
 
+  if (to.path === '/login') {
+    // 如果目标路由是登录页，无需验证token，直接通过
+    next();
+  } else if (token) {
+    // 如果有token，允许通过
+    next();
+  } else {
+    // 没有token时，重定向到登录页
+    next('/login');
+  }
+});
 export default router;

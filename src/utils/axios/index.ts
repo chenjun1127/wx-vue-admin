@@ -1,11 +1,12 @@
 // index.ts
-import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse } from 'axios';
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import { ElMessage } from "element-plus";
-import StorageInstance from './storage';
-import { getQueryString } from './utils';
+import storage from '../storage/instance';
+import { getQueryString } from '../utils';
+import { showMessage } from './status';
 const defaultConfig = { baseURL: '/api', timeout: 60000 };
-const storage = new StorageInstance(60 * 60 * 24 * 30, false);
+
 class Axios {
   // axios 实例
   instance: AxiosInstance;
@@ -17,7 +18,7 @@ class Axios {
     this.instance = axios.create(Object.assign(this.baseConfig, config));
 
     this.instance.interceptors.request.use(
-      config => {
+      (config: InternalAxiosRequestConfig) => {
         // 一般会请求拦截里面加token
         let token = getQueryString('token');
         let accessToken = token ? token : storage.get('token');
@@ -54,30 +55,11 @@ class Axios {
         }
       },
       (error: AxiosError) => {
-        // 处理 HTTP 网络错误
-        let message = '';
         // HTTP 状态码
-        const status = error.response?.status;
-        switch (status) {
-          case 401:
-            message = 'token 失效，请重新登录';
-            // 这里可以触发退出的 action
-            break;
-          case 403:
-            message = '拒绝访问';
-            break;
-          case 404:
-            message = '请求地址错误';
-            break;
-          case 500:
-            message = '服务器故障';
-            break;
-          default:
-            message = '网络连接故障';
-        }
+        const status = error.response?.status; 
         ElMessage({
           showClose: false,
-          message: `${message}，请检查网络或联系管理员！`,
+          message: `${showMessage(status)}，请检查网络或联系管理员！`,
           type: 'error',
           duration: 1500
         });

@@ -2,7 +2,8 @@
   <div :class="['main-nav', obj.show ? 'in' : ' ']">
     <div class="menu">
       <ul>
-        <li v-for="(item, index) in obj.menu" key="index" :class="[currentIndex == index ? 'active' : item.active ? 'has-menu' : '']" @click="toNavigator(item)">
+        <li v-for="(item, index) in obj.menu" key="index"
+          :class="[currentIndex == index ? 'active' : item.active ? 'has-menu' : '']" @click="toNavigator(item)">
           <div class="list">
             <span class="icon">
               <svg-icon :iconName="item.iconName" color="#fff" size="18"></svg-icon>
@@ -14,7 +15,7 @@
               </el-icon>
             </span>
           </div>
-          <ol>
+          <ol :style="{ maxHeight: (item.active ? item.children?.length * 42 : 0) + 'px' }">
             <li v-for="(ele, i) in item.children" :key="i">
               <router-link :to="ele.path" @click.stop.native @click="handleClickSub()">
                 <span class="icon">
@@ -30,12 +31,12 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { useMenuStore } from '@/stores/menuStore';
 import { busEventEnum, emitter } from '@/utils/bus';
 import { ArrowUp } from '@element-plus/icons-vue';
 import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { menuList, menuType, navType } from '../constant/index';
-import { useMenuStore } from '@/stores/menuStore';
 const useMenu = useMenuStore();
 const router = useRouter();
 const obj = reactive<navType>({
@@ -70,22 +71,21 @@ watch(
   () => router.currentRoute.value.path,
   (toPath) => {
     //要执行的方法
-    if (toPath !== '/index') {
-      const menu: Array<menuType> = menuList.filter((e) => e.path === toPath);
-      //如果有多个子菜单，这里要改
-      if (!menu.length && toPath == '/manage') {
-        currentIndex.value = -1;
-        var normalMenu = menuList.find((item) => item.children?.length);
-        if (normalMenu) {
-          normalMenu.active = true;
-          useMenu.updateUseMenuList(normalMenu.children[0]);
+    const menu: Array<menuType> = menuList.filter((e) => e.path === toPath);
+    //如果有多个子菜单，这里要改
+    if (!menu.length && toPath.endsWith('manage')) {
+      currentIndex.value = -1;
+      var normalMenu = menuList.find((item) => item.children?.length);
+      if (normalMenu) {
+        normalMenu.active = true;
+        var index: number = normalMenu.children.findIndex((item: menuType) => item.path == toPath);
+        if (index > -1) {
+          useMenu.updateUseMenuList(normalMenu.children[index]);
         }
-      } else {
-        currentIndex.value = menuList.indexOf(menu[0]);
-        useMenu.updateUseMenuList(menu[0]);
       }
     } else {
-      currentIndex.value = 0;
+      currentIndex.value = menuList.indexOf(menu[0]);
+      useMenu.updateUseMenuList(menu[0]);
     }
   },
   { immediate: true, deep: true }
@@ -119,16 +119,16 @@ watch(
       padding-left: 0;
       list-style: none;
 
-      > li {
+      >li {
         &:hover {
           background-color: #1f2529;
         }
 
-        &.has-menu {
-          ol {
-            max-height: 42px;
-          }
-        }
+        // &.has-menu {
+        //   ol {
+        //     max-height: 84px;
+        //   }
+        // }
 
         &.active {
           color: #fff;
@@ -228,7 +228,7 @@ watch(
     width: 50px;
     overflow: hidden;
 
-    > li {
+    >li {
       .text {
         font-size: 0;
         opacity: 0;

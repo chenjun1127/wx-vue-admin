@@ -4,7 +4,7 @@
       <canvas ref="canvas" width="100" :height="height"></canvas>
     </div>
     <div class="validate-code-btn">
-      <el-button type="text" @click="refresh">看不清，换一张</el-button>
+      <el-button link @click="refresh">看不清，换一张</el-button>
     </div>
   </div>
 </template>

@@ -10,7 +10,6 @@ export type menuType = {
 export type navType = {
   menu: Array<menuType>;
   show: boolean;
-  show2?: boolean;
 };
 export const menuList: Array<menuType> = [
   {
@@ -20,7 +19,7 @@ export const menuList: Array<menuType> = [
     index: 0,
   },
   {
-    name: '常规管理',
+    name: '系统管理',
     path: '',
     iconName: 'icon-31shezhi',
     active: false,
@@ -30,6 +29,12 @@ export const menuList: Array<menuType> = [
         name: '个人资料',
         path: '/manage',
         iconName: 'icon-yonghu',
+        index: 1,
+      },
+      {
+        name: '用户管理',
+        path: '/user-manage',
+        iconName: 'icon-kaifazheguanli',
         index: 1,
       },
     ],
