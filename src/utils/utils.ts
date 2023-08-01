@@ -1,4 +1,3 @@
-const md5 = require('md5');
 // arr是传入的数组
 export function groupByDesc(arr: Array<string>) {
   const [...zhCN] = '阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫杂';
@@ -39,29 +38,6 @@ export function splitThousandSeparator(num: number): string {
   let MILI_PATTERN = /(?=(?!\b)(\d{3})+\.?\b)/g;
   let str: string = num.toString().replace(DIGIT_PATTERN, m => m.replace(MILI_PATTERN, ','));
   return prefix + str;
-}
-
-export const getParamsObj = (params: any) => {
-  if (params?.constructor === Object) {
-    var arr = [];
-    var obj: any = {};
-    for (var i in params) {
-      if (params[i] && params[i] !== '') {
-        arr.push(i + '=' + params[i]);
-        obj[i] = params[i];
-      }
-    }
-    return { ...obj, ...{ sign: paramsStrSort(arr.join('&')) } };
-  } else {
-    console.log('参数错误', typeof params);
-  }
-};
-
-function paramsStrSort(paramsStr: string): string {
-  const urlStr = paramsStr.split('&').sort().join('&');
-  const pattern = /[=&\s]/g;
-  const newStr = urlStr.replace(pattern, '');
-  return md5(newStr);
 }
 
 export function getQueryString(name: any) {

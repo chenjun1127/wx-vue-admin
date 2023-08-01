@@ -1,9 +1,7 @@
 // index.ts
-import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
-import { ElMessage } from "element-plus";
-import storage from '../storage/instance';
-import { getQueryString } from '../utils';
+import { ElMessage } from 'element-plus';
 import { showMessage } from './status';
 const defaultConfig = { baseURL: '/api', timeout: 60000 };
 
@@ -20,14 +18,14 @@ class Axios {
     this.instance.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
         // 一般会请求拦截里面加token
-        let token = getQueryString('token');
-        let accessToken = token ? token : storage.get('token');
-        if (accessToken) {
-          console.log('token:' + accessToken);
-          (config.headers as AxiosRequestHeaders).Authorization = accessToken;
-        } else {
-          console.error('token获取失败');
-        }
+        // let token = getQueryString('token');
+        // let accessToken = token ? token : storage.get('token');
+        // if (accessToken) {
+        //   console.log('token:' + accessToken);
+        //   (config.headers as AxiosRequestHeaders).Authorization = accessToken;
+        // } else {
+        //   console.error('token获取失败');
+        // }
         return config;
       },
       (err: any) => {
@@ -38,25 +36,25 @@ class Axios {
 
     this.instance.interceptors.response.use(
       (response: AxiosResponse) => {
-        const { errcode, errmsg } = response.data;
+        const { code, msg } = response.data;
         // 根据自定义错误码判断请求是否成功
-        if (errcode === 0) {
+        if (code === 0) {
           // 将组件用的数据返回
           return response.data;
         } else {
           // 处理业务错误。
           ElMessage({
             showClose: false,
-            message: `${errmsg}，请检查网络或联系管理员！`,
+            message: `${msg}，请检查网络或联系管理员！`,
             type: 'error',
             duration: 1500
           });
-          return Promise.reject(new Error(errmsg));
+          return Promise.reject(new Error(msg));
         }
       },
       (error: AxiosError) => {
         // HTTP 状态码
-        const status = error.response?.status; 
+        const status = error.response?.status;
         ElMessage({
           showClose: false,
           message: `${showMessage(status)}，请检查网络或联系管理员！`,

@@ -4,7 +4,7 @@ export interface LoginData {
 }
 /* 登录接口返回值类型 */
 export interface LoginRes {
-  token: string;
+  token?: string;
 }
 /* 用户信息接口返回值类型 */
 export interface UserInfoRes {

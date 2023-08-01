@@ -29,6 +29,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { login } from '@/api';
 import logoBg from '@/assets/images/login-head.png';
 import { Lock, User } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -42,12 +43,11 @@ const ruleForm = reactive({
   validateCode: ""
 });
 const checkCode = (_rule: any, value: any, callback: any) => {
-  console.log(code.value);
   if (!value) {
     return callback(new Error('请输入验证码'))
   }
   setTimeout(() => {
-    if (value != code.value) {
+    if (value.toLowerCase() != code.value.toLowerCase()) {
       callback(new Error('验证码有误，请重新输入'))
     } else {
       callback()
@@ -57,11 +57,11 @@ const checkCode = (_rule: any, value: any, callback: any) => {
 const rules = reactive<FormRules<typeof ruleForm>>({
   name: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+    { min: 4, max: 12, message: '4到12个字符', trigger: 'blur' },
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+    { min: 6, max: 12, message: '请输入6到12位密码', trigger: 'blur' },
   ],
   validateCode: [
     { required: true, message: '请输入验证码', trigger: 'blur' },
@@ -72,9 +72,14 @@ const rules = reactive<FormRules<typeof ruleForm>>({
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   verifyShow.value = true;
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
-      console.log('submit!');
+      console.log('submit!', ruleForm);
+      const { name, password } = ruleForm;
+      // login(fi)
+      const data = await login({ username: name, password });
+      console.log(data)
+
     } else {
       console.log('error submit!', fields);
     }
@@ -83,13 +88,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const code = ref('')
 const getCode = (value: any) => {
   code.value = value
-  console.log(value);
 }
 // const resetForm = (formEl: FormInstance | undefined) => {
 //   if (!formEl) return;
 //   formEl.resetFields();
 // };
- 
+
 </script>
 
 <style scoped lang="scss">
