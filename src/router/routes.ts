@@ -1,5 +1,5 @@
 import Index from '../views/Index.vue';
-const routes = [
+export const routes = [
   {
     path: '/login',
     name: 'login',
@@ -20,12 +20,7 @@ const routes = [
         path: '/manage',
         name: 'manage',
         component: () => import('../views/manage/index.vue')
-      },
-      // {
-      //   path: '/user-manage',
-      //   name: 'userManage',
-      //   component: () => import('../views/manage/user.vue')
-      // },
+      }, 
       {
         path: '/normal',
         name: 'normal',
@@ -55,7 +50,7 @@ const routes = [
   }
 ];
 
-const dynamicRoutes = [
+export const dynamicRoutes = [
   {
     path: '/user-manage',
     name: 'userManage',

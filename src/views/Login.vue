@@ -30,13 +30,16 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { login } from '@/api';
+import api from '@/api';
 import logoBg from '@/assets/images/login-head.png';
+import SlideVerify from '@/components/ValidateCode.vue';
+import { userInfoStore } from '@/stores/userInfo';
+import storage from '@/utils/storage/instance';
 import { Lock, User } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import SlideVerify from '../components/ValidateCode.vue';
+const userInfo = userInfoStore();
 const refresh = ref<any>();
 const router = useRouter();
 const verifyShow = ref<boolean>(false);
@@ -80,9 +83,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       console.log('submit!', ruleForm);
       const { name, password } = ruleForm;
-      const data: any = await login({ name, password });
+      const data: any = await api.login({ name, password });
       if (data.code === 1) {
-        console.log('B');
+        storage.set('userInfo', { name });
+        userInfo.setName(name);
         router.push('/home');
       }
     } else {
