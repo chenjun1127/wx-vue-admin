@@ -38,7 +38,7 @@ class Axios {
       (response: AxiosResponse) => {
         const { code, msg } = response.data;
         // 根据自定义错误码判断请求是否成功
-        if (code === 0) {
+        if (code === 1) {
           // 将组件用的数据返回
           return response.data;
         } else {

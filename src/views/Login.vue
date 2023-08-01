@@ -14,14 +14,15 @@
         <!-- <div v-if="verifyShow" class="verify-show">
           <slide-verify :w="370"></slide-verify>
         </div> -->
-        <div style="display: flex;">
+        <div style="display: flex">
           <el-form-item prop="validateCode">
             <el-input v-model="ruleForm.validateCode" />
           </el-form-item>
           <SlideVerify ref="refresh" @getCode="getCode" width="150px" :height="40" />
         </div>
         <el-form-item>
-          <el-button type="primary" style="width: 100%; margin-top: 10px" @click="submitForm(ruleFormRef)"> 登录
+          <el-button type="primary" style="width: 100%; margin-top: 10px" @click="submitForm(ruleFormRef)">
+            登录
           </el-button>
         </el-form-item>
       </el-form>
@@ -34,38 +35,41 @@ import logoBg from '@/assets/images/login-head.png';
 import { Lock, User } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import SlideVerify from '../components/ValidateCode.vue';
+const refresh = ref<any>();
+const router = useRouter();
 const verifyShow = ref<boolean>(false);
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
   name: '',
   password: '',
-  validateCode: ""
+  validateCode: ''
 });
 const checkCode = (_rule: any, value: any, callback: any) => {
   if (!value) {
-    return callback(new Error('请输入验证码'))
+    return callback(new Error('请输入验证码'));
   }
   setTimeout(() => {
     if (value.toLowerCase() != code.value.toLowerCase()) {
-      callback(new Error('验证码有误，请重新输入'))
+      callback(new Error('验证码有误，请重新输入'));
     } else {
-      callback()
+      callback();
     }
-  }, 500)
-}
+  }, 500);
+};
 const rules = reactive<FormRules<typeof ruleForm>>({
   name: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 4, max: 12, message: '4到12个字符', trigger: 'blur' },
+    { min: 4, max: 12, message: '4到12个字符', trigger: 'blur' }
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 12, message: '请输入6到12位密码', trigger: 'blur' },
+    { min: 6, max: 12, message: '请输入6到12位密码', trigger: 'blur' }
   ],
   validateCode: [
     { required: true, message: '请输入验证码', trigger: 'blur' },
-    { validator: checkCode, trigger: 'blur' },
+    { validator: checkCode, trigger: 'blur' }
   ]
 });
 
@@ -76,24 +80,25 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       console.log('submit!', ruleForm);
       const { name, password } = ruleForm;
-      // login(fi)
-      const data = await login({ username: name, password });
-      console.log(data)
-
+      const data: any = await login({ name, password });
+      if (data.code === 1) {
+        console.log('B');
+        router.push('/home');
+      }
     } else {
       console.log('error submit!', fields);
+      refresh.value.refresh();
     }
   });
 };
-const code = ref('')
+const code = ref('');
 const getCode = (value: any) => {
-  code.value = value
-}
+  code.value = value;
+};
 // const resetForm = (formEl: FormInstance | undefined) => {
 //   if (!formEl) return;
 //   formEl.resetFields();
 // };
-
 </script>
 
 <style scoped lang="scss">
@@ -149,7 +154,6 @@ const getCode = (value: any) => {
     z-index: 2;
     left: 0;
     top: 0;
-
   }
 }
 </style>

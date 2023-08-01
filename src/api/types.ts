@@ -1,5 +1,5 @@
 export interface LoginData {
-  username: string;
+  name: string;
   password: string;
 }
 /* 登录接口返回值类型 */

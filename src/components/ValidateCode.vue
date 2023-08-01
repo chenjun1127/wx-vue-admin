@@ -58,7 +58,9 @@ function refresh() {
   draw()
   emits('getCode', code.value)
 }
-
+defineExpose({
+  refresh,
+});
 onMounted(() => {
   const code = ref('')
   canvasRef.value = document.querySelector('canvas')
