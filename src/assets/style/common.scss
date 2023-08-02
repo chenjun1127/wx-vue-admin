@@ -83,7 +83,7 @@ $colors: (
   3: #2c3e50,
   4: #ed219b,
   5: #054605,
-  6: #000000
+  6: #000000,
 );
 
 @mixin color($type) {
@@ -120,5 +120,3 @@ $colors: (
     @include buttons-default(#fff, map-get($colors, $i));
   }
 }
-
-

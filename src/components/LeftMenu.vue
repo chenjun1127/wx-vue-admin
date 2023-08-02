@@ -9,7 +9,8 @@
         <div class="avatar-text">
           <h1>{{ userInfo.name }}</h1>
           <p>
-            <span :class="`status-${userInfo.online == 1 ? '1' : '2'}`"></span><em>{{ userInfo.online == 1 ? '在线' : '离线' }}</em>
+            <span :class="`status-${userInfo.online == 1 ? '1' : '2'}`"></span><em>{{ userInfo.online == 1 ? '在线' : '离线'
+            }}</em>
           </p>
         </div>
       </div>
@@ -39,9 +40,10 @@ onBeforeMount(() => {
 .top-menu {
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
   color: #fff;
+
   &.in {
     .left {
-      > p {
+      >p {
         width: 50px;
         height: 50px;
         overflow: hidden;
@@ -49,15 +51,18 @@ onBeforeMount(() => {
         padding: 0 5px;
       }
     }
+
     .avatar {
       height: 45px;
       justify-content: center;
       margin: 0;
+
       &-img {
         width: 30px;
         height: 30px;
         border-radius: 100%;
         overflow: hidden;
+
         img {
           width: 30px;
           height: 30px;
@@ -65,7 +70,8 @@ onBeforeMount(() => {
           display: block;
         }
       }
-      &-text {    
+
+      &-text {
         overflow: hidden;
         width: 0;
         margin: 0;
@@ -73,26 +79,30 @@ onBeforeMount(() => {
     }
   }
 }
+
 .left {
-  > p {
+  >p {
     font-size: 20px;
     height: 50px;
     line-height: 50px;
     text-align: center;
     display: block;
     width: 100%;
-    @extend .width-transform;
+    @extend %width-transform;
   }
+
   .avatar {
     display: flex;
     align-items: center;
     margin-left: 10px;
-    height: 45px; 
+    height: 45px;
+
     &-img {
       width: 45px;
       height: 45px;
       border-radius: 100%;
       overflow: hidden;
+
       img {
         width: 45px;
         height: 45px;
@@ -100,22 +110,25 @@ onBeforeMount(() => {
         display: block;
       }
     }
+
     &-text {
       font-size: 14px;
       color: #fff;
-      margin-left: 15px; 
-    
+      margin-left: 15px;
+
       h1 {
         font-size: 14px;
         height: 22px;
         overflow: hidden;
       }
+
       p {
         position: relative;
         display: flex;
         align-items: center;
         height: 23px;
         overflow: hidden;
+
         span {
           margin-right: 5px;
           width: 10px;
@@ -125,9 +138,11 @@ onBeforeMount(() => {
           border-radius: 100%;
           background-color: #18bc9c;
           display: block;
+
           &.status-1 {
             background-color: #18bc9c;
           }
+
           &.status-2 {
             background-color: red;
           }
@@ -139,5 +154,4 @@ onBeforeMount(() => {
       }
     }
   }
-}
-</style>
+}</style>

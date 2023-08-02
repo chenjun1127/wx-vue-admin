@@ -1,0 +1,8 @@
+printWidth: 200
+semi: true # 是否保留分号；
+vueIndentScriptAndStyle: false # 不对 <script> 和 <style> 标签中的内容进行额外缩进
+singleQuote: true
+trailingComma: "all" # 对象、数组等结尾添加逗号
+proseWrap: "never" # Markdown 文件中的文本保持原始换行
+htmlWhitespaceSensitivity: "strict" # HTML 文件中尽量减少空白符
+endOfLine: "auto" # 自动检测并设置换行符类型

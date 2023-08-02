@@ -1,58 +1,72 @@
 :root {
-  --bg: rgba(16, 19, 42);
+  --bg: rgb(16 19 42);
 }
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  font-weight: normal;
   margin: 0;
   position: relative;
-  font-weight: normal;
 }
+
 .flex-between {
   display: flex;
   justify-content: space-between;
 }
+
 .flex-center {
   display: flex;
   justify-content: center;
 }
+
 @mixin no-bullets {
   list-style: none;
+
   li {
     list-style-image: none;
     list-style-type: none;
-    margin-left: 0px;
+    margin-left: 0;
   }
 }
 
 ::-webkit-scrollbar-track-piece {
-  background-color: rgba(46, 162, 248, 0.1); /*滚动条的背景颜色*/
-  -webkit-border-radius: 0; /*滚动条的圆角宽度*/
+  background-color: rgb(46 162 248 / 10%); /* 滚动条的背景颜色 */
+  border-radius: 0; /* 滚动条的圆角宽度 */
 }
+
 ::-webkit-scrollbar {
-  width: 6px; /*滚动条的宽度*/
-  height: 6px; /*滚动条的高度*/
+  height: 6px; /* 滚动条的高度 */
+  width: 6px; /* 滚动条的宽度 */
 }
+
 ::-webkit-scrollbar-thumb:vertical {
-  /*垂直滚动条的样式*/
+  background-color: rgb(13 54 97);
+  border-radius: 4px;
+
+  /* 垂直滚动条的样式 */
   height: 50px;
-  background-color: rgb(13, 54, 97);
-  -webkit-border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  /*滚动条的hover样式*/
+  background-color: rgb(13 54 97);
+  border-radius: 4px;
+
+  /* 滚动条的hover样式 */
   height: 50px;
-  background-color: rgb(13, 54, 97);
-  -webkit-border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:horizontal {
-  /*水平滚动条的样式*/
+  background-color: rgb(46 162 248 / 10%);
+  border-radius: 6px;
+
+  /* 水平滚动条的样式 */
   width: 5px;
-  background-color: rgba(46, 162, 248, 0.1);
-  -webkit-border-radius: 6px;
 }
-.width-transform {
+
+%width-transform {
   transition: all 0.3s ease-in-out, width 0.3s ease-in-out;
 }
-$mainButtonColor: #18bc9c;
+
+$main-button-color: #18bc9c;

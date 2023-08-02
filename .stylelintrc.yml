@@ -1,0 +1,11 @@
+extends:
+  - stylelint-config-standard-scss
+  - stylelint-config-standard-vue
+# 在此添加其他 Stylelint 配置选项
+rules:
+  # 自定义规则，例如：
+  color-no-invalid-hex: true # 是否包含无效的十六进制颜色值
+  order/properties-alphabetical-order: true # 开启按字母顺序排序属性的规则
+  at-rule-no-unknown: null
+plugins:
+  - stylelint-order

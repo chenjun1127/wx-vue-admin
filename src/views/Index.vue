@@ -32,26 +32,29 @@ onBeforeMount(() => {
 <style lang="scss" scoped>
 .main {
   display: flex;
-  width: 100%;
   flex-direction: row;
   height: 100vh;
+  width: 100%;
 
   aside {
-    width: 230px;
-    @extend .width-transform;
-    height: 100vh;
     background-color: #222d32;
+    height: 100vh;
+    width: 230px;
+
+    @extend %width-transform;
+
     &.in {
       width: 50px;
     }
   }
 
   section {
-    flex: 1; 
+    flex: 1;
+
     .section-view {
-      margin: 15px;
       background-color: #fff;
       border-radius: 3px;
+      margin: 15px;
     }
   }
 }

@@ -26,8 +26,8 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
+import { reactive, ref } from 'vue';
 interface RuleForm {
   name: string;
   email: string;
@@ -75,24 +75,27 @@ const resetForm = (formEl: FormInstance | undefined) => {
 .form-content {
   padding: 50px;
 }
+
 .form-content-img {
   height: 150px;
   margin-bottom: 20px;
 }
+
 .form-content-img > div {
   width: 100px;
   height: 100px;
   display: block;
   border-radius: 50%;
-  margin: 0 auto; 
-
+  margin: 0 auto;
 }
+
 .form-content-img h1 {
   font-size: 18px;
   text-align: center;
   height: 50px;
   line-height: 50px;
 }
+
 .form-content-img img {
   width: 100px;
   height: 100px;
@@ -100,6 +103,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
   border-radius: 50%;
   z-index: 1;
   border: 5px solid #fff;
-  margin: 0  auto;
+  margin: 0 auto;
 }
 </style>
