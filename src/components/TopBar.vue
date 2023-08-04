@@ -5,7 +5,7 @@
         <svg-icon iconName="icon-menu" color="#333"></svg-icon>
       </div>
       <ol class="top-menu-list">
-        <li v-for="item in currentMenu.list" :key="item.path">
+        <li v-for="item in tabMenu" :key="item.path">
           <router-link :to="item.path">
             <span>{{ item?.name }}</span>
           </router-link>
@@ -51,7 +51,7 @@ import { userInfoStore } from '../stores/userInfo';
 const useMenu = useMenuStore();
 const userInfo = userInfoStore();
 const router = useRouter();
-const { currentMenu } = storeToRefs(useMenu);
+const { tabMenu } = storeToRefs(useMenu);
 const show = ref<boolean>(false);
 const toInfo = () => {
   router.push('/manage');
@@ -65,7 +65,7 @@ const toggleMenu = () => {
 };
 const handleClickDel = (menu: menuType) => {
   // router.push(menu.path);
-  useMenu.updateUseMenuList(menu, 1);
+  useMenu.updateUseTabMenuList(menu, 1);
 };
 </script>
 <style lang="scss" scoped>

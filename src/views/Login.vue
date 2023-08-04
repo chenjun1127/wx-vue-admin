@@ -33,6 +33,7 @@
 import api from '@/api';
 import logoBg from '@/assets/images/login-head.png';
 import SlideVerify from '@/components/ValidateCode.vue';
+import { useMenuStore } from '@/stores/menuStore';
 import { userInfoStore } from '@/stores/userInfo';
 import storage from '@/utils/storage/instance';
 import { Lock, User } from '@element-plus/icons-vue';
@@ -40,6 +41,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const userInfo = userInfoStore();
+const useMenu = useMenuStore();
 const refresh = ref<any>();
 const router = useRouter();
 const verifyShow = ref<boolean>(false);
@@ -83,12 +85,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       console.log('submit!', ruleForm);
       const { name, password } = ruleForm;
-      const data: any = await api.login({ name, password });
-      if (data.code === 1) {
-        storage.set('userInfo', { name });
-        userInfo.setName(name);
-        router.push('/home');
-      }
+      const data = await api.login({ name, password });
+      const { petName, type } = data;
+      storage.set('userInfo', { name });
+      userInfo.updateUserInfo({ petName: petName, name, role: type == 'A' ? 1 : 0 })
+      useMenu.updateMenu();
+      router.push('/home');
     } else {
       console.log('error submit!', fields);
       refresh.value.refresh();

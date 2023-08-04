@@ -22,6 +22,11 @@ export const routes = [
         component: () => import('../views/manage/index.vue')
       }, 
       {
+        path: '/user-manage',
+        name: 'userManage',
+        component: () => import('../views/manage/user.vue')
+      },
+      {
         path: '/normal',
         name: 'normal',
         component: () => import('../views/normal/index.vue')

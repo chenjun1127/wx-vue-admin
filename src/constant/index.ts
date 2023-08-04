@@ -31,12 +31,12 @@ export const menuList: Array<menuType> = [
         iconName: 'icon-yonghu',
         index: 1,
       },
-      {
-        name: '用户管理',
-        path: '/user-manage',
-        iconName: 'icon-kaifazheguanli',
-        index: 1,
-      },
+      // {
+      //   name: '用户管理',
+      //   path: '/user-manage',
+      //   iconName: 'icon-kaifazheguanli',
+      //   index: 1,
+      // },
     ],
   },
   {

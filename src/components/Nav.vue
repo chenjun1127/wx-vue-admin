@@ -80,12 +80,12 @@ watch(
         normalMenu.active = true;
         var index: number = normalMenu.children.findIndex((item: menuType) => item.path == toPath);
         if (index > -1) {
-          useMenu.updateUseMenuList(normalMenu.children[index]);
+          useMenu.updateUseTabMenuList(normalMenu.children[index]);
         }
       }
     } else {
       currentIndex.value = menuList.indexOf(menu[0]);
-      useMenu.updateUseMenuList(menu[0]);
+      useMenu.updateUseTabMenuList(menu[0]);
     }
   },
   { immediate: true, deep: true }

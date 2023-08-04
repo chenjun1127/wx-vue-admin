@@ -1,4 +1,5 @@
 // index.ts
+import { IResponseData } from '@/types';
 import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
@@ -31,23 +32,23 @@ class Axios {
       (err: any) => {
         ElMessage.error(err.message);
         return Promise.reject(err);
-      }
+      },
     );
 
     this.instance.interceptors.response.use(
       (response: AxiosResponse) => {
-        const { code, msg } = response.data;
+        const { code, msg, data }: IResponseData<any> = response.data;
         // 根据自定义错误码判断请求是否成功
         if (code === 1) {
           // 将组件用的数据返回
-          return response.data;
+          return data;
         } else {
           // 处理业务错误。
           ElMessage({
             showClose: false,
             message: `${msg}，请检查网络或联系管理员！`,
             type: 'error',
-            duration: 1500
+            duration: 1500,
           });
           return Promise.reject(new Error(msg));
         }
@@ -57,12 +58,12 @@ class Axios {
         const status = error.response?.status;
         ElMessage({
           showClose: false,
-          message: `${showMessage(status)}，请检查网络或联系管理员！`,
+          message: showMessage(status),
           type: 'error',
-          duration: 1500
+          duration: 1500,
         });
         return Promise.reject(error);
-      }
+      },
     );
   }
 
