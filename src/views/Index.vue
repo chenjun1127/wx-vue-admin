@@ -50,11 +50,14 @@ onBeforeMount(() => {
 
   section {
     flex: 1;
-
+    display: flex;
+    flex-direction: column;
     .section-view {
       background-color: #fff;
       border-radius: 3px;
       margin: 15px;
+      flex: 1;
+      overflow-y: scroll;
     }
   }
 }

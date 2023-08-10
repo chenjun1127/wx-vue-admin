@@ -9,13 +9,13 @@
         <el-input v-model="ruleForm.name" disabled />
       </el-form-item>
       <el-form-item label="E-mail" prop="email">
-        <el-input v-model="ruleForm.email" />
+        <el-input v-model="ruleForm.email" :placeholder="ruleForm.emailPlaceHolder" />
       </el-form-item>
       <el-form-item label="昵称" prop="nickName">
-        <el-input v-model="ruleForm.nickName" />
+        <el-input v-model="ruleForm.nickName" :placeholder="ruleForm.nickNamePlaceHolder" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="ruleForm.password" />
+        <el-input v-model="ruleForm.password" :placeholder="ruleForm.passwordPlaceHolder" />
       </el-form-item>
       <el-form-item>
         <el-button color="#18bc9c" class="custom-button" @click="submitForm(ruleFormRef)"> 提交 </el-button>
@@ -26,24 +26,34 @@
 </template>
 
 <script lang="ts" setup>
+import api from '@/api';
 import type { FormInstance, FormRules } from 'element-plus';
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 interface RuleForm {
   name: string;
   email: string;
   nickName: string;
   password: string;
+  nickNamePlaceHolder?: '';
+  passwordPlaceHolder?: '';
+  emailPlaceHolder?: '';
 }
 
 const formSize = ref('default');
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive<RuleForm>({
-  name: 'Hello',
+  name: '',
   email: '',
   nickName: '',
   password: '',
 });
-
+onMounted(async () => {
+  const { name, email, petName, password } = await api.getUserProfile();
+  ruleForm.name = name;
+  ruleForm.emailPlaceHolder = email ?? '';
+  ruleForm.nickNamePlaceHolder = petName;
+  ruleForm.passwordPlaceHolder = password;
+});
 const rules = reactive<FormRules<RuleForm>>({
   email: [
     { required: true, message: '邮箱不能为空', trigger: 'blur' },
@@ -57,9 +67,15 @@ const rules = reactive<FormRules<RuleForm>>({
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
-      console.log('submit!');
+      console.log('submit!', ruleForm);
+      await api.addUser({
+        name: ruleForm.name,
+        email: ruleForm.email,
+        petName: ruleForm.nickName == '' ? ruleForm.nickNamePlaceHolder : '',
+        password: ruleForm.password == '' ? ruleForm.passwordPlaceHolder : '',
+      });
     } else {
       console.log('error submit!', fields);
     }

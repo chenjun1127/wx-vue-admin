@@ -5,7 +5,7 @@
         <div :class="['pic', `pic-${index}`]">
           <svg-icon :iconName="getIconName(index)" color="#fff" size="36"></svg-icon>
         </div>
-        <div class="text">   
+        <div class="text">
           <h1>{{ item.count }}</h1>
           <p>{{ item.name }}</p>
         </div>
@@ -14,26 +14,35 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import api from '@/api';
+import { onMounted, reactive } from 'vue';
 const obj = reactive({
   list: [
     {
       name: '今天提交订单数',
-      count: 0
+      count: 0,
     },
     {
       name: '今日返现红包数',
-      count: 0
+      count: 0,
     },
     {
       name: '今日返现金额',
-      count: 0
+      count: 0,
     },
     {
       name: '今日充值金额',
-      count: 0
-    }
-  ]
+      count: 0,
+    },
+  ],
+});
+onMounted(async () => {
+  const data = await api.getTodayShow();
+  const { comments, rechr, redSc, redpack } = data.extra;
+  obj.list[0].count = comments;
+  obj.list[1].count = rechr;
+  obj.list[2].count = redSc;
+  obj.list[3].count = redpack;
 });
 const getIconName = (index: number) => {
   if (index === 0) {
@@ -73,11 +82,11 @@ const getIconName = (index: number) => {
         justify-content: center;
 
         &-0 {
-          background-color: #27C24C;
+          background-color: #27c24c;
         }
 
         &-1 {
-          background-color: #F05050;
+          background-color: #f05050;
         }
 
         &-2 {
