@@ -7,6 +7,9 @@ enum URL {
   userProfile = '/user/show',
   order = '/comment/select',
   todayShow = '/dcc/show',
+  batchUpdate = '/comment/batchUpdate',
+  exportOrderInfo = '/comment/download',
+  queryRedPacket='/redpacket/select'
 }
 const api = {
   login: (data: LoginData) => {
@@ -24,5 +27,14 @@ const api = {
   getOrder: (data: any) => {
     return $axios.post<any>(URL.order, data);
   },
+  batchUpdate: (data: any) => {
+    return $axios.post<any>(URL.batchUpdate, data);
+  },
+  exportOrderInfo: (data: any) => {
+    return $axios.post<any>(URL.exportOrderInfo, data);
+  },
+  queryRedPacket: (data: any) => {
+    return $axios.post<any>(URL.queryRedPacket, data);
+  }, 
 };
 export default api;

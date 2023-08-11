@@ -105,7 +105,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="obj.showConfirm = false">取消</el-button>
-        <el-button type="primary" @click="obj.showConfirm = false"> 确认 </el-button>
+        <el-button type="primary" @click="handleTypeConfirm"> 确认 </el-button>
       </span>
     </template>
   </el-dialog>
@@ -135,7 +135,7 @@ const ruleForm = reactive<any>({
   endMoney: '',
   submitTime: '',
   handleTime: '',
-  sevenDay:'',
+  sevenDay: '',
   list: [] as any[],
   total: 0,
   pageNum: 1, //当前页,从第0页开始查
@@ -256,7 +256,7 @@ const toSevenSubmit = () => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  ruleForm.sevenDay='';
+  ruleForm.sevenDay = '';
   getData();
   emits('handleReset', ruleForm);
 };
@@ -355,11 +355,20 @@ const toConcat = () => {
   obj.showConfirm = true;
 };
 const handleSelectionChange = (rows: any) => {
-  console.log(rows);
   obj.selectedRows = rows;
 };
-const handleCloseConfirm = () => {
+const handleCloseConfirm = async () => {
   obj.showConfirm = false;
+};
+const handleTypeConfirm = async () => {
+  obj.showConfirm = false;
+  if (obj.type == 0) {
+    var list = obj.selectedRows.map((e: { id: any }) => e.id);
+    await api.batchUpdate(list);
+  } else if (obj.type == 1) {
+    var list = obj.selectedRows.map((e: { id: any }) => e.id);
+    await api.exportOrderInfo(list);
+  }
 };
 const getTips = (type: number) => {
   if (type == 0) {
