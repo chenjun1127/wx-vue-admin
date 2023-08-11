@@ -39,15 +39,15 @@
         <el-button @click="resetForm(formInlineRef)">重置</el-button>
       </el-form-item>
     </el-form>
-    <!-- <div class="form-buttons-bar">
-      <el-button class="custom-button-1" color="red" @click="submitForm(formInlineRef)">批量审核</el-button>
-      <el-button class="custom-button-2" @click="submitForm(formInlineRef)">导出</el-button>
-      <el-button class="custom-button-3" @click="submitForm(formInlineRef)">$余额8.5元</el-button>
-      <el-button @click="submitForm(formInlineRef)">$冲值金额</el-button>
-      <div class="tips">有效期183天</div>
-      <el-button class="custom-button-4" @click="submitForm(formInlineRef)">7天内重复订单</el-button>
-    </div> -->
-    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol">
+    <div class="form-buttons-bar">
+      <el-button class="custom-button-1" color="red" @click="allCheck">批量审核</el-button>
+      <el-button class="custom-button-2" @click="exportFile">导出</el-button>
+      <el-button class="custom-button-3">$余额{{ obj.balance }}元</el-button>
+      <el-button @click="toRecharge">$冲值金额</el-button>
+      <div class="tips" @click="toConcat">有效期{{ obj.vipDay }}天</div>
+      <el-button class="custom-button-4" @click="toSevenSubmit(formInlineRef)">7天内重复订单</el-button>
+    </div>
+    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange">
       <template v-slot:wechatAvatar="slotProps">
         <el-popover placement="right" show-arrow width="300" popper-class="table-popover" trigger="hover">
           <template #reference>
@@ -70,17 +70,56 @@
       <template v-slot:claimState="slotProps">
         <span :class="`status-${slotProps.info.claimState}`">{{ getClaimStateString(slotProps.info.claimState) }}</span>
       </template>
+      <template v-slot:operate="slotProps">
+        <div style="operate-buttons">
+          <el-button type="primary" size="small" @click="toDetail(slotProps.info, 0)">订单详情</el-button>
+          <el-button size="small" @click="toRemark(slotProps.info, 1)">备注</el-button>
+        </div>
+      </template>
     </CommonTable>
     <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
+  <Dialog :visible="ruleForm.showDetail" @handleClose="handleClose" :title="currentIndex == 0 ? '详情' : '备注'" :noFooter="true">
+    <template v-if="currentIndex == 1" #content>
+      <OrderRemark @handleClose="handleClose" @handleCancel="handleCancel" />
+    </template>
+    <template v-else #content>
+      <OrderDetail :info="ruleForm.rowInfo" />
+    </template>
+  </Dialog>
+  <el-dialog v-model="obj.showConfirm" :title="getTips(obj.type)" width="30%" :before-close="handleCloseConfirm">
+    <div class="el-cont">
+      <template v-if="obj.type == 0">
+        <p>确定审核选中的 {{ obj.selectedRows.length }} 项? 有 0 项重复提交！</p>
+      </template>
+      <template v-else-if="obj.type == 1">
+        <p> 确定导出选中的 {{ obj.selectedRows.length }} 项? 有 0 项重复提交！ </p>
+      </template>
+      <template v-else-if="obj.type == 2">
+        <el-input></el-input>
+      </template>
+      <template v-else>
+        <p>经理电话：1548758475</p>
+      </template>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="obj.showConfirm = false">取消</el-button>
+        <el-button type="primary" @click="obj.showConfirm = false"> 确认 </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 <script lang="ts" setup>
 import api from '@/api';
+import Dialog from '@/components/Dialog.vue';
 import CommonTable from '@/components/CommonTable.vue';
 import Pagination from '@/components/Pagination.vue';
 import { claimStateMap, comStateMap } from '@/constant/object';
-import type { FormInstance, FormRules } from 'element-plus';
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
+import OrderRemark from './OrderRemark.vue';
+import OrderDetail from './OrderDetail.vue';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
 const formInlineRef = ref<FormInstance>();
 const ruleForm = reactive<any>({
@@ -96,6 +135,7 @@ const ruleForm = reactive<any>({
   endMoney: '',
   submitTime: '',
   handleTime: '',
+  sevenDay:'',
   list: [] as any[],
   total: 0,
   pageNum: 1, //当前页,从第0页开始查
@@ -153,9 +193,21 @@ const ruleForm = reactive<any>({
     {
       prop: 'operate',
       label: '操作',
+      slot: 'operate',
+      width: 200,
     },
   ],
+  showDetail: false,
+  rowInfo: {},
 });
+const obj = reactive<any>({
+  vipDay: 0,
+  balance: 0,
+  selectedRows: <any>[],
+  showConfirm: false,
+  type: 0, //0审核,1导出,2充值金额,3有效期,
+});
+const currentIndex = ref<number>(0);
 const rules = reactive<FormRules>({});
 onMounted(() => {
   getData();
@@ -175,11 +227,12 @@ const getData = async () => {
       rceTime: ruleForm.submitTime,
       disTime: ruleForm.handleTime,
       claimState: getReceiveStatus(ruleForm.receiveStatus),
-      sevenDay: '',
+      sevenDay: ruleForm.sevenDay,
     },
   });
-  const { page } = data;
-  console.log(data);
+  const { page, extra } = data;
+  obj.vipDay = extra.vipDay;
+  obj.balance = extra.balance;
   ruleForm.list = page.records;
   ruleForm.total = page.total;
 };
@@ -189,16 +242,22 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       console.log(ruleForm);
       emits('handleSubmit', ruleForm);
+      getData();
     } else {
       console.log('error submit!', fields);
     }
   });
 };
+const toSevenSubmit = () => {
+  ruleForm.sevenDay = 'sevenDay';
+  getData();
+};
 
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-
+  ruleForm.sevenDay='';
+  getData();
   emits('handleReset', ruleForm);
 };
 
@@ -248,6 +307,71 @@ const getStatus = (e: any) => {
   }
   return getStatus;
 };
+const toDetail = (e: any, index: number) => {
+  currentIndex.value = index;
+  ruleForm.showDetail = true;
+  ruleForm.rowInfo = e;
+};
+const toRemark = (_e: any, index: number) => {
+  currentIndex.value = index;
+  ruleForm.showDetail = true;
+};
+const handleClose = () => {
+  ruleForm.showDetail = false;
+};
+const handleCancel = () => {
+  ruleForm.showDetail = false;
+};
+const allCheck = () => {
+  obj.type = 0;
+  if (!obj.selectedRows.length) {
+    ElMessage({
+      message: '请选择要审核的订单',
+      type: 'error',
+      duration: 1500,
+    });
+    return;
+  }
+  obj.showConfirm = true;
+};
+const toRecharge = () => {
+  obj.type = 2;
+  obj.showConfirm = true;
+};
+const exportFile = () => {
+  obj.type = 1;
+  if (!obj.selectedRows.length) {
+    ElMessage({
+      message: '请选择要导出的订单',
+      type: 'error',
+      duration: 1500,
+    });
+    return;
+  }
+  obj.showConfirm = true;
+};
+const toConcat = () => {
+  obj.type = 3;
+  obj.showConfirm = true;
+};
+const handleSelectionChange = (rows: any) => {
+  console.log(rows);
+  obj.selectedRows = rows;
+};
+const handleCloseConfirm = () => {
+  obj.showConfirm = false;
+};
+const getTips = (type: number) => {
+  if (type == 0) {
+    return '批量审核';
+  } else if (type == 1) {
+    return '导出';
+  } else if (type == 2) {
+    return '充值金额';
+  } else {
+    return '联系经理';
+  }
+};
 </script>
 
 <style lang="scss">
@@ -257,30 +381,50 @@ const getStatus = (e: any) => {
   color: #333;
   text-align: center;
 }
+
 .table-img-bg {
   width: 60px;
   height: 60px;
   background-size: contain;
 }
+
 .type-Y {
   color: green;
 }
+
 .type-P {
   color: #f90;
 }
+
 .type-N {
   color: #f00;
 }
+
 .status-NS {
   color: #333;
 }
+
 .status-OK {
   color: green;
 }
+
 .status-TO {
   color: rgb(230, 115, 22);
 }
+
 .status-SS {
   color: rgb(9, 196, 213);
+}
+
+.operate-buttons {
+  display: flex;
+  justify-content: end;
+}
+
+.form-buttons-bar {
+  margin-bottom: 15px;
+}
+.tips {
+  cursor: pointer;
 }
 </style>
