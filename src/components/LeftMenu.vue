@@ -40,8 +40,12 @@ onBeforeMount(() => {
 .top-menu {
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
   color: #fff;
+  width: 230px;
+  @extend %width-transform;
 
   &.in {
+    width: 50px;
+
     .left {
       >p {
         width: 50px;
