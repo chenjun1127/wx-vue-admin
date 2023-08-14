@@ -107,8 +107,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
   ruleForm.startMoney = '';
   ruleForm.endMoney = ''
   formEl.resetFields();
-
-
 };
 </script>
 

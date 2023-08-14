@@ -48,7 +48,7 @@ import CommonTable from '@/components/CommonTable.vue';
 import Pagination from '@/components/Pagination.vue';
 import { statementMap } from '@/constant/object';
 import { formatTime } from '@/utils/utils';
-import { dayjs, type FormInstance, type FormRules } from 'element-plus';
+import { type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
 const formInlineRef = ref<FormInstance>();

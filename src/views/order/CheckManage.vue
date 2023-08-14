@@ -116,7 +116,7 @@ import CommonTable from '@/components/CommonTable.vue';
 import Dialog from '@/components/Dialog.vue';
 import Pagination from '@/components/Pagination.vue';
 import { claimStateMap, comStateMap } from '@/constant/object';
-import { ElMessage, dayjs, type FormInstance, type FormRules } from 'element-plus';
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import OrderDetail from './OrderDetail.vue';
 import OrderRemark from './OrderRemark.vue';
