@@ -70,6 +70,7 @@ const currentIndex = ref<number>(0);
 watch(
   () => router.currentRoute.value.path,
   (toPath) => {
+    useMenu.updateMenu();
     //要执行的方法
     const menu: Array<menuType> = menuList.filter((e) => e.path === toPath);
     //如果有多个子菜单，这里要改

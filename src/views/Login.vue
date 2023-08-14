@@ -87,8 +87,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       const { name, password } = ruleForm;
       const data = await api.login({ name, password });
       const { petName, type } = data;
-      storage.set('userInfo', { name });
-      userInfo.updateUserInfo({ petName: petName, name, role: type == 'A' ? 1 : 0 })
+      var currentUserInfo = { petName: petName, name, role: type == 'A' ? 1 : 0, online: 1 };
+      storage.set('userInfo', currentUserInfo);
+      userInfo.updateUserInfo(currentUserInfo)
       useMenu.updateMenu();
       router.push('/home');
     } else {
