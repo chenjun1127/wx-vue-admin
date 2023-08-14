@@ -1,52 +1,53 @@
 <template>
   <div class="inner">
-    <div class="check-container">
-      <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
-        <el-form-item label-width="85" prop="nickName" label="微信昵称">
-          <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px"> </el-input>
-        </el-form-item>
-        <el-form-item label-width="85" prop="phone" label="手机号码">
-          <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
-        </el-form-item>
+    <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
+      <el-form-item label-width="85" prop="nickName" label="微信昵称">
+        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px">
+        </el-input>
+      </el-form-item>
+      <el-form-item label-width="85" prop="phone" label="手机号码">
+        <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
+      </el-form-item>
 
-        <el-form-item label-width="85" prop="startMoney" label="审核金额">
-          <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
-          <span class="space-tips">-</span>
-          <el-input v-model="ruleForm.endMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
-        </el-form-item>
-        <el-form-item label-width="85" label="提交时间">
-          <el-date-picker v-model="ruleForm.submitTime" type="date" label="提交时间" placeholder="请选择" style="width: 200px" />
-        </el-form-item>
-        <el-form-item label-width="85">
-          <el-button class="custom-button-0" @click="submitForm(formInlineRef)">提交</el-button>
-          <el-button @click="resetForm(formInlineRef)">重置</el-button>
-        </el-form-item>
-      </el-form>
-      <div class="form-buttons-bar">
-        <el-button class="custom-button-3" @click="submitForm(formInlineRef)">$余额8.5元</el-button>
-        <el-button class="custom-button-3">$余额{{ obj.balance }}元</el-button>
-      </div>
-      <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange">
-        <template v-slot:wechatAvatar="slotProps">
-          <el-popover placement="right" show-arrow width="300" popper-class="table-popover" trigger="hover">
-            <template #reference>
-              <div class="table-img-bg" :style="{ backgroundImage: 'url(' + slotProps.info.wechatAvatar + ')' }"></div>
-            </template>
-            <img :src="slotProps.info.wechatAvatar" class="table-img" style="max-width: 300px" />
-          </el-popover>
-        </template>
-      </CommonTable>
-      <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
+      <el-form-item label-width="85" prop="startMoney" label="审核金额">
+        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px">
+        </el-input>
+        <span class="space-tips">-</span>
+        <el-input v-model="ruleForm.endMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
+      </el-form-item>
+      <el-form-item label-width="85" label="提交时间">
+        <el-date-picker v-model="ruleForm.submitTime" type="date" label="提交时间" placeholder="请选择" style="width: 200px" />
+      </el-form-item>
+      <el-form-item label-width="85">
+        <el-button class="custom-button-0" @click="submitForm(formInlineRef)">提交</el-button>
+        <el-button @click="resetForm(formInlineRef)">重置</el-button>
+      </el-form-item>
+    </el-form>
+    <div class="form-buttons-bar">
+      <el-button class="custom-button-3" @click="submitForm(formInlineRef)">$余额8.5元</el-button>
+      <el-button class="custom-button-3">$余额{{ obj.balance }}元</el-button>
     </div>
+    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange">
+      <template v-slot:wechatAvatar="slotProps">
+        <el-popover placement="right" show-arrow width="300" popper-class="table-popover" trigger="hover">
+          <template #reference>
+            <div class="table-img-bg" :style="{ backgroundImage: 'url(' + slotProps.info.wechatAvatar + ')' }"></div>
+          </template>
+          <img :src="slotProps.info.wechatAvatar" class="table-img" style="max-width: 300px" />
+        </el-popover>
+      </template>
+    </CommonTable>
+    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc"
+      :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
 </template>
 <script lang="ts" setup>
 import api from '@/api';
+import CommonTable from '@/components/CommonTable.vue';
+import Pagination from '@/components/Pagination.vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
-import CommonTable from '@/components/CommonTable.vue';
-import Pagination from '@/components/Pagination.vue';
 const formInlineRef = ref<FormInstance>();
 const ruleForm = reactive<any>({
   phone: '',
@@ -152,7 +153,7 @@ const handleSelectionChange = (rows: any) => {
   color: #333;
   text-align: center;
 }
+
 .form-buttons-bar {
   margin-bottom: 15px;
-}
-</style>
+}</style>
