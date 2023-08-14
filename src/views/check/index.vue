@@ -45,7 +45,8 @@
 import api from '@/api';
 import CommonTable from '@/components/CommonTable.vue';
 import Pagination from '@/components/Pagination.vue';
-import type { FormInstance, FormRules } from 'element-plus';
+import { formatTime } from '@/utils/utils';
+import { dayjs, type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
 const formInlineRef = ref<FormInstance>();
@@ -104,7 +105,7 @@ const getData = async () => {
       phone: ruleForm.phone,
       maxMoney: ruleForm.endMoney,
       minMoney: ruleForm.startMoney,
-      disTime: ruleForm.submitTime,
+      disTime: formatTime(ruleForm.submitTime),
     },
   });
   const { page, extra } = data;

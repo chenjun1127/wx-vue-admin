@@ -1,62 +1,40 @@
 <template>
-  <main class="inner">
+  <div class="inner">
     <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
-      <el-form-item label-width="85" prop="nickName" label="微信昵称">
-        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px">
-        </el-input>
+      <el-form-item label-width="85" prop="orderNum" label="订单号">
+        <el-input v-model="ruleForm.orderNum" placeholder="订单号" maxlength="18" clearable style="width: 200px"> </el-input>
       </el-form-item>
-      <el-form-item label-width="85" prop="phone" label="手机号码">
-        <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
-      </el-form-item>
-
-      <el-form-item label-width="85" prop="startMoney" label="审核金额">
-        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px">
-        </el-input>
+      <el-form-item label-width="85" prop="startMoney" label="充值金额">
+        <el-input v-model="ruleForm.startMoney" placeholder="充值金额" maxlength="18" clearable style="width: 85px"> </el-input>
         <span class="space-tips">-</span>
-        <el-input v-model="ruleForm.endMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
+        <el-input v-model="ruleForm.endMoney" placeholder="充值金额" maxlength="18" clearable style="width: 85px"> </el-input>
       </el-form-item>
-      <el-form-item label-width="85" label="提交时间">
-        <el-date-picker v-model="ruleForm.submitTime" type="date" label="提交时间" placeholder="请选择" style="width: 200px" />
+      <el-form-item label-width="85" label="创建时间">
+        <el-date-picker v-model="ruleForm.submitTime" type="date" label="创建时间" placeholder="请选择" style="width: 200px" />
       </el-form-item>
       <el-form-item label-width="85">
         <el-button class="custom-button-0" @click="submitForm(formInlineRef)">提交</el-button>
         <el-button @click="resetForm(formInlineRef)">重置</el-button>
       </el-form-item>
     </el-form>
-    <CommonTable :tableData="obj.list" :tableCol="obj.tableCol" isOrdered>
-      <template v-slot:img="slotProps">
-        <el-popover placement="right" show-arrow width="300" popper-class="table-popover" trigger="hover">
-          <template #reference>
-            <div class="table-img-bg" :style="{ backgroundImage: 'url(' + slotProps.info.img + ')' }"></div>
-          </template>
-          <img :src="slotProps.info.img" class="table-img" style="max-width: 300px" />
-        </el-popover>
-      </template>
-      <!-- <template v-slot:feedbackType="slotProps">
-        <span :class="`repair-type-${slotProps.info.feedbackType}`">{{ feedbackType[(slotProps as any).info.feedbackType]
-        }}</span>
-      </template>
-      <template v-slot:status="slotProps">
-        <span :class="`repair-status-${slotProps.info.status}`">{{ repairStatus[(slotProps as any).info.status] }}</span>
-      </template> -->
-    </CommonTable>
-    <Pagination :pageSize="obj.pageSize" :pageTotal="obj.total" @pageFunc="pageFunc" :currentPage="obj.currentPage"
-      @handleChange="handleChange"></Pagination>
-  </main>
+    <div class="form-buttons-bar">
+      <el-button class="custom-button-3">$充值金额{{ obj.balance }}元</el-button>
+    </div>
+    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange"> </CommonTable>
+    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
+  </div>
 </template>
-<script setup lang="ts">
-
+<script lang="ts" setup>
 import api from '@/api';
 import CommonTable from '@/components/CommonTable.vue';
 import Pagination from '@/components/Pagination.vue';
-import type { FormInstance, FormRules } from 'element-plus';
+import { formatTime } from '@/utils/utils';
+import { dayjs, type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
 const formInlineRef = ref<FormInstance>();
-
 const ruleForm = reactive<any>({
-  phone: '',
-  nickName: '',
+  orderNum: '',
   startMoney: '',
   endMoney: '',
   submitTime: '',
@@ -71,25 +49,16 @@ const ruleForm = reactive<any>({
       label: 'ID',
     },
     {
-      prop: 'wechatName',
-      label: '微信昵称',
+      prop: 'orderNum',
+      label: '订单号',
     },
     {
-      prop: 'wechatAvatar',
-      label: '头像',
-      slot: 'wechatAvatar',
-    },
-    {
-      prop: 'phone',
-      label: '手机号码',
-    },
-    {
-      prop: 'comMoney',
-      label: '红包金额',
+      prop: 'rechAmount',
+      label: '充值金额',
     },
     {
       prop: 'disTime',
-      label: '发送时间',
+      label: '创建时间',
     },
   ],
 });
@@ -101,15 +70,14 @@ onMounted(() => {
   getData();
 });
 const getData = async () => {
-  const data = await api.queryRedPacket({
+  const data = await api.queryReCharge({
     pages: ruleForm.pageNum,
     pageSize: ruleForm.pageSize,
     map: {
-      wechatName: ruleForm.nickName,
-      phone: ruleForm.phone,
+      orderNum: ruleForm.orderNum,
       maxMoney: ruleForm.endMoney,
       minMoney: ruleForm.startMoney,
-      disTime: ruleForm.submitTime,
+      disTime: formatTime(ruleForm.submitTime),
     },
   });
   const { page, extra } = data;
@@ -146,56 +114,20 @@ const resetForm = (formEl: FormInstance | undefined) => {
   getData();
   emits('handleReset', ruleForm);
 };
+const handleSelectionChange = (rows: any) => {
+  obj.selectedRows = rows;
+};
 </script>
-<style scoped lang="scss">
-.repair-status-0 {
-  color: #ff9900;
+
+<style lang="scss">
+.space-tips {
+  display: inline-block;
+  width: 30px;
+  color: #333;
+  text-align: center;
 }
 
-.repair-status-1 {
-  color: #db16a7;
-}
-
-.repair-status-2 {
-  color: #2ce607;
-}
-
-.repair-status-3 {
-  color: #070be6;
-}
-
-.repair-type-0 {
-  color: #ff9900;
-  border: 1px solid #ff9900;
-  padding: 2px 2px;
-  border-radius: 3px;
-}
-
-.repair-type-1 {
-  color: #db16a7;
-  border: 1px solid #db16a7;
-  padding: 2px 2px;
-  border-radius: 3px;
-}
-
-.repair-type-2 {
-  color: #2ce607;
-  border: 1px solid #2ce607;
-  padding: 2px 2px;
-  border-radius: 3px;
-}
-
-.repair-type-3 {
-  color: #070be6;
-  border: 1px solid #070be6;
-  padding: 2px 2px;
-  border-radius: 3px;
-}
-
-.repair-type-4 {
-  color: #ad0b24;
-  border: 1px solid #ad0b24;
-  padding: 2px 2px;
-  border-radius: 3px;
+.form-buttons-bar {
+  margin-bottom: 15px;
 }
 </style>

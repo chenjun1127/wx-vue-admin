@@ -2,16 +2,13 @@
   <div class="check-container">
     <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
       <el-form-item label-width="85" prop="merchantName" label="商户名称">
-        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px">
-        </el-input>
+        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px"> </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="merchantLocation" label="商户位置">
-        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px">
-        </el-input>
+        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px"> </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="nickName" label="微信昵称">
-        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px">
-        </el-input>
+        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px"> </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="phone" label="手机号码">
         <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
@@ -22,8 +19,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label-width="85" prop="startMoney" label="审核金额">
-        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px">
-        </el-input>
+        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
         <span class="space-tips">-</span>
         <el-input v-model="ruleForm.endMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
       </el-form-item>
@@ -35,8 +31,7 @@
       </el-form-item>
       <el-form-item label-width="85" prop="receiveStatus" label="领取状态">
         <el-select v-model="ruleForm.receiveStatus" placeholder="请选择" no-data-text="暂无数据" style="width: 200px">
-          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList"
-            :key="index"></el-option>
+          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList" :key="index"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label-width="85">
@@ -82,11 +77,9 @@
         </div>
       </template>
     </CommonTable>
-    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc"
-      :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
+    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
-  <Dialog :visible="ruleForm.showDetail" @handleClose="handleClose" :title="currentIndex == 0 ? '详情' : '备注'"
-    :noFooter="true">
+  <Dialog :visible="ruleForm.showDetail" @handleClose="handleClose" :title="currentIndex == 0 ? '详情' : '备注'" :noFooter="true">
     <template v-if="currentIndex == 1" #content>
       <OrderRemark @handleClose="handleClose" @handleCancel="handleCancel" />
     </template>
@@ -123,10 +116,11 @@ import CommonTable from '@/components/CommonTable.vue';
 import Dialog from '@/components/Dialog.vue';
 import Pagination from '@/components/Pagination.vue';
 import { claimStateMap, comStateMap } from '@/constant/object';
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
+import { ElMessage, dayjs, type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import OrderDetail from './OrderDetail.vue';
 import OrderRemark from './OrderRemark.vue';
+import { formatTime } from '@/utils/utils';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
 const formInlineRef = ref<FormInstance>();
 const ruleForm = reactive<any>({
@@ -213,7 +207,7 @@ const obj = reactive<any>({
   selectedRows: <any>[],
   showConfirm: false,
   type: 0, //0审核,1导出,2余额显示，3充值金额,4有效期,
-  money: 0
+  money: 0,
 });
 const currentIndex = ref<number>(0);
 const rules = reactive<FormRules>({});
@@ -232,8 +226,8 @@ const getData = async () => {
       maxMoney: ruleForm.endMoney,
       minMoney: ruleForm.startMoney,
       comState: getStatus(ruleForm.status),
-      rceTime: ruleForm.submitTime,
-      disTime: ruleForm.handleTime,
+      rceTime: formatTime(ruleForm.submitTime),
+      disTime: formatTime(ruleForm.handleTime),
       claimState: getReceiveStatus(ruleForm.receiveStatus),
       sevenDay: ruleForm.sevenDay,
     },
@@ -290,28 +284,28 @@ const getClaimStateString = (e: any) => {
 const getReceiveStatus = (e: any): string => {
   var status = '';
   if (e == '未发放') {
-    status == 'NS';
+    status = 'NS';
   } else if (e == '已领取') {
-    status == 'OK';
+    status = 'OK';
   } else if (e == '已过期') {
-    status == 'TO';
+    status = 'TO';
   } else if (e == '已发放') {
-    status == 'SS';
+    status = 'SS';
   } else {
-    status == '';
+    status = '';
   }
   return status;
 };
 const getStatus = (e: any) => {
   var status = '';
   if (e == '已审核') {
-    status == 'Y';
+    status = 'Y';
   } else if (e == '待审核') {
-    status == 'P';
+    status = 'P';
   } else if (e == '已拒绝') {
-    status == 'N';
+    status = 'N';
   } else {
-    status == '';
+    status = '';
   }
   return getStatus;
 };
@@ -364,7 +358,7 @@ const toConcat = () => {
 };
 const updateMoney = async () => {
   obj.type = 2;
-}
+};
 const handleSelectionChange = (rows: any) => {
   obj.selectedRows = rows;
 };
@@ -380,9 +374,8 @@ const handleTypeConfirm = async () => {
     var list = obj.selectedRows.map((e: { id: any }) => e.id);
     await api.exportOrderInfo(list);
   } else if (obj.type == 3) {
-    await api.moneyRecharge(obj.money)
+    await api.moneyRecharge(obj.money);
   } else if (obj.type == 2) {
-
   }
 };
 const getTips = (type: number) => {

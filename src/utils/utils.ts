@@ -1,3 +1,5 @@
+import { dayjs } from 'element-plus';
+
 // arr是传入的数组
 export function groupByDesc(arr: Array<string>) {
   const [...zhCN] = '阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫杂';
@@ -17,7 +19,7 @@ export function groupByDesc(arr: Array<string>) {
     return 22;
   }
 
-  arr.forEach(item => {
+  arr.forEach((item) => {
     let hashCode = isChinese.test(item) ? desc[findIndex(item)] : EN[findIndex(item)];
     isSpecial.test(item) ? (hashCode = '#') : '';
     if (!hashMap[hashCode]) {
@@ -36,7 +38,7 @@ export function splitThousandSeparator(num: number): string {
   }
   let DIGIT_PATTERN = /(^|\s)\d+(?=\.?\d*($|\s))/g;
   let MILI_PATTERN = /(?=(?!\b)(\d{3})+\.?\b)/g;
-  let str: string = num.toString().replace(DIGIT_PATTERN, m => m.replace(MILI_PATTERN, ','));
+  let str: string = num.toString().replace(DIGIT_PATTERN, (m) => m.replace(MILI_PATTERN, ','));
   return prefix + str;
 }
 
@@ -49,3 +51,10 @@ export function getQueryString(name: any) {
   r = null;
   return context == null || context == '' || context == 'undefined' ? '' : context;
 }
+
+export const formatTime = (time: string): string => {
+  if (time == '' || !time) {
+    return '';
+  }
+  return dayjs(time).format('YYYY-MM-DD');
+};

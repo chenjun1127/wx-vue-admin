@@ -5,7 +5,7 @@ enum URL {
   logout = '/user/logout',
   userAdd = '/user/add',
   userProfile = '/user/show',
-  userUpdate='/user/update',
+  userUpdate = '/user/update',
   order = '/comment/select',
   todayShow = '/dcc/show',
   batchUpdate = '/comment/batchUpdate',
@@ -13,6 +13,8 @@ enum URL {
   queryRedPacket = '/redpacket/select',
   moneyRecharge = '/comment/recharge',
   moneyUpdate = '/comment/updateM',
+  queryReCharge = '/recharge/select',
+  queryTotalSelect = '/total/select',
 }
 const api = {
   login: (data: LoginData) => {
@@ -47,6 +49,12 @@ const api = {
   },
   updateUser: (data: any) => {
     return $axios.post<any>(URL.userUpdate, data);
+  },
+  queryReCharge: (data: any) => {
+    return $axios.post<any>(URL.queryReCharge, data);
+  },
+  queryTotalSelect: (data: any) => {
+    return $axios.post<any>(URL.queryTotalSelect, data);
   },
 };
 export default api;
