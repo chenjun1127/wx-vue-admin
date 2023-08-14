@@ -2,13 +2,16 @@
   <div class="check-container">
     <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
       <el-form-item label-width="85" prop="merchantName" label="商户名称">
-        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="merchantLocation" label="商户位置">
-        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="nickName" label="微信昵称">
-        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="phone" label="手机号码">
         <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
@@ -19,7 +22,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label-width="85" prop="startMoney" label="审核金额">
-        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
+        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px">
+        </el-input>
         <span class="space-tips">-</span>
         <el-input v-model="ruleForm.endMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
       </el-form-item>
@@ -31,7 +35,8 @@
       </el-form-item>
       <el-form-item label-width="85" prop="receiveStatus" label="领取状态">
         <el-select v-model="ruleForm.receiveStatus" placeholder="请选择" no-data-text="暂无数据" style="width: 200px">
-          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList" :key="index"></el-option>
+          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList"
+            :key="index"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label-width="85">
@@ -42,10 +47,10 @@
     <div class="form-buttons-bar">
       <el-button class="custom-button-1" color="red" @click="allCheck">批量审核</el-button>
       <el-button class="custom-button-2" @click="exportFile">导出</el-button>
-      <el-button class="custom-button-3">$余额{{ obj.balance }}元</el-button>
+      <el-button class="custom-button-3" @click="updateMoney">$余额{{ obj.balance }}元</el-button>
       <el-button @click="toRecharge">$冲值金额</el-button>
       <div class="tips" @click="toConcat">有效期{{ obj.vipDay }}天</div>
-      <el-button class="custom-button-4" @click="toSevenSubmit(formInlineRef)">7天内重复订单</el-button>
+      <el-button class="custom-button-4" @click="toSevenSubmit">7天内重复订单</el-button>
     </div>
     <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange">
       <template v-slot:wechatAvatar="slotProps">
@@ -77,14 +82,16 @@
         </div>
       </template>
     </CommonTable>
-    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
+    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc"
+      :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
-  <Dialog :visible="ruleForm.showDetail" @handleClose="handleClose" :title="currentIndex == 0 ? '详情' : '备注'" :noFooter="true">
+  <Dialog :visible="ruleForm.showDetail" @handleClose="handleClose" :title="currentIndex == 0 ? '详情' : '备注'"
+    :noFooter="true">
     <template v-if="currentIndex == 1" #content>
       <OrderRemark @handleClose="handleClose" @handleCancel="handleCancel" />
     </template>
-    <template v-else #content>
-      <OrderDetail :info="ruleForm.rowInfo" />
+    <template #content>
+      <OrderDetail :info="ruleForm.rowInfo"></OrderDetail>
     </template>
   </Dialog>
   <el-dialog v-model="obj.showConfirm" :title="getTips(obj.type)" width="30%" :before-close="handleCloseConfirm">
@@ -95,8 +102,8 @@
       <template v-else-if="obj.type == 1">
         <p> 确定导出选中的 {{ obj.selectedRows.length }} 项? 有 0 项重复提交！ </p>
       </template>
-      <template v-else-if="obj.type == 2">
-        <el-input></el-input>
+      <template v-else-if="obj.type == 3">
+        <el-input v-model="obj.money"></el-input>
       </template>
       <template v-else>
         <p>经理电话：1548758475</p>
@@ -112,14 +119,14 @@
 </template>
 <script lang="ts" setup>
 import api from '@/api';
-import Dialog from '@/components/Dialog.vue';
 import CommonTable from '@/components/CommonTable.vue';
+import Dialog from '@/components/Dialog.vue';
 import Pagination from '@/components/Pagination.vue';
 import { claimStateMap, comStateMap } from '@/constant/object';
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
-import OrderRemark from './OrderRemark.vue';
 import OrderDetail from './OrderDetail.vue';
+import OrderRemark from './OrderRemark.vue';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
 const formInlineRef = ref<FormInstance>();
 const ruleForm = reactive<any>({
@@ -205,7 +212,8 @@ const obj = reactive<any>({
   balance: 0,
   selectedRows: <any>[],
   showConfirm: false,
-  type: 0, //0审核,1导出,2充值金额,3有效期,
+  type: 0, //0审核,1导出,2余额显示，3充值金额,4有效期,
+  money: 0
 });
 const currentIndex = ref<number>(0);
 const rules = reactive<FormRules>({});
@@ -335,7 +343,7 @@ const allCheck = () => {
   obj.showConfirm = true;
 };
 const toRecharge = () => {
-  obj.type = 2;
+  obj.type = 3;
   obj.showConfirm = true;
 };
 const exportFile = () => {
@@ -351,9 +359,12 @@ const exportFile = () => {
   obj.showConfirm = true;
 };
 const toConcat = () => {
-  obj.type = 3;
+  obj.type = 4;
   obj.showConfirm = true;
 };
+const updateMoney = async () => {
+  obj.type = 2;
+}
 const handleSelectionChange = (rows: any) => {
   obj.selectedRows = rows;
 };
@@ -368,6 +379,10 @@ const handleTypeConfirm = async () => {
   } else if (obj.type == 1) {
     var list = obj.selectedRows.map((e: { id: any }) => e.id);
     await api.exportOrderInfo(list);
+  } else if (obj.type == 3) {
+    await api.moneyRecharge(obj.money)
+  } else if (obj.type == 2) {
+
   }
 };
 const getTips = (type: number) => {
@@ -433,6 +448,7 @@ const getTips = (type: number) => {
 .form-buttons-bar {
   margin-bottom: 15px;
 }
+
 .tips {
   cursor: pointer;
 }

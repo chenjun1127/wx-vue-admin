@@ -5,11 +5,14 @@ enum URL {
   logout = '/user/logout',
   userAdd = '/user/add',
   userProfile = '/user/show',
+  userUpdate='/user/update',
   order = '/comment/select',
   todayShow = '/dcc/show',
   batchUpdate = '/comment/batchUpdate',
   exportOrderInfo = '/comment/download',
-  queryRedPacket='/redpacket/select'
+  queryRedPacket = '/redpacket/select',
+  moneyRecharge = '/comment/recharge',
+  moneyUpdate = '/comment/updateM',
 }
 const api = {
   login: (data: LoginData) => {
@@ -35,6 +38,15 @@ const api = {
   },
   queryRedPacket: (data: any) => {
     return $axios.post<any>(URL.queryRedPacket, data);
-  }, 
+  },
+  moneyRecharge: (money: number) => {
+    return $axios.get<any>(URL.moneyRecharge + '?money=' + money);
+  },
+  updateMoney: (data: any) => {
+    return $axios.post<any>(URL.moneyUpdate, data);
+  },
+  updateUser: (data: any) => {
+    return $axios.post<any>(URL.userUpdate, data);
+  },
 };
 export default api;

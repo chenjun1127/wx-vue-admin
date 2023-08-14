@@ -2,9 +2,10 @@
   <div class="form-content">
     <div class="form-content-img">
       <div><img src="../../assets/images/avatar.png" alt="" /></div>
-      <h1>13480653254</h1>
+      <!-- <h1>13480653254</h1> -->
     </div>
-    <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm" :size="formSize" status-icon>
+    <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm" :size="formSize"
+      status-icon>
       <el-form-item label="用户名" prop="name">
         <el-input v-model="ruleForm.name" disabled />
       </el-form-item>
@@ -47,13 +48,16 @@ const ruleForm = reactive<RuleForm>({
   nickName: '',
   password: '',
 });
-onMounted(async () => {
+onMounted(() => {
+  getUser();
+});
+const getUser = async () => {
   const { name, email, petName, password } = await api.getUserProfile();
   ruleForm.name = name;
   ruleForm.emailPlaceHolder = email ?? '';
   ruleForm.nickNamePlaceHolder = petName;
   ruleForm.passwordPlaceHolder = password;
-});
+}
 const rules = reactive<FormRules<RuleForm>>({
   email: [
     { required: true, message: '邮箱不能为空', trigger: 'blur' },
@@ -69,13 +73,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      console.log('submit!', ruleForm);
-      await api.addUser({
+      await api.updateUser({
         name: ruleForm.name,
         email: ruleForm.email,
         petName: ruleForm.nickName == '' ? ruleForm.nickNamePlaceHolder : '',
         password: ruleForm.password == '' ? ruleForm.passwordPlaceHolder : '',
       });
+      getUser()
     } else {
       console.log('error submit!', fields);
     }
@@ -97,7 +101,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   margin-bottom: 20px;
 }
 
-.form-content-img > div {
+.form-content-img>div {
   width: 100px;
   height: 100px;
   display: block;
