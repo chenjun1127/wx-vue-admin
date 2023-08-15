@@ -15,7 +15,9 @@ enum URL {
   moneyUpdate = '/comment/updateM',
   queryReCharge = '/recharge/select',
   queryTotalSelect = '/total/select',
-  queryMerchant='/user/findpage',
+  queryMerchant = '/user/findpage',
+  userReset = '/user/repswd',
+  userDel = '/user/delet',
 }
 const api = {
   login: (data: LoginData) => {
@@ -29,6 +31,9 @@ const api = {
   },
   addUser: (data: any) => {
     return $axios.post<any>(URL.userAdd, data);
+  },
+  resetUser: (id: string | number) => {
+    return $axios.get<any>(URL.userReset + '?id=' + id);
   },
   getOrder: (data: any) => {
     return $axios.post<any>(URL.order, data);
@@ -59,6 +64,9 @@ const api = {
   },
   queryMerchant: (data: any) => {
     return $axios.post<any>(URL.queryMerchant, data);
+  },
+  userDel: (id: string | number) => {
+    return $axios.get<any>(URL.userDel + '?id=' + id);
   },
 };
 export default api;

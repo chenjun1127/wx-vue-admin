@@ -47,7 +47,7 @@
       <div class="tips" @click="toConcat">有效期{{ obj.vipDay }}天</div>
       <el-button class="custom-button-4" @click="toSevenSubmit">7天内重复订单</el-button>
     </div>
-    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange">
+    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange" isShowSelection>
       <template v-slot:wechatAvatar="slotProps">
         <el-popover placement="right" show-arrow width="300" popper-class="table-popover" trigger="hover">
           <template #reference>

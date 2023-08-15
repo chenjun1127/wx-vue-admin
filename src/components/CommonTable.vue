@@ -3,7 +3,7 @@
     @selection-change="handleSelectionChange" @row-click="handleRowClick"
     :header-cell-style="{ background: '#222d32', color: '#fff' }" tooltip-effect="dark"
     :row-class-name="tableRowClassName">
-    <el-table-column type="selection" width="55"></el-table-column>
+    <el-table-column type="selection" width="55" v-if="isShowSelection"></el-table-column>
     <el-table-column type="index" label="序号" width="60" v-if="isOrdered"></el-table-column>
     <el-table-column :show-overflow-tooltip="true" v-for="(item, index) in tableCol" :key="index" :prop="item.prop"
       :width="item.width" :label="item.label" :align="index === tableCol.length - 1 ? 'right' : 'center'">
@@ -29,6 +29,10 @@ const handleRowClick = (row: any) => {
 };
 defineProps({
   isOrdered: {
+    default: false,
+    type: Boolean,
+  },
+  isShowSelection: {
     default: false,
     type: Boolean,
   },

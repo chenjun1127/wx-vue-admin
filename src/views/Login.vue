@@ -111,7 +111,7 @@ const getCode = (value: any) => {
 <style scoped lang="scss">
 .login {
   width: 430px;
-  height: 600px;
+  height: 520px;
   background-color: #fff;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
   top: 50%;
