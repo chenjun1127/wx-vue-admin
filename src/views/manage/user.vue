@@ -2,7 +2,8 @@
   <div class="inner">
     <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
       <el-form-item label-width="85" prop="nickName" label="微信昵称">
-        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="phone" label="手机号码">
         <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
@@ -16,16 +17,19 @@
     </el-form>
 
     <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange">
-      <template v-slot:wechatAvatar="slotProps">
-        <el-popover placement="right" show-arrow width="300" popper-class="table-popover" trigger="hover">
-          <template #reference>
-            <div class="table-img-bg" :style="{ backgroundImage: 'url(' + slotProps.info.wechatAvatar + ')' }"></div>
-          </template>
-          <img :src="slotProps.info.wechatAvatar" class="table-img" style="max-width: 300px" />
-        </el-popover>
+      <template v-slot:type="slotProps">
+        <span :class="`type-${slotProps.info.type}`">{{ getUserType(slotProps.info.type) }}</span>
+      </template>
+      <template v-slot:operate="slotProps">
+        <div style="operate-buttons">
+          <el-button type="primary" size="small" @click="toEdit(slotProps.info, 0)">编辑</el-button>
+          <el-button type="danger" size="small" @click="toDel(slotProps.info, 1)">删除</el-button>
+          <el-button type="success" size="small" @click="toReset(slotProps.info, 2)">重置密码</el-button>
+        </div>
       </template>
     </CommonTable>
-    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
+    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc"
+      :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
   <Dialog :visible="ruleForm.showDetail" title="添加用户" @handleClose="handleCloseDialog" :noFooter="true">
     <template #content>
@@ -34,12 +38,12 @@
   </Dialog>
 </template>
 <script lang="ts" setup>
-import Dialog from '@/components/Dialog.vue';
 import api from '@/api';
 import CommonTable from '@/components/CommonTable.vue';
+import Dialog from '@/components/Dialog.vue';
 import Pagination from '@/components/Pagination.vue';
-import { formatTime } from '@/utils/utils';
-import { type FormInstance, type FormRules } from 'element-plus';
+import { userType } from '@/constant/object';
+import { Action, ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import AddUser from './AddUser.vue';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
@@ -61,25 +65,31 @@ const ruleForm = reactive<any>({
       label: 'ID',
     },
     {
-      prop: 'wechatName',
-      label: '微信昵称',
+      prop: 'name',
+      label: '用户名',
     },
     {
-      prop: 'wechatAvatar',
-      label: '头像',
-      slot: 'wechatAvatar',
+      prop: 'type',
+      label: '类型',
+      slot: 'type',
     },
     {
       prop: 'phone',
       label: '手机号码',
     },
     {
-      prop: 'comMoney',
-      label: '红包金额',
+      prop: 'email',
+      label: '邮箱',
     },
     {
       prop: 'disTime',
-      label: '发送时间',
+      label: '创建时间',
+    },
+    {
+      prop: 'operate',
+      label: '操作',
+      slot: 'operate',
+      width: 200,
     },
   ],
   showDetail: false,
@@ -92,15 +102,12 @@ onMounted(() => {
   getData();
 });
 const getData = async () => {
-  const data = await api.queryRedPacket({
+  const data = await api.queryMerchant({
     pages: ruleForm.pageNum,
     pageSize: ruleForm.pageSize,
     map: {
       wechatName: ruleForm.nickName,
       phone: ruleForm.phone,
-      maxMoney: ruleForm.endMoney,
-      minMoney: ruleForm.startMoney,
-      disTime: formatTime(ruleForm.submitTime),
     },
   });
   const { page, extra } = data;
@@ -130,7 +137,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
-
+const getUserType = (e: any) => {
+  if (e == 'A') {
+    return userType['A']
+  } else if (e == 'P') {
+    return userType['P']
+  } else {
+    return '未知'
+  }
+}
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
@@ -153,6 +168,26 @@ const handleClose = () => {
 const handleCloseDialog = () => {
   ruleForm.showDetail = false;
 };
+const toEdit = (info: any, index: number) => {
+  console.log(info, index)
+  ElMessageBox.alert('This is a message', 'Title', {
+    // if you want to disable its autofocus
+    // autofocus: false,
+    confirmButtonText: 'OK',
+    callback: (action: Action) => {
+      ElMessage({
+        type: 'info',
+        message: `action: ${action}`,
+      })
+    },
+  })
+}
+const toDel = (info: any, index: number) => {
+  console.log(info, index)
+}
+const toReset = (info: any, index: number) => {
+  console.log(info, index)
+}
 </script>
 
 <style lang="scss">

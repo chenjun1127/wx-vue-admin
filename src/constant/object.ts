@@ -20,3 +20,8 @@ export const statementMap = {
   S: '手续费',
   B: '红包退回',
 };
+
+export const userType = {
+  A: '超级管理员',
+  P: '普通商户',
+};

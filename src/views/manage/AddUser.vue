@@ -32,6 +32,7 @@
   </el-form>
 </template>
 <script lang="ts" setup>
+import { userType } from '@/constant/object';
 import type { FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 const ruleFormRef = ref<FormInstance>();
@@ -43,7 +44,7 @@ const ruleForm = reactive({
   vip: '0',
   vipDay: '10',
   type: '',
-  roleList: ['超级管理员', '普通商户'],
+  roleList: Object.values(userType),
   role: '',
 });
 const props = defineProps({

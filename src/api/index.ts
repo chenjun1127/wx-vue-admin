@@ -15,6 +15,7 @@ enum URL {
   moneyUpdate = '/comment/updateM',
   queryReCharge = '/recharge/select',
   queryTotalSelect = '/total/select',
+  queryMerchant='/user/findpage',
 }
 const api = {
   login: (data: LoginData) => {
@@ -55,6 +56,9 @@ const api = {
   },
   queryTotalSelect: (data: any) => {
     return $axios.post<any>(URL.queryTotalSelect, data);
+  },
+  queryMerchant: (data: any) => {
+    return $axios.post<any>(URL.queryMerchant, data);
   },
 };
 export default api;
