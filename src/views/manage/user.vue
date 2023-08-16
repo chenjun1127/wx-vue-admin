@@ -187,17 +187,24 @@ const handleClose = async (info: any) => {
     petName: info.petName,
     password: info.password,
     type: getTypeString(info.role),
-    vip: 'P',
-    vipDay: info.vipDay,
     phone: info.phone,
+    balance: info.balance,
+    redType:info.redType,
   };
+  var vipMap = {} as any;
+  if (info.vip == '1') {
+    vipMap.vip = 'P';
+    vipMap.vipDay = info.vipDay;
+  } else {
+    vipMap.vip = 'F';
+  }
 
   ruleForm.showDetail = false;
   var map = {} as any;
   if (obj.type == 1) {
     map['id'] = obj.currentInfo.id;
   }
-  await api.addUser({ ...params, ...map });
+  await api.addUser({ ...params, ...map, ...vipMap });
   getData();
 };
 const handleCloseDialog = () => {
