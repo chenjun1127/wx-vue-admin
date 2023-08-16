@@ -21,7 +21,7 @@
 import type { FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 const ruleFormRef = ref<FormInstance>();
-const emits = defineEmits(['handleClose', 'handleCancel']);
+// const emits = defineEmits(['handleClose', 'handleCancel']);
 const form = reactive({
   name: '',
   orderNo: '',
@@ -58,22 +58,22 @@ const rules = reactive<FormRules>({
   ],
 });
 
-const submitForm = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      emits('handleClose');
-      console.log('submit!' + form.name);
-    } else {
-      console.log('error submit!', fields);
-    }
-  });
-};
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-  emits('handleCancel');
-};
+// const submitForm = async (formEl: FormInstance | undefined) => {
+//   if (!formEl) return;
+//   await formEl.validate((valid, fields) => {
+//     if (valid) {
+//       emits('handleClose');
+//       console.log('submit!' + form.name);
+//     } else {
+//       console.log('error submit!', fields);
+//     }
+//   });
+// };
+// const resetForm = (formEl: FormInstance | undefined) => {
+//   if (!formEl) return;
+//   formEl.resetFields();
+//   emits('handleCancel');
+// };
 </script>
 <style scoped>
 .order-pic {

@@ -116,11 +116,11 @@ import CommonTable from '@/components/CommonTable.vue';
 import Dialog from '@/components/Dialog.vue';
 import Pagination from '@/components/Pagination.vue';
 import { claimStateMap, comStateMap } from '@/constant/object';
+import { formatTime } from '@/utils/utils';
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import OrderDetail from './OrderDetail.vue';
 import OrderRemark from './OrderRemark.vue';
-import { formatTime } from '@/utils/utils';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
 const formInlineRef = ref<FormInstance>();
 const ruleForm = reactive<any>({
@@ -307,7 +307,7 @@ const getStatus = (e: any) => {
   } else {
     status = '';
   }
-  return getStatus;
+  return status;
 };
 const toDetail = (e: any, index: number) => {
   currentIndex.value = index;
