@@ -62,18 +62,18 @@ export default defineConfig({
   },
   build: {
    
-    rollupOptions:{
-      output: {
-        chunkFileNames: 'js/[name]-[hash].js',
-        entryFileNames: 'js/[name]-[hash].js',
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name.endsWith('.css')) {
-            return `css/[name].[hash][ext]`;
-          }
-          return `images/[name].[hash][ext]`;
-        },
-      }, 
-    },
+    // rollupOptions:{
+    //   output: {
+    //     chunkFileNames: 'js/[name]-[hash].js',
+    //     entryFileNames: 'js/[name]-[hash].js',
+    //     assetFileNames: (assetInfo) => {
+    //       if (assetInfo.name.endsWith('.css')) {
+    //         return `css/[name].[hash][ext]`;
+    //       }
+    //       return `images/[name].[hash][ext]`;
+    //     },
+    //   }, 
+    // },
    
     minify: 'terser', // 必须开启：使用terserOptions才有效果
     terserOptions: {
