@@ -99,3 +99,17 @@ services:
     environment:
       - TZ=Asia/Shanghai
 ```
+#### docker-compose 重新部署应用
+1、停止并删除容器
+```bash
+docker stop containerId
+docker rm containerId
+```
+或者
+```bash
+docker-compose down
+```
+2、启动服务：重新启动服务
+```bash
+docker-compose up -d
+```
