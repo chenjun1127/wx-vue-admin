@@ -58,3 +58,7 @@ export const formatTime = (time: string): string => {
   }
   return dayjs(time).format('YYYY-MM-DD');
 };
+
+export function valueIsNaN(value: number) { 
+  return typeof value === 'number' && !isNaN(value);
+}

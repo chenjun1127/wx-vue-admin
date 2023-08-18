@@ -2,13 +2,16 @@
   <div class="check-container">
     <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
       <el-form-item label-width="85" prop="merchantName" label="商户名称">
-        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="merchantLocation" label="商户位置">
-        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="nickName" label="微信昵称">
-        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="phone" label="手机号码">
         <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
@@ -19,7 +22,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label-width="85" prop="startMoney" label="审核金额">
-        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
+        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px">
+        </el-input>
         <span class="space-tips">-</span>
         <el-input v-model="ruleForm.endMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
       </el-form-item>
@@ -31,7 +35,8 @@
       </el-form-item>
       <el-form-item label-width="85" prop="receiveStatus" label="领取状态">
         <el-select v-model="ruleForm.receiveStatus" placeholder="请选择" no-data-text="暂无数据" style="width: 200px">
-          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList" :key="index"></el-option>
+          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList"
+            :key="index"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label-width="85">
@@ -47,7 +52,8 @@
       <div class="tips" @click="toConcat">有效期{{ obj.vipDay }}天</div>
       <el-button class="custom-button-4" @click="toSevenSubmit">7天内重复订单</el-button>
     </div>
-    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange" isShowSelection>
+    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange"
+      isShowSelection>
       <template v-slot:wechatAvatar="slotProps">
         <el-popover placement="right" show-arrow width="300" popper-class="table-popover" trigger="hover">
           <template #reference>
@@ -72,19 +78,29 @@
       </template>
       <template v-slot:operate="slotProps">
         <div style="operate-buttons">
-          <el-button type="primary" size="small" @click="toDetail(slotProps.info, 0)">订单详情</el-button>
-          <el-button size="small" @click="toRemark(slotProps.info, 1)">备注</el-button>
+          <template v-if="slotProps.info.comState == 'P'">
+            <el-button type="success" size="small" :icon="Select" @click="toCheck(slotProps.info)">审核</el-button>
+            <el-button size="small" type="danger" :icon="CloseBold" @click="toRefuse(slotProps.info, 2)">拒绝</el-button>
+            <el-button size="small" @click="toUpdate(slotProps.info, 3)">修改金额</el-button>
+          </template>
+          <template v-else>
+            <el-button type="primary" size="small" @click="toDetail(slotProps.info, 0)">订单详情</el-button>
+            <el-button size="small" @click="toRemark(slotProps.info, 1)">备注</el-button>
+          </template>
         </div>
       </template>
     </CommonTable>
-    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
+    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc"
+      :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
-  <Dialog :visible="ruleForm.showDetail" @handleClose="handleClose" :title="currentIndex == 0 ? '详情' : '备注'" :noFooter="true">
-    <template v-if="currentIndex == 1" #content>
-      <OrderRemark @handleClose="handleClose" @handleCancel="handleCancel" />
-    </template>
+  <Dialog :width="getWidth" :visible="ruleForm.showDetail" @handleClose="handleClose" :title="getTitle" :noFooter="true">
     <template #content>
-      <OrderDetail :info="ruleForm.rowInfo"></OrderDetail>
+      <OrderRemark v-if="currentIndex == 1" @handleClose="handleClose" @handleCancel="handleCancel" />
+      <OrderDetail v-else-if="currentIndex == 0" :info="ruleForm.rowInfo"></OrderDetail>
+      <OrderRefuse v-else-if="currentIndex == 2" :info="ruleForm.rowInfo" @handleClose="handleClose"
+        @handleCancel="handleCancel"></OrderRefuse>
+      <OrderMoney v-else-if="currentIndex == 3" :info="ruleForm.rowInfo" @handleClose="handleClose"
+        @handleCancel="handleCancel"></OrderMoney>
     </template>
   </Dialog>
   <el-dialog v-model="obj.showConfirm" :title="getTips(obj.type)" width="30%" :before-close="handleCloseConfirm">
@@ -117,9 +133,12 @@ import Dialog from '@/components/Dialog.vue';
 import Pagination from '@/components/Pagination.vue';
 import { claimStateMap, comStateMap } from '@/constant/object';
 import { formatTime } from '@/utils/utils';
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
-import { onMounted, reactive, ref } from 'vue';
+import { CloseBold, Select } from '@element-plus/icons-vue';
+import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus';
+import { computed, onMounted, reactive, ref } from 'vue';
 import OrderDetail from './OrderDetail.vue';
+import OrderMoney from './OrderMoney.vue';
+import OrderRefuse from './OrderRefuse.vue';
 import OrderRemark from './OrderRemark.vue';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
 const formInlineRef = ref<FormInstance>();
@@ -195,7 +214,7 @@ const ruleForm = reactive<any>({
       prop: 'operate',
       label: '操作',
       slot: 'operate',
-      width: 200,
+      width: 240,
     },
   ],
   showDetail: false,
@@ -209,6 +228,26 @@ const obj = reactive<any>({
   type: 0, //0审核,1导出,2余额显示，3充值金额,4有效期,
   money: 0,
 });
+const getTitle = computed(() => {
+  if (currentIndex.value == 0) {
+    return '详情';
+  } else if (currentIndex.value == 1) {
+    return '备注';
+  } else if (currentIndex.value == 2) {
+    return '拒绝理由'
+  } else {
+    return '修改金额'
+  }
+})
+const getWidth = computed(() => {
+  if (currentIndex.value == 2) {
+    return '580';
+  } else if (currentIndex.value == 3) {
+    return '400';
+  } else {
+    return '50%'
+  }
+})
 const currentIndex = ref<number>(0);
 const rules = reactive<FormRules>({});
 onMounted(() => {
@@ -318,8 +357,41 @@ const toRemark = (_e: any, index: number) => {
   currentIndex.value = index;
   ruleForm.showDetail = true;
 };
-const handleClose = () => {
+const toCheck = (e: any) => {
+  ElMessageBox.confirm('您确定通过审核?', '信息', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(async () => {
+      await api.userDel(e.id);
+      getData();
+    })
+    .catch(() => { });
+};
+const toRefuse = (e: any, index: number) => {
+  currentIndex.value = index;
+  ruleForm.showDetail = true;
+  ruleForm.rowInfo = e;
+};
+const toUpdate = (e: any, index: number) => {
+  currentIndex.value = index;
+  ruleForm.showDetail = true;
+  ruleForm.rowInfo = e;
+};
+
+
+
+
+const handleClose = (e: any) => {
   ruleForm.showDetail = false;
+  if (currentIndex.value == 2) {
+    console.log(e);
+    api.refuse({ id: ruleForm.rowInfo.id, });
+  } else if (currentIndex.value == 3) {
+    api.updateMoney({ id: ruleForm.rowInfo.id, comState: ruleForm.rowInfo.comState, comMoney: e });
+  }
+  getData()
 };
 const handleCancel = () => {
   ruleForm.showDetail = false;

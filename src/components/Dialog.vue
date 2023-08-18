@@ -1,6 +1,6 @@
 <template>
-  <el-dialog class="el-dialog-common" :title="title" :model-value="visible" :before-close="handleClose" append-to-body
-    :close-on-click-modal="true">
+  <el-dialog :width="width" class="el-dialog-common" :title="title" :model-value="visible" :before-close="handleClose"
+    append-to-body :close-on-click-modal="true">
     <slot v-if="visibleSlot" name="content"></slot>
     <div slot="footer" class="dialog-footer" v-if="!noFooter">
       <div class="el-dialog-footer">
@@ -10,9 +10,13 @@
     </div>
   </el-dialog>
 </template>
-<script lang="ts" setup> 
+<script lang="ts" setup>
 const emits = defineEmits(['handleClose', 'handleCancel']);
 defineProps({
+  width: {
+    default: '50%',
+    type: String || Number,
+  },
   title: {
     default: 'title',
     type: String,

@@ -18,6 +18,7 @@ enum URL {
   queryMerchant = '/user/findpage',
   userReset = '/user/repswd',
   userDel = '/user/delet',
+  refuse = '/comment/refuse',
 }
 const api = {
   login: (data: LoginData) => {
@@ -67,6 +68,9 @@ const api = {
   },
   userDel: (id: string | number) => {
     return $axios.get<any>(URL.userDel + '?id=' + id);
+  },
+  refuse: (data: any) => {
+    return $axios.post<any>(URL.refuse, data);
   },
 };
 export default api;
