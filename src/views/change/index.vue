@@ -33,10 +33,10 @@
       </el-form-item>
     </el-form>
     <div class="form-buttons-bar">
-      <el-button class="custom-button-3">$红包金额{{ obj.redPack }}元</el-button>
-      <el-button class="custom-button-3">$充值金额{{ obj.recharge }}元</el-button>
-      <el-button class="custom-button-3">$手续费扣款{{ obj.commission }}元</el-button>
-      <el-button class="custom-button-3">$红包退回{{ obj.redBack }}元</el-button>
+      <el-button class="custom-button-3">$红包金额：{{ obj.redPack }}元</el-button>
+      <el-button class="custom-button-3">$充值金额：{{ obj.recharge }}元</el-button>
+      <el-button class="custom-button-3">$手续费扣款：{{ obj.commission }}元</el-button>
+      <el-button class="custom-button-3">$红包退回：{{ obj.redBack }}元</el-button>
     </div>
     <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange"> </CommonTable>
     <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>

@@ -2,16 +2,14 @@
   <div class="inner">
     <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
       <el-form-item label-width="85" prop="nickName" label="微信昵称">
-        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px">
-        </el-input>
+        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px"> </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="phone" label="手机号码">
         <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
       </el-form-item>
 
       <el-form-item label-width="85" prop="startMoney" label="审核金额">
-        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px">
-        </el-input>
+        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
         <span class="space-tips">-</span>
         <el-input v-model="ruleForm.endMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
       </el-form-item>
@@ -24,21 +22,21 @@
       </el-form-item>
     </el-form>
     <div class="form-buttons-bar">
-      <el-button class="custom-button-3" @click="submitForm(formInlineRef)">$余额8.5元</el-button>
-      <el-button class="custom-button-3">$余额{{ obj.balance }}元</el-button>
+      <!-- <el-button class="custom-button-3" @click="submitForm(formInlineRef)">$余额8.5元</el-button> -->
+      <el-button class="custom-button-3">$发送红包余额：{{ obj.redMoneys }}元</el-button>
+      <el-button class="custom-button-3">$发送红包个数：{{ obj.redNumber }}个</el-button>
     </div>
     <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange">
       <template v-slot:wechatAvatar="slotProps">
-        <el-popover placement="right" show-arrow width="300" popper-class="table-popover" trigger="hover">
+        <el-popover placement="right" show-arrow width="240" popper-class="table-popover" trigger="hover">
           <template #reference>
             <div class="table-img-bg" :style="{ backgroundImage: 'url(' + slotProps.info.wechatAvatar + ')' }"></div>
           </template>
-          <img :src="slotProps.info.wechatAvatar" class="table-img" style="max-width: 300px" />
+          <img :src="slotProps.info.wechatAvatar" class="table-img" />
         </el-popover>
       </template>
     </CommonTable>
-    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc"
-      :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
+    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
 </template>
 <script lang="ts" setup>
@@ -91,6 +89,8 @@ const ruleForm = reactive<any>({
 });
 const obj = reactive<any>({
   selectedRows: <any>[],
+  redMoneys: 0,
+  redNumber: 0,
 });
 const rules = reactive<FormRules>({});
 onMounted(() => {
@@ -109,8 +109,8 @@ const getData = async () => {
     },
   });
   const { page, extra } = data;
-  obj.vipDay = extra.vipDay;
-  obj.balance = extra.balance;
+  obj.redMoneys = extra.redMoneys;
+  obj.redNumber = extra.redNumber;
   ruleForm.list = page.records;
   ruleForm.total = page.total;
 };
@@ -157,4 +157,5 @@ const handleSelectionChange = (rows: any) => {
 
 .form-buttons-bar {
   margin-bottom: 15px;
-}</style>
+}
+</style>

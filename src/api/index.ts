@@ -69,8 +69,6 @@ const api = {
   userDel: (id: string | number) => {
     return $axios.get<any>(URL.userDel + '?id=' + id);
   },
-  refuse: (data: any) => {
-    return $axios.post<any>(URL.refuse, data);
-  },
+   
 };
 export default api;

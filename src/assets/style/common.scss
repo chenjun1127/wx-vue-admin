@@ -120,3 +120,17 @@ $colors: (
     @include buttons-default(#fff, map-get($colors, $i));
   }
 }
+
+.table-img-bg {
+  width: 60px;
+  height: 60px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.table-img {
+  width: 210px;
+  height: 210px;
+  display: block;
+  overflow: hidden;
+}

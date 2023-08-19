@@ -18,7 +18,7 @@
       </el-form-item>
     </el-form>
     <div class="form-buttons-bar">
-      <el-button class="custom-button-3">$充值金额{{ obj.balance }}元</el-button>
+      <el-button class="custom-button-3">$充值金额：{{ obj.recMoneys }}元</el-button>
     </div>
     <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange"> </CommonTable>
     <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
@@ -64,6 +64,7 @@ const ruleForm = reactive<any>({
 });
 const obj = reactive<any>({
   selectedRows: <any>[],
+    recMoneys:0,
 });
 const rules = reactive<FormRules>({});
 onMounted(() => {
@@ -81,8 +82,7 @@ const getData = async () => {
     },
   });
   const { page, extra } = data;
-  obj.vipDay = extra.vipDay;
-  obj.balance = extra.balance;
+  obj.recMoneys = extra.recMoneys;
   ruleForm.list = page.records;
   ruleForm.total = page.total;
 };

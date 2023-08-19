@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="form" ref="ruleFormRef" style="padding: 0;">
+  <el-form :model="form" ref="ruleFormRef" style="padding: 0">
     <el-form-item>
       <el-radio-group v-model="form.refuse" class="ml-4">
         <el-radio v-for="(item, index) in Object.values(refuseMap)" :key="index" size="large" :label="index">
@@ -8,7 +8,7 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item>
-      <div style="margin-left: 210px;">
+      <div style="margin-left: 210px">
         <el-button type="primary" @click="submitForm(ruleFormRef)">确定</el-button>
         <el-button @click="resetForm(ruleFormRef)">取消</el-button>
       </div>
@@ -23,15 +23,14 @@ const ruleFormRef = ref<FormInstance>();
 const emits = defineEmits(['handleClose', 'handleCancel']);
 
 const form = reactive({
-  refuse: '0',
+  refuse: 0,
 });
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      emits('handleClose');
-      console.log('submit!' + (refuseMap as any)[form.refuse]);
+      emits('handleClose', (refuseMap as any)[form.refuse]);
     } else {
       console.log('error submit!', fields);
     }

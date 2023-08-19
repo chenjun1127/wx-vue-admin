@@ -26,6 +26,17 @@
           <el-button type="success" size="small" @click="toReset(slotProps.info, 2)">重置密码</el-button>
         </div>
       </template>
+      <template v-slot:wxCode="slotProps">
+        <div class="code">
+          <el-popover placement="right" show-arrow width="240" popper-class="table-popover" trigger="click">
+            <template #reference>
+              <div class="table-img-bg" :style="{ backgroundImage: 'url(' + slotProps.info.wxCode + ')' }"></div>
+            </template>
+            <img :src="slotProps.info.wxCode" class="table-img" />
+          </el-popover>
+          <el-button class="download-button" size="small" @click="download(slotProps.info.wxCode)">下载</el-button>
+        </div>
+      </template>
     </CommonTable>
     <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
@@ -88,8 +99,9 @@ const ruleForm = reactive<any>({
       label: '创建时间',
     },
     {
-      prop: 'updateTime',
-      label: '更新时间',
+      prop: 'wxCode',
+      label: '二维码',
+      slot: 'wxCode',
     },
     {
       prop: 'operate',
@@ -189,7 +201,7 @@ const handleClose = async (info: any) => {
     type: getTypeString(info.role),
     phone: info.phone,
     balance: info.balance,
-    redType:info.redType,
+    redType: info.redType,
   };
   var vipMap = {} as any;
   if (info.vip == '1') {
@@ -239,6 +251,12 @@ const toReset = (info: any, _index: number) => {
     })
     .catch(() => {});
 };
+const download = async (url?: string) => {
+  const newWindow = window.open();
+  if (newWindow != null) {
+    newWindow.document.write(`<html><body style='text-align:center;'><img src="${url}" /><p>请右键点击图片-另存为</p></body></html>`);
+  }
+};
 </script>
 
 <style lang="scss">
@@ -251,5 +269,13 @@ const toReset = (info: any, _index: number) => {
 
 .form-buttons-bar {
   margin-bottom: 15px;
+}
+.code {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  .download-button {
+    margin-left: 10px;
+  }
 }
 </style>
