@@ -75,7 +75,7 @@ var setData = (info: any) => {
   ruleForm.petName = petName;
   ruleForm.phone = phone;
   ruleForm.vipDay = vipDay;
-  ruleForm.role = Object.values(userType)[1];
+  ruleForm.role = info.type == 'A' ? Object.values(userType)[0] : Object.values(userType)[1];
   ruleForm.redType = redType;
 };
 var checkPhone = (_rule: any, value: any, callback: any) => {
