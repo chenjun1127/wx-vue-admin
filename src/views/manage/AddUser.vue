@@ -69,21 +69,21 @@ onMounted(() => {
 });
 var setData = (info: any) => {
   console.log(info);
-  const { name, petName, phone, vipDay, password,redType } = info;
+  const { name, petName, phone, vipDay, password, redType } = info;
   ruleForm.name = name;
   ruleForm.password = password;
   ruleForm.petName = petName;
   ruleForm.phone = phone;
   ruleForm.vipDay = vipDay;
   ruleForm.role = Object.values(userType)[1];
-  ruleForm.redType=redType
+  ruleForm.redType = redType;
 };
 var checkPhone = (_rule: any, value: any, callback: any) => {
   if (!value) {
     return callback(new Error('手机号不能为空'));
   } else {
     //验证手机号
-    const reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
+    const reg = /^1[3|4|5|6|7|8|9][0-9]\d{8}$/;
     //验证区号
     const phoneReg = /^\d{3}-\d{8}|\d{4}-\d{7}$/;
     if (reg.test(value) || phoneReg.test(value)) {
@@ -98,7 +98,7 @@ const rules = reactive<FormRules>({
     { required: true, message: '请输入用户名', trigger: 'blur' },
     { min: 4, max: 10, message: '用户名3到10个字符', trigger: 'blur' },
   ],
-  phone: [{ required: false, validator: checkPhone, trigger: 'blur' }],
+  phone: [{ required: true, validator: checkPhone, trigger: 'blur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   role: [
     {
