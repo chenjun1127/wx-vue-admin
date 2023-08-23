@@ -2,7 +2,8 @@
   <div class="inner">
     <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
       <el-form-item label-width="85" prop="nickName" label="微信昵称">
-        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="phone" label="手机号码">
         <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
@@ -21,7 +22,8 @@
       </template>
       <template v-slot:operate="slotProps">
         <div class="operate-buttons">
-          <el-button type="warning" size="small" v-if="slotProps.info.type == 'P'" @click="toRecharge(slotProps.info, 3)">充值</el-button>
+          <el-button type="warning" size="small" v-if="slotProps.info.type == 'P'"
+            @click="toRecharge(slotProps.info, 3)">充值</el-button>
           <el-button type="primary" size="small" @click="toEdit(slotProps.info, 0)">编辑</el-button>
           <el-button type="danger" size="small" @click="toDel(slotProps.info, 1)">删除</el-button>
           <el-button type="success" size="small" @click="toReset(slotProps.info, 2)">重置密码</el-button>
@@ -39,9 +41,11 @@
         </div>
       </template>
     </CommonTable>
-    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
+    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc"
+      :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
-  <Dialog :visible="ruleForm.showDetail" :title="obj.type == 0 ? '添加用户' : '编辑用户'" @handleClose="handleCloseDialog" :noFooter="true">
+  <Dialog :visible="ruleForm.showDetail" :title="obj.type == 0 ? '添加用户' : '编辑用户'" @handleClose="handleCloseDialog"
+    :noFooter="true">
     <template #content>
       <AddUser @handleClose="handleClose" @handleCancel="handleCancel" :info="obj.currentInfo"></AddUser>
     </template>
@@ -84,42 +88,51 @@ const ruleForm = reactive<any>({
     {
       prop: 'id',
       label: 'ID',
+      tooltip: true,
     },
     {
       prop: 'name',
       label: '用户名',
+      tooltip: true,
     },
     {
       prop: 'password',
       label: '密码',
+      tooltip: true,
     },
     {
       prop: 'type',
       label: '类型',
       slot: 'type',
+      tooltip: true,
     },
     {
       prop: 'phone',
       label: '手机号码',
+      tooltip: true,
     },
     {
       prop: 'email',
       label: '邮箱',
+      tooltip: true,
     },
     {
       prop: 'createTime',
       label: '创建时间',
+      tooltip: true,
     },
     {
       prop: 'wxCode',
       label: '二维码',
       slot: 'wxCode',
+      tooltip: true,
     },
     {
       prop: 'operate',
       label: '操作',
       slot: 'operate',
       width: 270,
+      tooltip: true,
     },
   ],
   showDetail: false,
@@ -252,7 +265,7 @@ const toDel = (info: any, _index: number) => {
       await api.userDel(info.id);
       getData();
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 const toReset = (info: any, _index: number) => {
   ElMessageBox.confirm('确定要重置密码吗？', '提示', {
@@ -264,7 +277,7 @@ const toReset = (info: any, _index: number) => {
       await api.resetUser(info.id);
       getData();
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 const toRecharge = (info: any, _index: number) => {
   console.log(info);
@@ -300,16 +313,18 @@ const handleTypeConfirm = async () => {
 .form-buttons-bar {
   margin-bottom: 15px;
 }
+
 .code {
   display: flex;
   align-items: center;
   flex-direction: row;
+
   .download-button {
     margin-left: 10px;
   }
 }
+
 .operate-buttons {
   display: flex;
   justify-content: flex-end;
-}
-</style>
+}</style>

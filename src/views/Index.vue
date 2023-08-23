@@ -6,13 +6,16 @@
     <section>
       <TopBar></TopBar>
       <div class="section-view">
-        <RouterView></RouterView>
+        <el-config-provider :locale="zhCn">
+          <router-view />
+        </el-config-provider>
       </div>
     </section>
   </main>
 </template>
 
 <script lang="ts" setup>
+import zhCn from 'element-plus/es/locale/lang/zh-cn';
 import { busEventEnum, emitter } from '@/utils/bus';
 import { onBeforeMount, onMounted, reactive } from 'vue';
 import LeftMenu from '../components/LeftMenu.vue';

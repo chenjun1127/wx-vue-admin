@@ -2,13 +2,16 @@
   <div class="check-container">
     <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
       <el-form-item label-width="85" prop="merchantName" label="商户名称">
-        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="merchantLocation" label="商户位置">
-        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="nickName" label="微信昵称">
-        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px"> </el-input>
+        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px">
+        </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="phone" label="手机号码">
         <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
@@ -19,7 +22,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label-width="85" prop="startMoney" label="审核金额">
-        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
+        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px">
+        </el-input>
         <span class="space-tips">-</span>
         <el-input v-model="ruleForm.endMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
       </el-form-item>
@@ -31,7 +35,8 @@
       </el-form-item>
       <el-form-item label-width="85" prop="receiveStatus" label="领取状态">
         <el-select v-model="ruleForm.receiveStatus" placeholder="请选择" no-data-text="暂无数据" style="width: 200px">
-          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList" :key="index"></el-option>
+          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList"
+            :key="index"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label-width="85">
@@ -47,9 +52,10 @@
       <div class="tips" @click="toConcat">有效期{{ obj.vipDay }}天</div>
       <el-button class="custom-button-4" @click="toSevenSubmit">7天内重复订单</el-button>
     </div>
-    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange" isShowSelection>
+    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange"
+      isShowSelection>
       <template v-slot:wechatAvatar="slotProps">
-        <el-popover placement="right" show-arrow width="240" popper-class="table-popover" trigger="hover">
+        <el-popover placement="right" show-arrow width="240" popper-class="table-popover" trigger="click">
           <template #reference>
             <div class="table-img-bg" :style="{ backgroundImage: 'url(' + slotProps.info.wechatAvatar + ')' }"></div>
           </template>
@@ -84,14 +90,17 @@
         </div>
       </template>
     </CommonTable>
-    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
+    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc"
+      :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
   <Dialog :width="getWidth" :visible="ruleForm.showDetail" @handleClose="handleClose" :title="getTitle" :noFooter="true">
     <template #content>
       <OrderRemark v-if="currentIndex == 1" @handleClose="handleClose" @handleCancel="handleCancel" />
       <OrderDetail v-else-if="currentIndex == 0" :info="ruleForm.rowInfo"></OrderDetail>
-      <OrderRefuse v-else-if="currentIndex == 2" :info="ruleForm.rowInfo" @handleClose="handleClose" @handleCancel="handleCancel"></OrderRefuse>
-      <OrderMoney v-else-if="currentIndex == 3" :info="ruleForm.rowInfo" @handleClose="handleClose" @handleCancel="handleCancel"></OrderMoney>
+      <OrderRefuse v-else-if="currentIndex == 2" :info="ruleForm.rowInfo" @handleClose="handleClose"
+        @handleCancel="handleCancel"></OrderRefuse>
+      <OrderMoney v-else-if="currentIndex == 3" :info="ruleForm.rowInfo" @handleClose="handleClose"
+        @handleCancel="handleCancel"></OrderMoney>
     </template>
   </Dialog>
   <el-dialog v-model="obj.showConfirm" :title="getTips(obj.type)" width="30%" :before-close="handleCloseConfirm">
@@ -156,56 +165,68 @@ const ruleForm = reactive<any>({
     {
       prop: 'id',
       label: 'ID',
+      tooltip: true,
     },
     {
       prop: 'wechatName',
       label: '微信昵称',
+      tooltip: true,
     },
     {
       prop: 'wechatAvatar',
       label: '头像',
       slot: 'wechatAvatar',
+      tooltip: false,
     },
     {
       prop: 'phone',
       label: '手机号码',
+      tooltip: true,
     },
     {
       prop: 'pictro',
       label: '评价截图',
       slot: 'pictro',
+      tooltip: false,
     },
     {
       prop: 'comState',
       label: '状态',
       slot: 'comState',
+      tooltip: true,
     },
     {
       prop: 'comMoney',
       label: '审核金额',
+      tooltip: true,
     },
     {
       prop: 'recTime',
       label: '提交时间',
+      tooltip: true,
     },
     {
       prop: 'disTime',
       label: '处理时间',
+      tooltip: true,
     },
     {
       prop: 'remark',
       label: '备注',
+      tooltip: true,
     },
     {
       prop: 'claimState',
       label: '领取状态 ',
       slot: 'claimState',
+      tooltip: true,
     },
     {
       prop: 'operate',
       label: '操作',
       slot: 'operate',
       width: 240,
+      tooltip: true,
     },
   ],
   showDetail: false,
@@ -358,7 +379,7 @@ const toCheck = (e: any) => {
       await api.batchUpdate({ ids: [e.id] });
       getData();
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 const toRefuse = (e: any, index: number) => {
   currentIndex.value = index;
@@ -497,5 +518,4 @@ const getTips = (type: number) => {
 
 .tips {
   cursor: pointer;
-}
-</style>
+}</style>

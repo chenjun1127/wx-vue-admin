@@ -63,27 +63,33 @@ const ruleForm = reactive<any>({
     {
       prop: 'id',
       label: 'ID',
+      tooltip: true,
     },
     {
       prop: 'wechatName',
       label: '微信昵称',
+      tooltip: true,
     },
     {
       prop: 'wechatAvatar',
       label: '头像',
       slot: 'wechatAvatar',
+      tooltip: false,
     },
     {
       prop: 'phone',
       label: '手机号码',
+      tooltip: true,
     },
     {
       prop: 'comMoney',
       label: '红包金额',
+      tooltip: true,
     },
     {
       prop: 'disTime',
       label: '发送时间',
+      tooltip: true,
     },
   ],
 });

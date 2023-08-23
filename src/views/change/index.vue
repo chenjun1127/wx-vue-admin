@@ -72,30 +72,37 @@ const ruleForm = reactive<any>({
     {
       prop: 'id',
       label: 'ID',
+      tooltip: true,
     },
     {
       prop: 'beforeMoney',
       label: '操作前',
+      tooltip: true,
     },
     {
       prop: 'changeMoney',
       label: '金额',
+      tooltip: true,
     },
     {
       prop: 'afterMoney',
       label: '操作后',
+      tooltip: true,
     },
     {
       prop: 'dealType',
       label: '流水类型',
+      tooltip: true,
     },
     {
       prop: 'remark',
       label: '备注',
+      tooltip: true,
     },
     {
       prop: 'creTime',
       label: '创建时间',
+      tooltip: true,
     },
   ],
 });
