@@ -1,10 +1,8 @@
 // index.ts
-import router from '@/router';
 import { IResponseData } from '@/types';
 import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
-import storage from '../storage/instance';
 import { showMessage } from './status';
 const defaultConfig = { baseURL: '/api', timeout: 60000 };
 
@@ -63,10 +61,10 @@ class Axios {
           message: showMessage(status),
           type: 'error',
           duration: 1500,
-          onClose: () => {
-            storage.clear();
-            router.replace('/login');
-          },
+          // onClose: () => {
+          //   storage.clear();
+          //   router.replace('/login');
+          // },
         });
         return Promise.reject(error);
       },

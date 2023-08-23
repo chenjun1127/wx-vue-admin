@@ -20,7 +20,8 @@
         <span :class="`type-${slotProps.info.type}`">{{ getUserType(slotProps.info.type) }}</span>
       </template>
       <template v-slot:operate="slotProps">
-        <div style="operate-buttons">
+        <div class="operate-buttons">
+          <el-button type="warning" size="small" v-if="slotProps.info.type == 'P'" @click="toRecharge(slotProps.info, 3)">充值</el-button>
           <el-button type="primary" size="small" @click="toEdit(slotProps.info, 0)">编辑</el-button>
           <el-button type="danger" size="small" @click="toDel(slotProps.info, 1)">删除</el-button>
           <el-button type="success" size="small" @click="toReset(slotProps.info, 2)">重置密码</el-button>
@@ -45,6 +46,17 @@
       <AddUser @handleClose="handleClose" @handleCancel="handleCancel" :info="obj.currentInfo"></AddUser>
     </template>
   </Dialog>
+  <el-dialog v-model="obj.showConfirm" title="充值金额" width="30%" :before-close="handleCloseConfirm">
+    <div class="el-cont">
+      <el-input v-model="obj.money"></el-input>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="obj.showConfirm = false">取消</el-button>
+        <el-button type="primary" @click="handleTypeConfirm"> 确认 </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 <script lang="ts" setup>
 import api from '@/api';
@@ -107,7 +119,7 @@ const ruleForm = reactive<any>({
       prop: 'operate',
       label: '操作',
       slot: 'operate',
-      width: 200,
+      width: 270,
     },
   ],
   showDetail: false,
@@ -116,6 +128,8 @@ const obj = reactive<any>({
   selectedRows: <any>[],
   currentInfo: {},
   type: 0, //0添加，1，编辑
+  showConfirm: false,
+  money: 0,
 });
 const rules = reactive<FormRules>({});
 onMounted(() => {
@@ -251,11 +265,24 @@ const toReset = (info: any, _index: number) => {
     })
     .catch(() => {});
 };
+const toRecharge = (info: any, _index: number) => {
+  console.log(info);
+  obj.showConfirm=true;
+};
+
 const download = async (url?: string) => {
   const newWindow = window.open();
   if (newWindow != null) {
     newWindow.document.write(`<html><body style='text-align:center;'><img src="${url}" /><p>请右键点击图片-另存为</p></body></html>`);
   }
+};
+const handleCloseConfirm = async () => {
+  obj.showConfirm = false;
+};
+const handleTypeConfirm = async () => {
+  obj.showConfirm = false;
+
+  await api.moneyRecharge(obj.money);
 };
 </script>
 
@@ -277,5 +304,9 @@ const download = async (url?: string) => {
   .download-button {
     margin-left: 10px;
   }
+}
+.operate-buttons {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

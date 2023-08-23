@@ -43,7 +43,7 @@
       <el-button class="custom-button-1" color="red" @click="allCheck">批量审核</el-button>
       <el-button class="custom-button-2" @click="exportFile">导出</el-button>
       <el-button class="custom-button-3" @click="updateMoney">$余额{{ obj.balance }}元</el-button>
-      <el-button @click="toRecharge">$冲值金额</el-button>
+      <!-- <el-button @click="toRecharge">$冲值金额</el-button> -->
       <div class="tips" @click="toConcat">有效期{{ obj.vipDay }}天</div>
       <el-button class="custom-button-4" @click="toSevenSubmit">7天内重复订单</el-button>
     </div>
@@ -395,10 +395,10 @@ const allCheck = () => {
   }
   obj.showConfirm = true;
 };
-const toRecharge = () => {
-  obj.type = 3;
-  obj.showConfirm = true;
-};
+// const toRecharge = () => {
+//   obj.type = 3;
+//   obj.showConfirm = true;
+// };
 const exportFile = () => {
   obj.type = 1;
   if (!obj.selectedRows.length) {
