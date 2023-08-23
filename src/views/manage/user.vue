@@ -129,7 +129,8 @@ const obj = reactive<any>({
   currentInfo: {},
   type: 0, //0添加，1，编辑
   showConfirm: false,
-  money: 0,
+  money: '',
+  currentRow: {},
 });
 const rules = reactive<FormRules>({});
 onMounted(() => {
@@ -267,7 +268,8 @@ const toReset = (info: any, _index: number) => {
 };
 const toRecharge = (info: any, _index: number) => {
   console.log(info);
-  obj.showConfirm=true;
+  obj.currentRow = info;
+  obj.showConfirm = true;
 };
 
 const download = async (url?: string) => {
@@ -282,7 +284,8 @@ const handleCloseConfirm = async () => {
 const handleTypeConfirm = async () => {
   obj.showConfirm = false;
 
-  await api.moneyRecharge(obj.money);
+  await api.moneyRecharge(obj.money, obj.currentRow.id);
+  obj.money = '';
 };
 </script>
 

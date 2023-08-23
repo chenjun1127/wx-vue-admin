@@ -48,8 +48,8 @@ const api = {
   queryRedPacket: (data: any) => {
     return $axios.post<any>(URL.queryRedPacket, data);
   },
-  moneyRecharge: (money: number) => {
-    return $axios.get<any>(URL.moneyRecharge + '?money=' + money);
+  moneyRecharge: (money: number, id: string) => {
+    return $axios.get<any>(URL.moneyRecharge + '?money=' + money + '&id=' + id);
   },
   updateMoney: (data: any) => {
     return $axios.post<any>(URL.moneyUpdate, data);
@@ -69,6 +69,5 @@ const api = {
   userDel: (id: string | number) => {
     return $axios.get<any>(URL.userDel + '?id=' + id);
   },
-   
 };
 export default api;
