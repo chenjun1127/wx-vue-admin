@@ -4,6 +4,8 @@ import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Inte
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 import { showMessage } from './status';
+import storage from '../storage/instance';
+import router from '@/router';
 const defaultConfig = { baseURL: '/api', timeout: 60000 };
 
 class Axios {
@@ -61,10 +63,10 @@ class Axios {
           message: showMessage(status),
           type: 'error',
           duration: 1500,
-          // onClose: () => {
-          //   storage.clear();
-          //   router.replace('/login');
-          // },
+          onClose: () => {
+            storage.clear();
+            router.replace('/login');
+          },
         });
         return Promise.reject(error);
       },
