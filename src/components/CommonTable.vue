@@ -5,8 +5,8 @@
     :row-class-name="tableRowClassName">
     <el-table-column type="selection" width="55" v-if="isShowSelection"></el-table-column>
     <el-table-column type="index" label="序号" width="60" v-if="isOrdered"></el-table-column>
-    <el-table-column :show-overflow-tooltip="item.tooltip" v-for="(item, index) in tableCol"
-      :key="index" :prop="item.prop" :width="item.width" :label="item.label"
+    <el-table-column :show-overflow-tooltip="item.tooltip" v-for="(item, index) in tableCol" :key="index"
+      :prop="item.prop" :width="item.width" :label="item.label"
       :align="index === tableCol.length - 1 ? 'right' : 'center'">
       <template #default="scope">
         <!-- 具名插槽 -->
@@ -28,13 +28,6 @@ const handleSelectionChange = (rows: any) => {
 const handleRowClick = (row: any) => {
   emits('handleRowClick', row);
 };
-const showToolTip = (value: any) => {
-  if (!value) {
-    return true;
-  } else {
-    return false;
-  }
-}
 defineProps({
   isOrdered: {
     default: false,

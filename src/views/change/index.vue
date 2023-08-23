@@ -38,8 +38,13 @@
       <el-button class="custom-button-3">$手续费扣款：{{ obj.commission }}元</el-button>
       <el-button class="custom-button-3">$红包退回：{{ obj.redBack }}元</el-button>
     </div>
-    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange"> </CommonTable>
-    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
+    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange">
+      <template v-slot:dealType="slotProps">
+        <span :class="`type-${slotProps.info.dealType}`">{{ getDealType(slotProps.info.dealType) }}</span>
+      </template>
+    </CommonTable>
+    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc"
+      :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
 </template>
 <script lang="ts" setup>
@@ -93,6 +98,7 @@ const ruleForm = reactive<any>({
       prop: 'dealType',
       label: '流水类型',
       tooltip: true,
+      slot: 'dealType'
     },
     {
       prop: 'remark',
@@ -154,7 +160,6 @@ const pageFunc = (data: { pageSize: any; pageNum: any }) => {
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
-    console.log(ruleForm);
     if (valid) {
       getData();
       emits('handleSubmit', ruleForm);
@@ -194,6 +199,21 @@ const getStatus = (e: any) => {
 const handleSelectionChange = (rows: any) => {
   obj.selectedRows = rows;
 };
+const getDealType = (e: any) => {
+  let status = ''
+  if (e == 'R') {
+    status = statementMap['R'];
+  } else if (e == 'C') {
+    status = statementMap['C']
+  } else if (e == 'S') {
+    status = statementMap['S']
+  } else if (e == 'B') {
+    status = statementMap['B']
+  } else {
+    status = '未知'
+  }
+  return status;
+}
 </script>
 
 <style lang="scss">
