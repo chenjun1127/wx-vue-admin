@@ -21,8 +21,7 @@
           <SlideVerify ref="refresh" @getCode="getCode" width="150px" :height="40" />
         </div>
         <el-form-item>
-          <el-button type="primary" style="width: 100%; margin-top: 10px" @click="submitForm(ruleFormRef)">
-            登录
+          <el-button type="primary" style="width: 100%; margin-top: 10px" @click="submitForm(ruleFormRef)"> 登录
           </el-button>
         </el-form-item>
       </el-form>
@@ -40,6 +39,8 @@ import { Lock, User } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { JSEncrypt } from 'jsencrypt';
+import { rsaKey } from '@/utils/config';
 const userInfo = userInfoStore();
 const useMenu = useMenuStore();
 const refresh = ref<any>();
@@ -49,7 +50,7 @@ const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
   name: '',
   password: '',
-  validateCode: ''
+  validateCode: '',
 });
 const checkCode = (_rule: any, value: any, callback: any) => {
   if (!value) {
@@ -66,18 +67,20 @@ const checkCode = (_rule: any, value: any, callback: any) => {
 const rules = reactive<FormRules<typeof ruleForm>>({
   name: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 4, max: 12, message: '4到12个字符', trigger: 'blur' }
+    { min: 4, max: 12, message: '4到12个字符', trigger: 'blur' },
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 12, message: '请输入6到12位密码', trigger: 'blur' }
+    { min: 6, max: 12, message: '请输入6到12位密码', trigger: 'blur' },
   ],
   validateCode: [
     { required: true, message: '请输入验证码', trigger: 'blur' },
-    { validator: checkCode, trigger: 'blur' }
-  ]
+    { validator: checkCode, trigger: 'blur' },
+  ],
 });
 
+var jsencrypt = new JSEncrypt();
+jsencrypt.setPublicKey(rsaKey);
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   verifyShow.value = true;
@@ -85,11 +88,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       console.log('submit!', ruleForm);
       const { name, password } = ruleForm;
-      const data = await api.login({ name, password });
+      console.log(password);
+      let encrypted: any = jsencrypt.encrypt(password);
+
+      if (typeof encrypted === 'boolean') {
+        return;
+      }
+
+      const data = await api.login({ name, password: encrypted });
       const { petName, type } = data;
       var currentUserInfo = { petName: petName, name, role: type == 'A' ? 1 : 0, online: 1 };
       storage.set('userInfo', currentUserInfo);
-      userInfo.updateUserInfo(currentUserInfo)
+      userInfo.updateUserInfo(currentUserInfo);
       useMenu.updateMenu();
       router.push('/home');
     } else {
