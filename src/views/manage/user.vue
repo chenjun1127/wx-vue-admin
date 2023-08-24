@@ -29,7 +29,7 @@
       </template>
       <template v-slot:wxCode="slotProps">
         <div class="code">
-          <el-popover placement="right" show-arrow width="240" popper-class="table-popover" trigger="click">
+          <el-popover placement="right" show-arrow width="240" popper-class="table-popover" trigger="hover">
             <template #reference>
               <div class="table-img-bg" :style="{ backgroundImage: 'url(' + slotProps.info.wxCode + ')' }"></div>
             </template>

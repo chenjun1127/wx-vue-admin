@@ -55,7 +55,7 @@
     <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange"
       isShowSelection>
       <template v-slot:wechatAvatar="slotProps">
-        <el-popover placement="right" show-arrow width="240" popper-class="table-popover" trigger="click">
+        <el-popover placement="right" show-arrow width="240" popper-class="table-popover" trigger="hover">
           <template #reference>
             <div class="table-img-bg" :style="{ backgroundImage: 'url(' + slotProps.info.wechatAvatar + ')' }"></div>
           </template>
