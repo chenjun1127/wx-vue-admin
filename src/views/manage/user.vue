@@ -305,7 +305,9 @@ const handleTypeConfirm = async () => {
   color: #333;
   text-align: center;
 }
-
+.common-form-inline{
+  margin-bottom: 15px;
+}
 .form-buttons-bar {
   margin-bottom: 15px;
 }
