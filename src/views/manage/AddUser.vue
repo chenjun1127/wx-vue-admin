@@ -44,6 +44,7 @@
 </template>
 <script lang="ts" setup>
 import { userType } from '@/constant/object';
+import { decryptMI } from '@/utils/config';
 import type { FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref, watch } from 'vue';
 const ruleFormRef = ref<FormInstance>();
@@ -68,15 +69,16 @@ onMounted(() => {
   setData(props.info);
 });
 var setData = (info: any) => {
-  console.log(info);
   const { name, petName, phone, vipDay, password, redType } = info;
   ruleForm.name = name;
-  ruleForm.password = password;
   ruleForm.petName = petName;
   ruleForm.phone = phone;
   ruleForm.vipDay = vipDay;
   ruleForm.role = info.type == 'A' ? Object.values(userType)[0] : Object.values(userType)[1];
   ruleForm.redType = redType;
+  if (Object.keys(info).length) {
+    ruleForm.password = decryptMI(password) as string;
+  }
 };
 var checkPhone = (_rule: any, value: any, callback: any) => {
   if (!value) {

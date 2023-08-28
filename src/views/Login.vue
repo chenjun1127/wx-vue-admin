@@ -21,8 +21,7 @@
           <SlideVerify ref="refresh" @getCode="getCode" width="150px" :height="40" />
         </div>
         <el-form-item>
-          <el-button type="primary" style="width: 100%; margin-top: 10px" @click="submitForm(ruleFormRef)"> 登录
-          </el-button>
+          <el-button type="primary" style="width: 100%; margin-top: 10px" @click="submitForm(ruleFormRef)"> 登录 </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -39,8 +38,7 @@ import { Lock, User } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { JSEncrypt } from 'jsencrypt';
-import { rsaKey } from '@/utils/config';
+import { encryptMI } from '@/utils/config';
 const userInfo = userInfoStore();
 const useMenu = useMenuStore();
 const refresh = ref<any>();
@@ -79,8 +77,6 @@ const rules = reactive<FormRules<typeof ruleForm>>({
   ],
 });
 
-var jsencrypt = new JSEncrypt();
-jsencrypt.setPublicKey(rsaKey);
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   verifyShow.value = true;
@@ -88,8 +84,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       console.log('submit!', ruleForm);
       const { name, password } = ruleForm;
-      console.log(password);
-      let encrypted: any = jsencrypt.encrypt(password);
+      let encrypted: any = encryptMI(password);
 
       if (typeof encrypted === 'boolean') {
         return;

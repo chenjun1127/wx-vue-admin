@@ -67,7 +67,9 @@ import { userType } from '@/constant/object';
 import { ElMessageBox, type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import AddUser from './AddUser.vue';
+import { decryptMI, encryptMI } from '@/utils/config';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
+
 const formInlineRef = ref<FormInstance>();
 const ruleForm = reactive<any>({
   phone: '',
@@ -91,11 +93,11 @@ const ruleForm = reactive<any>({
       label: '用户名',
       tooltip: true,
     },
-    {
-      prop: 'password',
-      label: '密码',
-      tooltip: true,
-    },
+    // {
+    //   prop: 'password',
+    //   label: '密码',
+    //   tooltip: true,
+    // },
     {
       prop: 'type',
       label: '类型',
@@ -217,11 +219,10 @@ const getTypeString = (e: string) => {
   }
 };
 const handleClose = async (info: any) => {
-  console.log(1111, info);
   var params = {
     name: info.name,
     petName: info.petName,
-    password: info.password,
+    password: encryptMI(info.password),
     type: getTypeString(info.role),
     phone: info.phone,
     balance: info.balance,
@@ -305,7 +306,7 @@ const handleTypeConfirm = async () => {
   color: #333;
   text-align: center;
 }
-.common-form-inline{
+.common-form-inline {
   margin-bottom: 15px;
 }
 .form-buttons-bar {

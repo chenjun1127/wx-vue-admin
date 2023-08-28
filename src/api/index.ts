@@ -19,6 +19,7 @@ enum URL {
   userReset = '/user/repswd',
   userDel = '/user/delet',
   refuse = '/comment/refuse',
+  userInterest = '/user/interest',
 }
 const api = {
   login: (data: LoginData) => {
@@ -68,6 +69,9 @@ const api = {
   },
   userDel: (id: string | number) => {
     return $axios.get<any>(URL.userDel + '?id=' + id);
+  },
+  userInterest: (interest: string) => {
+    return $axios.get<any>(URL.userInterest + '?interest=' + interest);
   },
 };
 export default api;
