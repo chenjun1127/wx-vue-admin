@@ -76,8 +76,11 @@ var setData = (info: any) => {
   ruleForm.vipDay = vipDay;
   ruleForm.role = info.type == 'A' ? Object.values(userType)[0] : Object.values(userType)[1];
   ruleForm.redType = redType;
-  if (Object.keys(info).length) {
+  if (Object.keys(info).length && password) {
     ruleForm.password = decryptMI(password) as string;
+  }
+  if (!password) {
+    ruleForm.password = '';
   }
 };
 var checkPhone = (_rule: any, value: any, callback: any) => {

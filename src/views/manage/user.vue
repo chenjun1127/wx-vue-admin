@@ -67,7 +67,7 @@ import { userType } from '@/constant/object';
 import { ElMessageBox, type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import AddUser from './AddUser.vue';
-import { decryptMI, encryptMI } from '@/utils/config';
+import { encryptMI } from '@/utils/config';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
 
 const formInlineRef = ref<FormInstance>();
