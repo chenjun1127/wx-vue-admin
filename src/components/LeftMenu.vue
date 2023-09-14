@@ -7,7 +7,7 @@
           <img src="../assets/images/avatar.png" alt="" />
         </div>
         <div class="avatar-text">
-          <h1>{{ userInfo.name }}</h1>
+          <h1>{{ userInfo.petName }}</h1>
           <p>
             <span :class="`status-${userInfo.online == 1 ? '1' : '2'}`"></span><em>{{ userInfo.online == 1 ? '在线' : '离线'
             }}</em>
@@ -24,6 +24,7 @@ import { onBeforeMount, onMounted, reactive } from 'vue';
 import Nav from '../components/Nav.vue';
 import { userInfoStore } from '../stores/userInfo';
 const userInfo = userInfoStore();
+console.log("user",userInfo)
 const obj = reactive<any>({
   show: false,
 });

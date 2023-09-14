@@ -9,8 +9,8 @@
     <el-form-item label="手机号码" label-width="120" prop="phone">
       <el-input v-model="ruleForm.phone" placeholder="请输入手机号码" />
     </el-form-item>
-    <el-form-item label="角色" label-width="120" prop="petName">
-      <el-input v-model="ruleForm.petName" placeholder="请输入角色名称，例如（经理）" />
+    <el-form-item label="店铺名称" label-width="120" prop="petName">
+      <el-input v-model="ruleForm.petName" placeholder="请输入店铺名称" />
     </el-form-item>
     <el-form-item label-width="120" label="角色类型">
       <el-select v-model="ruleForm.role" placeholder="请选择" no-data-text="暂无数据" style="width: 200px">
