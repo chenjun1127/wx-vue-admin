@@ -16,7 +16,7 @@ export default defineConfig({
     proxy: {
       // 选项写法
       '/api': {
-        target:'http://106.75.172.90:8088',
+        target:'https://www.pjyl.net.cn/api',
         // target: 'http://www.penyon.cn:8080/api/gather/',
         secure: false,
         changeOrigin: true,

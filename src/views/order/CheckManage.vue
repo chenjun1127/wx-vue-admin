@@ -63,12 +63,10 @@
         </el-popover>
       </template>
       <template v-slot:pictro="slotProps">
-        <el-popover placement="right" show-arrow width="240" popper-class="table-popover" trigger="hover">
-          <template #reference>
-            <div class="table-img-bg" :style="{ backgroundImage: 'url(' + slotProps.info.pictro + ')' }"></div>
-          </template>
-          <img :src="slotProps.info.pictro" class="table-img" style="max-width: 300px" />
-        </el-popover>
+        <div>
+          <div class="table-img-bg" :style="{ backgroundImage: 'url(' + slotProps.info.pictro + ')' }"> </div>
+          <div class="look-pic" @click="toLook(slotProps.info.pictro)">查看图片</div>
+        </div>
       </template>
       <template v-slot:comState="slotProps">
         <span :class="`type-${slotProps.info.comState}`">{{ getComStateString(slotProps.info.comState) }}</span>
@@ -125,6 +123,13 @@
       </span>
     </template>
   </el-dialog>
+  <Dialog width="700" :visible="obj.currentLookPicShow" @handleClose="handleClosePic" title="评价图片" :noFooter="true">
+    <template #content>
+      <div class="look-pic-content">
+        <img :src="obj.currentLookPic">
+      </div>
+    </template>
+  </Dialog>
 </template>
 <script lang="ts" setup>
 import api from '@/api';
@@ -239,6 +244,8 @@ const obj = reactive<any>({
   showConfirm: false,
   type: 0, //0审核,1导出,2余额显示，3充值金额,4有效期,
   money: 0,
+  currentLookPicShow: false,
+  currentLookPic: '',
 });
 const getTitle = computed(() => {
   if (currentIndex.value == 0) {
@@ -469,6 +476,14 @@ const getTips = (type: number) => {
     return '联系经理';
   }
 };
+const toLook = (url: string) => {
+  console.log(url)
+  obj.currentLookPic = url
+  obj.currentLookPicShow = true;
+}
+const handleClosePic = () => {
+  obj.currentLookPicShow = false;
+}
 </script>
 
 <style lang="scss">
@@ -518,4 +533,23 @@ const getTips = (type: number) => {
 
 .tips {
   cursor: pointer;
-}</style>
+}
+
+.look-pic {
+  cursor: pointer;
+  padding: 8px 0;
+  font-size: 12px;
+  display: block;
+}
+
+.look-pic-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    display: block;
+    overflow: hidden;
+  }
+}
+</style>
