@@ -113,3 +113,8 @@ docker-compose down
 ```bash
 docker-compose up -d
 ```
+#### 其它命令
+清理孤立的容器，停止并删除所有在compose文件中没有关联到的容器。它有助于保持你的环境清洁，并删除不必要的容器。
+```bash
+docker-compose down --remove-orphans
+```
