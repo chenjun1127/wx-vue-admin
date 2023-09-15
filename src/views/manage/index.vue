@@ -4,7 +4,8 @@
       <div><img src="../../assets/images/avatar.png" alt="" /></div>
       <!-- <h1>13480653254</h1> -->
     </div>
-    <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm" :size="formSize" status-icon>
+    <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm" :size="formSize"
+      status-icon>
       <el-form-item label="用户名" prop="name">
         <el-input v-model="ruleForm.name" disabled />
       </el-form-item>
@@ -79,21 +80,22 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       if (ruleForm.password == '' || !ruleForm.password) {
         password = ruleForm.passwordPlaceHolder as string;
       }
-      if (password == '' || !password) {
-        ElMessage({
-          showClose: false,
-          message: `密码不能为空，请重新输入！`,
-          type: 'error',
-          duration: 1500,
-        });
-        return;
-      }
-      await api.updateUser({
+
+      const data = await api.updateUser({
         name: ruleForm.name,
         email: ruleForm.email,
         petName: ruleForm.nickName == '' ? ruleForm.nickNamePlaceHolder : '',
         password: encryptMI(password),
       });
+      console.log(data)
+      if (data.startsWith('更新成功')) {
+        ElMessage({
+          showClose: false,
+          message: data,
+          type: 'success',
+          duration: 1500,
+        });
+      }
       getUser();
     } else {
       console.log('error submit!', fields);
@@ -116,7 +118,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   margin-bottom: 20px;
 }
 
-.form-content-img > div {
+.form-content-img>div {
   width: 100px;
   height: 100px;
   display: block;

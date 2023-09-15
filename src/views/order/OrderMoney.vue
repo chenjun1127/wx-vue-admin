@@ -44,7 +44,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      emits('handleClose');
+      emits('handleClose',form.money);
       console.log('submit!' + form.money);
     } else {
       console.log('error submit!', fields);

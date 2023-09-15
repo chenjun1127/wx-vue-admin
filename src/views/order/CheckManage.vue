@@ -459,7 +459,7 @@ const handleTypeConfirm = async () => {
     await api.batchUpdate({ ids: list });
   } else if (obj.type == 1) {
     var list = obj.selectedRows.map((e: { id: any }) => e.id);
-    await api.exportOrderInfo({ ids: list });
+    await api.exportOrderInfo(list);
   } else if (obj.type == 3) {
     // await api.moneyRecharge(obj.money);
   } else if (obj.type == 2) {
