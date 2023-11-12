@@ -84,7 +84,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       const data = await api.updateUser({
         name: ruleForm.name,
         email: ruleForm.email,
-        petName: ruleForm.nickName == '' ? ruleForm.nickNamePlaceHolder : '',
+        petName: ruleForm.nickName,
         password: encryptMI(password),
       });
       console.log(data)
