@@ -6,6 +6,11 @@ export const routes = [
     component: () => import('../views/Login.vue')
   },
   {
+    path: '/test',
+    name: 'test',
+    component: () => import('../views/Test.vue')
+  },
+  {
     path: '/',
     name: 'index',
     component: Index,

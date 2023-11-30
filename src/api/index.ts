@@ -13,6 +13,7 @@ enum URL {
   queryRedPacket = '/redpacket/select',
   moneyRecharge = '/comment/recharge',
   moneyUpdate = '/comment/updateM',
+  moneyRecharge_2 = '/comment/cz',
   queryReCharge = '/recharge/select',
   queryTotalSelect = '/total/select',
   queryMerchant = '/user/findpage',
@@ -20,6 +21,7 @@ enum URL {
   userDel = '/user/delet',
   refuse = '/comment/refuse',
   userInterest = '/user/interest',
+  getOpenId = '/scan/oid', //微信公众号的openid
 }
 const api = {
   login: (data: LoginData) => {
@@ -72,6 +74,12 @@ const api = {
   },
   userInterest: (interest: string) => {
     return $axios.get<any>(URL.userInterest + '?interest=' + interest);
+  },
+  moneyRecharge_2: (money: number) => {
+    return $axios.get<any>(URL.moneyRecharge_2 + '?money=' + money);
+  },
+  getOpenId: (code: string | number) => {
+    return $axios.get<any>(URL.getOpenId + '?code=' + code);
   },
 };
 export default api;

@@ -2,16 +2,13 @@
   <div class="check-container">
     <el-form :inline="true" :model="ruleForm" ref="formInlineRef" class="common-form-inline" :rules="rules">
       <el-form-item label-width="85" prop="merchantName" label="商户名称">
-        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px">
-        </el-input>
+        <el-input v-model="ruleForm.merchantName" placeholder="商户名称" maxlength="18" clearable style="width: 200px"> </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="merchantLocation" label="商户位置">
-        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px">
-        </el-input>
+        <el-input v-model="ruleForm.merchantLocation" placeholder="商户位置" maxlength="18" clearable style="width: 200px"> </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="nickName" label="微信昵称">
-        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px">
-        </el-input>
+        <el-input v-model="ruleForm.nickName" placeholder="微信昵称" maxlength="18" clearable style="width: 200px"> </el-input>
       </el-form-item>
       <el-form-item label-width="85" prop="phone" label="手机号码">
         <el-input v-model="ruleForm.phone" placeholder="手机号码" maxlength="18" clearable style="width: 200px"> </el-input>
@@ -22,8 +19,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label-width="85" prop="startMoney" label="审核金额">
-        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px">
-        </el-input>
+        <el-input v-model="ruleForm.startMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
         <span class="space-tips">-</span>
         <el-input v-model="ruleForm.endMoney" placeholder="审核金额" maxlength="18" clearable style="width: 85px"> </el-input>
       </el-form-item>
@@ -35,8 +31,7 @@
       </el-form-item>
       <el-form-item label-width="85" prop="receiveStatus" label="领取状态">
         <el-select v-model="ruleForm.receiveStatus" placeholder="请选择" no-data-text="暂无数据" style="width: 200px">
-          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList"
-            :key="index"></el-option>
+          <el-option :value="item" :label="item" v-for="(item, index) in ruleForm.receiveStatusList" :key="index"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label-width="85">
@@ -48,12 +43,11 @@
       <el-button class="custom-button-1" color="red" @click="allCheck">批量审核</el-button>
       <el-button class="custom-button-2" @click="exportFile">导出</el-button>
       <el-button class="custom-button-3" @click="updateMoney">$余额{{ obj.balance }}元</el-button>
-      <!-- <el-button @click="toRecharge">$冲值金额</el-button> -->
+      <template v-if="userInfo.role == 1"> <el-button @click="toRecharge">$冲值金额</el-button></template>
       <div class="tips" @click="toConcat">有效期{{ obj.vipDay }}天</div>
       <el-button class="custom-button-4" @click="toSevenSubmit">7天内重复订单</el-button>
     </div>
-    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange"
-      isShowSelection>
+    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange" isShowSelection>
       <template v-slot:wechatAvatar="slotProps">
         <el-popover placement="right" show-arrow width="240" popper-class="table-popover" trigger="hover">
           <template #reference>
@@ -88,17 +82,14 @@
         </div>
       </template>
     </CommonTable>
-    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc"
-      :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
+    <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
   <Dialog :width="getWidth" :visible="ruleForm.showDetail" @handleClose="handleClose" :title="getTitle" :noFooter="true">
     <template #content>
       <OrderRemark v-if="currentIndex == 1" @handleClose="handleClose" @handleCancel="handleCancel" />
       <OrderDetail v-else-if="currentIndex == 0" :info="ruleForm.rowInfo"></OrderDetail>
-      <OrderRefuse v-else-if="currentIndex == 2" :info="ruleForm.rowInfo" @handleClose="handleClose"
-        @handleCancel="handleCancel"></OrderRefuse>
-      <OrderMoney v-else-if="currentIndex == 3" :info="ruleForm.rowInfo" @handleClose="handleClose"
-        @handleCancel="handleCancel"></OrderMoney>
+      <OrderRefuse v-else-if="currentIndex == 2" :info="ruleForm.rowInfo" @handleClose="handleClose" @handleCancel="handleCancel"></OrderRefuse>
+      <OrderMoney v-else-if="currentIndex == 3" :info="ruleForm.rowInfo" @handleClose="handleClose" @handleCancel="handleCancel"></OrderMoney>
     </template>
   </Dialog>
   <el-dialog v-model="obj.showConfirm" :title="getTips(obj.type)" width="30%" :before-close="handleCloseConfirm">
@@ -126,7 +117,7 @@
   <Dialog width="700" :visible="obj.currentLookPicShow" @handleClose="handleClosePic" title="评价图片" :noFooter="true">
     <template #content>
       <div class="look-pic-content">
-        <img :src="obj.currentLookPic">
+        <img :src="obj.currentLookPic" />
       </div>
     </template>
   </Dialog>
@@ -145,6 +136,7 @@ import OrderDetail from './OrderDetail.vue';
 import OrderMoney from './OrderMoney.vue';
 import OrderRefuse from './OrderRefuse.vue';
 import OrderRemark from './OrderRemark.vue';
+import { userInfoStore } from '@/stores/userInfo';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
 const formInlineRef = ref<FormInstance>();
 const ruleForm = reactive<any>({
@@ -270,6 +262,7 @@ const getWidth = computed(() => {
 const currentIndex = ref<number>(0);
 const rules = reactive<FormRules>({});
 onMounted(() => {
+  console.log('userInfo==' + userInfo.role);
   getData();
 });
 const getData = async () => {
@@ -300,7 +293,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log(ruleForm);
       emits('handleSubmit', ruleForm);
       getData();
     } else {
@@ -320,7 +312,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   getData();
   emits('handleReset', ruleForm);
 };
-
+const userInfo = userInfoStore();
 const handleChange = (val: number) => {
   ruleForm.currentPage = val;
   ruleForm.pageNum = val;
@@ -386,7 +378,7 @@ const toCheck = (e: any) => {
       await api.batchUpdate({ ids: [e.id] });
       getData();
     })
-    .catch(() => { });
+    .catch(() => {});
 };
 const toRefuse = (e: any, index: number) => {
   currentIndex.value = index;
@@ -423,10 +415,10 @@ const allCheck = () => {
   }
   obj.showConfirm = true;
 };
-// const toRecharge = () => {
-//   obj.type = 3;
-//   obj.showConfirm = true;
-// };
+const toRecharge = () => {
+  obj.type = 3;
+  obj.showConfirm = true;
+};
 const exportFile = () => {
   obj.type = 1;
   if (!obj.selectedRows.length) {
@@ -461,8 +453,18 @@ const handleTypeConfirm = async () => {
     var list = obj.selectedRows.map((e: { id: any }) => e.id);
     await api.exportOrderInfo(list);
   } else if (obj.type == 3) {
-    // await api.moneyRecharge(obj.money);
+    var value: any = await api.moneyRecharge_2(obj.money);
+    //  console.log(value);
+    download(value);
   } else if (obj.type == 2) {
+  }
+};
+const download = async (url?: string) => {
+  const newWindow = window.open();
+  if (newWindow != null) {
+    newWindow.document.write(
+      `<html><body style='text-align:center;'><p style='text-align:center;font-size:18px;font-weight:bold'>微信支付</p><p>订单标题：余额充值</p><p>订单价格：<span style='color:red;'>${obj.money}</span>元</p><img src="${url}" /></body></html>`,
+    );
   }
 };
 const getTips = (type: number) => {
@@ -477,13 +479,13 @@ const getTips = (type: number) => {
   }
 };
 const toLook = (url: string) => {
-  console.log(url)
-  obj.currentLookPic = url
+  console.log(url);
+  obj.currentLookPic = url;
   obj.currentLookPicShow = true;
-}
+};
 const handleClosePic = () => {
   obj.currentLookPicShow = false;
-}
+};
 </script>
 
 <style lang="scss">

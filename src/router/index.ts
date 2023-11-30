@@ -13,6 +13,8 @@ router.beforeEach(async (to: RouteLocationNormalized, _from: RouteLocationNormal
   if (to.path === '/login') {
     // 如果目标路由是登录页，无需验证token，直接通过
     next();
+  }else if(to.path === '/test'){
+    next();
   } else if (userInfo) {
     // 如果有token，允许通过
     next();
