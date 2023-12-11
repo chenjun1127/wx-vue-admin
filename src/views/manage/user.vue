@@ -150,7 +150,7 @@ onMounted(() => {
 const getData = async () => {
   const data = await api.queryMerchant({
     pages: ruleForm.pageNum,
-    pageSize: ruleForm.pageSize,
+    pageSize: ruleForm.pageSize, 
     map: {
       wechatName: ruleForm.nickName,
       phone: ruleForm.phone,
@@ -225,7 +225,7 @@ const handleClose = async (info: any) => {
     password: encryptMI(info.password),
     type: getTypeString(info.role),
     phone: info.phone,
-    balance: info.balance,
+    setMoney: info.balance,
     redType: info.redType,
   };
   var vipMap = {} as any;
@@ -294,8 +294,17 @@ const handleCloseConfirm = async () => {
 const handleTypeConfirm = async () => {
   obj.showConfirm = false;
 
-  await api.moneyRecharge(obj.money, obj.currentRow.id);
-  obj.money = '';
+  var value = await api.moneyRecharge_2(obj.money);
+ 
+  download2(value);
+};
+const download2 = async (url?: string) => {
+  const newWindow = window.open();
+  if (newWindow != null) {
+    newWindow.document.write(
+      `<html><body style='text-align:center;'><p style='text-align:center;font-size:18px;font-weight:bold'>微信支付</p><p>订单标题：余额充值</p><p>订单价格：<span style='color:red;'>${obj.money}</span>元</p><img src="${url}" /></body></html>`,
+    );
+  }
 };
 </script>
 

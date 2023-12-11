@@ -73,11 +73,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      console.log(ruleForm);
+      console.log(ruleForm.settingType);
       let moneyMap = {}
       if (ruleForm.settingType == 'FN') {
         moneyMap = {
-          setMoney: ruleForm.endMoney,
+          setMoney: ruleForm.money,
           redType: ruleForm.settingType,
         }
       } else {

@@ -20,7 +20,7 @@ onMounted(async () => {
 
   //跳转回小程序的登录页面并将公众号openid带过去
   wx.miniProgram.redirectTo({
-    url: '/pages/login/login?myOpenId=' + value,
+    url: '/pages/logs/logs?myOpenId=' + value,
   });
 });
 </script>

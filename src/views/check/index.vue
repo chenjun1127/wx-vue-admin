@@ -82,12 +82,12 @@ const ruleForm = reactive<any>({
       tooltip: true,
     },
     {
-      prop: 'comMoney',
+      prop: 'redMoney',
       label: '红包金额',
       tooltip: true,
     },
     {
-      prop: 'disTime',
+      prop: 'sendTime',
       label: '发送时间',
       tooltip: true,
     },

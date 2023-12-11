@@ -76,16 +76,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      var password = '';
-      if (ruleForm.password == '' || !ruleForm.password) {
-        password = ruleForm.passwordPlaceHolder as string;
-      }
-
+  
       const data = await api.updateUser({
         name: ruleForm.name,
         email: ruleForm.email,
         petName: ruleForm.nickName,
-        password: encryptMI(password),
+        password: encryptMI(ruleForm.password),
       });
       console.log(data)
       if (data.startsWith('更新成功')) {
