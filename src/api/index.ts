@@ -11,7 +11,6 @@ enum URL {
   batchUpdate = '/comment/batchUpdate',
   exportOrderInfo = '/comment/download',
   queryRedPacket = '/redpacket/select',
-  moneyRecharge = '/comment/recharge',
   moneyUpdate = '/comment/updateM',
   moneyRecharge_2 = '/comment/cz',
   queryReCharge = '/recharge/select',
@@ -50,9 +49,6 @@ const api = {
   },
   queryRedPacket: (data: any) => {
     return $axios.post<any>(URL.queryRedPacket, data);
-  },
-  moneyRecharge: (money: number, id: string) => {
-    return $axios.get<any>(URL.moneyRecharge + '?money=' + money + '&id=' + id);
   },
   updateMoney: (data: any) => {
     return $axios.post<any>(URL.moneyUpdate, data);
