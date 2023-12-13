@@ -20,7 +20,11 @@
     <div class="form-buttons-bar">
       <el-button class="custom-button-3">$充值金额：{{ obj.recMoneys }}元</el-button>
     </div>
-    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange"> </CommonTable>
+    <CommonTable :tableData="ruleForm.list" :tableCol="ruleForm.tableCol" @handleSelectionChange="handleSelectionChange">
+      <template v-slot:recSta="slotProps">
+        <span :class="`status-${slotProps.info.recSta}`">{{ getrecStaStateString(slotProps.info.recSta) }}</span>
+      </template>
+    </CommonTable>
     <Pagination :pageSize="ruleForm.pageSize" :pageTotal="ruleForm.total" @pageFunc="pageFunc" :currentPage="ruleForm.currentPage" @handleChange="handleChange"></Pagination>
   </div>
 </template>
@@ -28,6 +32,7 @@
 import api from '@/api';
 import CommonTable from '@/components/CommonTable.vue';
 import Pagination from '@/components/Pagination.vue';
+import { recStaStateString } from '@/constant/object';
 import { formatTime } from '@/utils/utils';
 import { type FormInstance, type FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
@@ -57,6 +62,12 @@ const ruleForm = reactive<any>({
       label: '充值金额',
     },
     {
+      prop: 'recSta',
+      label: '充值状态',
+      tooltip: false,
+      slot: 'recSta',
+    },
+    {
       prop: 'disTime',
       label: '创建时间',
     },
@@ -64,7 +75,7 @@ const ruleForm = reactive<any>({
 });
 const obj = reactive<any>({
   selectedRows: <any>[],
-    recMoneys:0,
+  recMoneys: 0,
 });
 const rules = reactive<FormRules>({});
 onMounted(() => {
@@ -117,6 +128,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
 const handleSelectionChange = (rows: any) => {
   obj.selectedRows = rows;
 };
+const getrecStaStateString = (e: any) => {
+  if (!e) return '';
+  return (recStaStateString as any)[e];
+};
 </script>
 
 <style lang="scss">
@@ -129,5 +144,14 @@ const handleSelectionChange = (rows: any) => {
 
 .form-buttons-bar {
   margin-bottom: 15px;
+}
+.status-NS {
+  color: red;
+}
+.status-OK {
+  color: rgb(24, 188, 156);
+}
+.status-SS {
+  color: rgb(234, 185, 60);
 }
 </style>

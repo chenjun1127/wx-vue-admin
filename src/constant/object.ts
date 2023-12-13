@@ -32,3 +32,9 @@ export const refuseMap = {
   2: '您的评价未提交，请先提交评价再截图重新提交至小程序',
   3: '您的微信未实名（或其他原因），系统无法给您发送红包，请更换微信重新提交',
 };
+
+export const recStaStateString = {
+  SS: '正在充值',
+  OK: '充值成功',
+  NS: '充值失败',  
+};
