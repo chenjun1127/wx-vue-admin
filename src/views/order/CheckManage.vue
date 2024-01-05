@@ -415,10 +415,10 @@ const allCheck = () => {
   }
   obj.showConfirm = true;
 };
-const toRecharge = () => {
-  obj.type = 3;
-  obj.showConfirm = true;
-};
+// const toRecharge = () => {
+//   obj.type = 3;
+//   obj.showConfirm = true;
+// };
 const exportFile = () => {
   obj.type = 1;
   if (!obj.selectedRows.length) {
