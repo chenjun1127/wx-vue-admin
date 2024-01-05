@@ -444,29 +444,29 @@ const handleSelectionChange = (rows: any) => {
 const handleCloseConfirm = async () => {
   obj.showConfirm = false;
 };
-// const handleTypeConfirm = async () => {
-//   obj.showConfirm = false;
-//   if (obj.type == 0) {
-//     var list = obj.selectedRows.map((e: { id: any }) => e.id);
-//     await api.batchUpdate({ ids: list });
-//   } else if (obj.type == 1) {
-//     var list = obj.selectedRows.map((e: { id: any }) => e.id);
-//     await api.exportOrderInfo(list);
-//   } else if (obj.type == 3) {
-//     var value: any = await api.moneyRecharge_2(obj.money);
-//     //  console.log(value);
-//     download(value);
-//   } else if (obj.type == 2) {
-//   }
-// };
-const download = async (url?: string) => {
-  const newWindow = window.open();
-  if (newWindow != null) {
-    newWindow.document.write(
-      `<html><body style='text-align:center;'><p style='text-align:center;font-size:18px;font-weight:bold'>微信支付</p><p>订单标题：余额充值</p><p>订单价格：<span style='color:red;'>${obj.money}</span>元</p><img src="${url}" /></body></html>`,
-    );
+const handleTypeConfirm = async () => {
+  obj.showConfirm = false;
+  if (obj.type == 0) {
+    var list = obj.selectedRows.map((e: { id: any }) => e.id);
+    await api.batchUpdate({ ids: list });
+  } else if (obj.type == 1) {
+    var list = obj.selectedRows.map((e: { id: any }) => e.id);
+    await api.exportOrderInfo(list);
+  } else if (obj.type == 3) {
+    // var value: any = await api.moneyRecharge_2(obj.money);
+    // //  console.log(value);
+    // download(value);
+  } else if (obj.type == 2) {
   }
 };
+// const download = async (url?: string) => {
+//   const newWindow = window.open();
+//   if (newWindow != null) {
+//     newWindow.document.write(
+//       `<html><body style='text-align:center;'><p style='text-align:center;font-size:18px;font-weight:bold'>微信支付</p><p>订单标题：余额充值</p><p>订单价格：<span style='color:red;'>${obj.money}</span>元</p><img src="${url}" /></body></html>`,
+//     );
+//   }
+// };
 const getTips = (type: number) => {
   if (type == 0) {
     return '批量审核';
