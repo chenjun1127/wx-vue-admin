@@ -43,7 +43,7 @@
       <el-button class="custom-button-1" color="red" @click="allCheck">批量审核</el-button>
       <el-button class="custom-button-2" @click="exportFile">导出</el-button>
       <el-button class="custom-button-3" @click="updateMoney">$余额{{ obj.balance }}元</el-button>
-      <template v-if="userInfo.role == 1"> <el-button @click="toRecharge">$冲值金额</el-button></template>
+      <!-- <template v-if="userInfo.role == 1"> <el-button @click="toRecharge">$冲值金额</el-button></template> -->
       <div class="tips" @click="toConcat">有效期{{ obj.vipDay }}天</div>
       <el-button class="custom-button-4" @click="toSevenSubmit">7天内重复订单</el-button>
     </div>
@@ -128,6 +128,7 @@ import CommonTable from '@/components/CommonTable.vue';
 import Dialog from '@/components/Dialog.vue';
 import Pagination from '@/components/Pagination.vue';
 import { claimStateMap, comStateMap } from '@/constant/object';
+import { userInfoStore } from '@/stores/userInfo';
 import { formatTime } from '@/utils/utils';
 import { CloseBold, Select } from '@element-plus/icons-vue';
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus';
@@ -136,7 +137,6 @@ import OrderDetail from './OrderDetail.vue';
 import OrderMoney from './OrderMoney.vue';
 import OrderRefuse from './OrderRefuse.vue';
 import OrderRemark from './OrderRemark.vue';
-import { userInfoStore } from '@/stores/userInfo';
 const emits = defineEmits(['handleSubmit', 'handleReset']);
 const formInlineRef = ref<FormInstance>();
 const ruleForm = reactive<any>({
@@ -444,21 +444,21 @@ const handleSelectionChange = (rows: any) => {
 const handleCloseConfirm = async () => {
   obj.showConfirm = false;
 };
-const handleTypeConfirm = async () => {
-  obj.showConfirm = false;
-  if (obj.type == 0) {
-    var list = obj.selectedRows.map((e: { id: any }) => e.id);
-    await api.batchUpdate({ ids: list });
-  } else if (obj.type == 1) {
-    var list = obj.selectedRows.map((e: { id: any }) => e.id);
-    await api.exportOrderInfo(list);
-  } else if (obj.type == 3) {
-    var value: any = await api.moneyRecharge_2(obj.money);
-    //  console.log(value);
-    download(value);
-  } else if (obj.type == 2) {
-  }
-};
+// const handleTypeConfirm = async () => {
+//   obj.showConfirm = false;
+//   if (obj.type == 0) {
+//     var list = obj.selectedRows.map((e: { id: any }) => e.id);
+//     await api.batchUpdate({ ids: list });
+//   } else if (obj.type == 1) {
+//     var list = obj.selectedRows.map((e: { id: any }) => e.id);
+//     await api.exportOrderInfo(list);
+//   } else if (obj.type == 3) {
+//     var value: any = await api.moneyRecharge_2(obj.money);
+//     //  console.log(value);
+//     download(value);
+//   } else if (obj.type == 2) {
+//   }
+// };
 const download = async (url?: string) => {
   const newWindow = window.open();
   if (newWindow != null) {

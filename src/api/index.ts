@@ -71,8 +71,8 @@ const api = {
   userInterest: (interest: string) => {
     return $axios.get<any>(URL.userInterest + '?interest=' + interest);
   },
-  moneyRecharge_2: (money: number) => {
-    return $axios.get<any>(URL.moneyRecharge_2 + '?money=' + money);
+  moneyRecharge_2: (money: number,id:string) => {
+    return $axios.get<any>(URL.moneyRecharge_2 + '?money=' + money+'&id=' + id);
   },
   getOpenId: (code: string | number) => {
     return $axios.get<any>(URL.getOpenId + '?code=' + code);
